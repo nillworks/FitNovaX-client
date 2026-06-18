@@ -1,18 +1,21 @@
-
+import getUserSession from '@/lib/getUserSession';
 import OverviewGridCard from './OverviewGridCard';
 import ResentBookings from './ResentBookings';
 import TrainerApplication from './TrainerApplication';
 import UserProfile from './UserProfile';
 
-const OverviewPageUi = () => {
+const OverviewPageUi = async () => {
+  const user = await getUserSession();
+
   const userData = {
-    name: 'Alex Fitness',
-    email: 'alex.fitness@example.com',
+    name: user?.name,
+    email: user?.email,
     initials: 'AL',
     height: '180 cm',
     weight: '75 kg',
     goal: 'Muscle Gain',
-    level: 'Intermediate'
+    level: 'Intermediate',
+    image: user?.image,
   };
 
   const applicationData = {
@@ -20,28 +23,65 @@ const OverviewPageUi = () => {
     step: 'Step 2 of 4: Documentation',
     progress: 50,
     documents: [
-      { name: 'Resume.pdf', type: 'PDF', status: 'Verified', statusColor: 'text-[#22C55E]', statusBg: 'bg-[#C6F4D6]/50' },
-      { name: 'Certificates.zip', type: 'ZIP', status: 'In Review', statusColor: 'text-[#4AD27A]', statusBg: 'bg-[#8FE3B0]/20' }
-    ]
+      {
+        name: 'Resume.pdf',
+        type: 'PDF',
+        status: 'Verified',
+        statusColor: 'text-[#22C55E]',
+        statusBg: 'bg-[#C6F4D6]/50',
+      },
+      {
+        name: 'Certificates.zip',
+        type: 'ZIP',
+        status: 'In Review',
+        statusColor: 'text-[#4AD27A]',
+        statusBg: 'bg-[#8FE3B0]/20',
+      },
+    ],
   };
 
   const demoBookings = [
-    { id: 1, title: 'HIIT Extreme', trainer: 'Sarah Connor', date: 'Today, 5:00 PM', duration: '45 Min', status: 'Upcoming' },
-    { id: 2, title: 'Power Yoga', trainer: 'Emma Watson', date: 'Tomorrow, 7:00 AM', duration: '60 Min', status: 'Upcoming' },
-    { id: 3, title: 'Core Blast', trainer: 'John Doe', date: 'June 16, 6:00 PM', duration: '30 Min', status: 'Completed' }
+    {
+      id: 1,
+      title: 'HIIT Extreme',
+      trainer: 'Sarah Connor',
+      date: 'Today, 5:00 PM',
+      duration: '45 Min',
+      status: 'Upcoming',
+    },
+    {
+      id: 2,
+      title: 'Power Yoga',
+      trainer: 'Emma Watson',
+      date: 'Tomorrow, 7:00 AM',
+      duration: '60 Min',
+      status: 'Upcoming',
+    },
+    {
+      id: 3,
+      title: 'Core Blast',
+      trainer: 'John Doe',
+      date: 'June 16, 6:00 PM',
+      duration: '30 Min',
+      status: 'Completed',
+    },
   ];
 
   const statsData = [
     { id: 1, title: 'Total Workouts', value: '124', trend: '+12% this month' },
     { id: 2, title: 'Active Days', value: '18', trend: 'Consistent' },
-    { id: 3, title: 'Calories Burned', value: '14,200', trend: '+5% this week' },
-    { id: 4, title: 'Upcoming Classes', value: '3', trend: 'Next: Yoga' }
+    {
+      id: 3,
+      title: 'Calories Burned',
+      value: '14,200',
+      trend: '+5% this week',
+    },
+    { id: 4, title: 'Upcoming Classes', value: '3', trend: 'Next: Yoga' },
   ];
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
       <div className="container mx-auto p-4 md:p-6 lg:p-8 flex flex-col gap-4 md:gap-6 lg:gap-8">
-        
         {/* Section 1 — Dashboard Header */}
         <header className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6 lg:gap-8">
           <div className="flex flex-col gap-1">
@@ -52,7 +92,8 @@ const OverviewPageUi = () => {
               Welcome back to your dashboard!
             </h2>
             <p className="text-[#64748B] text-sm leading-relaxed mt-1">
-              Here is a quick summary of your fitness journey and recent activities.
+              Here is a quick summary of your fitness journey and recent
+              activities.
             </p>
           </div>
           <div className="flex items-center">
@@ -72,7 +113,7 @@ const OverviewPageUi = () => {
             Key Statistics
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
-            {statsData.map((stat) => (
+            {statsData.map(stat => (
               <div
                 key={stat.id}
                 className="bg-[#FFFFFF] rounded-3xl border border-[#E2E8F0] shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300"
@@ -87,7 +128,6 @@ const OverviewPageUi = () => {
 
         {/* Section 3 — Main Content Zone */}
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 md:gap-6 lg:gap-8">
-          
           {/* Left Area */}
           <div className="lg:col-span-5 flex flex-col">
             <div className="bg-[#FFFFFF] rounded-3xl border border-[#E2E8F0] shadow-sm hover:shadow-md transition-shadow duration-300 p-4 md:p-6 lg:p-8 flex-1 h-full flex flex-col">
@@ -121,7 +161,6 @@ const OverviewPageUi = () => {
               </div>
             </div>
           </div>
-
         </section>
 
         {/* Section 4 — Activity Section */}
@@ -140,7 +179,6 @@ const OverviewPageUi = () => {
             </div>
           </div>
         </section>
-
       </div>
     </div>
   );

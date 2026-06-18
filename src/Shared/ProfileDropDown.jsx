@@ -19,6 +19,16 @@ const ProfileDropDown = ({ user, handleSignOut }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  const dashboardHref = {
+    admin: '/dashboard/admin',
+    user: '/dashboard/user',
+    trainer: '/dashboard/trainer',
+  };
+
+  const dashboardLink = user?.role
+    ? dashboardHref[user.role.toLowerCase()] || '/dashboard'
+    : '/dashboard';
+
   return (
     <div className="relative" ref={dropdownRef}>
       {/* Trigger */}
@@ -58,14 +68,16 @@ const ProfileDropDown = ({ user, handleSignOut }) => {
 
             {/* Links */}
             <div className="p-2 flex flex-col gap-1">
-              <Link
-                href="/dashboard"
-                onClick={() => setIsOpen(false)}
-                className="flex items-center gap-3 px-3 py-2.5 text-sm font-semibold text-[#64748B] dark:text-gray-400 hover:text-[#15803D] hover:bg-[#C6F4D6]/30 dark:hover:bg-gray-800 rounded-xl transition-all"
-              >
-                <LayoutDashboard className="w-4 h-4" />
-                Dashboard
-              </Link>
+              {user?.role && (
+                <Link
+                  href={dashboardLink}
+                  onClick={() => setIsOpen(false)}
+                  className="flex items-center gap-3 px-3 py-2.5 text-sm font-semibold text-[#64748B] dark:text-gray-400 hover:text-[#15803D] hover:bg-[#C6F4D6]/30 dark:hover:bg-gray-800 rounded-xl transition-all"
+                >
+                  <LayoutDashboard className="w-4 h-4" />
+                  Dashboard
+                </Link>
+              )}
               <Link
                 href="/profile"
                 onClick={() => setIsOpen(false)}

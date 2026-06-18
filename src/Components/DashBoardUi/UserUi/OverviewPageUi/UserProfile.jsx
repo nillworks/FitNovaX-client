@@ -5,7 +5,7 @@ const UserProfile = ({ user }) => {
     <div className="flex flex-col h-full justify-between gap-6">
       <div className="flex items-center gap-4 bg-[#F8FAFC] p-4 rounded-2xl border border-[#E2E8F0]">
         <div className="w-16 h-16 rounded-full bg-[#C6F4D6] text-[#15803D] flex items-center justify-center text-2xl font-bold">
-          {user.initials}
+          <img src={user?.image} alt="user-image" className="rounded-full" />
         </div>
         <div className="flex flex-col">
           <h4 className="text-lg font-bold text-[#1E293B]">{user.name}</h4>

@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { X, Dumbbell, LogOut } from 'lucide-react';
-import { Avatar } from '@heroui/react';
 
 const MobileMenu = ({ handleSignOut, isOpen, onClose, navLinks, user }) => {
   useEffect(() => {
@@ -83,12 +82,14 @@ const MobileMenu = ({ handleSignOut, isOpen, onClose, navLinks, user }) => {
           {user ? (
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <Avatar
-                  isBordered
-                  color="success"
-                  src={user?.image || 'https://i.pravatar.cc/150?img=68'}
-                  className="w-10 h-10 border-[#C6F4D6]"
-                />
+                <div className="relative">
+                  <img
+                    src={user?.image || 'https://i.pravatar.cc/150?img=68'}
+                    alt="User avatar"
+                    className="w-10 h-10 rounded-full border-2 border-[#C6F4D6] object-cover"
+                  />
+                  <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-[#22C55E] border-2 border-white rounded-full dark:border-[#0F172A]"></span>
+                </div>
                 <div>
                   <p className="font-bold text-sm text-[#1E293B] dark:text-white">
                     {user?.name || 'Fitness Enthusiast'}
