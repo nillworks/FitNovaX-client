@@ -13,7 +13,7 @@ import Footer from './Footer';
 
 const HomePage = () => {
   return (
-    <main className="min-h-screen bg-[#F8FAFC] font-sans antialiased text-[#1E293B]">
+    <main className="min-h-screen bg-[#F8FAFC] font-sans antialiased text-[#1E293B] overflow-x-hidden">
       <HeroSection />
       <TrustStats />
       <FeaturedClasses />
