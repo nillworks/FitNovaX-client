@@ -71,6 +71,12 @@ export default function LoginPage() {
     }, 2000);
   };
 
+  const handleGoogleSignin = async () => {
+    const data = await authClient.signIn.social({
+      provider: 'google',
+    });
+  };
+
   return (
     <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center pt-28 pb-12 lg:px-8">
       <div className="container mx-auto flex justify-center">
@@ -254,7 +260,10 @@ export default function LoginPage() {
                       className="w-4 h-4 text-[#22C55E] bg-white border-[#E2E8F0] rounded focus:ring-[#22C55E] focus:ring-2 cursor-pointer transition-colors accent-[#22C55E]"
                     />
                   </div>
-                  <label htmlFor="remember" className="text-sm text-[#64748B] font-medium leading-snug cursor-pointer hover:text-[#1E293B] transition-colors">
+                  <label
+                    htmlFor="remember"
+                    className="text-sm text-[#64748B] font-medium leading-snug cursor-pointer hover:text-[#1E293B] transition-colors"
+                  >
                     Remember me for 30 days
                   </label>
                 </div>
@@ -281,6 +290,7 @@ export default function LoginPage() {
               </div>
 
               <button
+                onClick={handleGoogleSignin}
                 type="button"
                 className="w-full cursor-pointer border border-[#E2E8F0] bg-white text-[#1E293B] hover:bg-[#F8FAFC] h-14 rounded-2xl font-bold text-base transition-colors flex items-center justify-center gap-3 shadow-sm hover:shadow-md"
               >
