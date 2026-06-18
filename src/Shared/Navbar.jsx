@@ -26,15 +26,26 @@ const Navbar = () => {
   const { data } = useSession();
   const user = data?.user;
 
+  const dashboardHref = {
+    admin: '/dashboard/admin',
+    user: '/dashboard/user',
+    trainer: '/dashboard/trainer',
+  };
+
   const navLinks = [
     { name: 'Home', href: '/' },
     { name: 'All Classes', href: '/classes' },
     { name: 'Community Forum', href: '/forum' },
-  ];
 
-  if (user) {
-    navLinks.push({ name: 'Dashboard', href: '/dashboard' });
-  }
+    ...(user?.role
+      ? [
+          {
+            name: 'Dashboard',
+            href: dashboardHref[user.role?.toLowerCase()] || '/',
+          },
+        ]
+      : []),
+  ];
 
   const handleSignOut = () => {
     signOut();
