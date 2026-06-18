@@ -1,9 +1,9 @@
-import SignInPage from '@/Components/AuthUi/SignInPage';
+import LoginPage from '@/Components/AuthUi/LoginPage';
 
 const page = () => {
   return (
     <>
-      <SignInPage />
+      <LoginPage />
     </>
   );
 };

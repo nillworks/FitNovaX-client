@@ -19,7 +19,7 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const user = true;
+  const user = false;
 
   const navLinks = [
     { name: 'Home', href: '/' },
