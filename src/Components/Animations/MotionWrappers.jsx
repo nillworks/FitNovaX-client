@@ -62,7 +62,12 @@ export const ScaleIn = ({ children, delay = 0, className = '' }) => (
   </motion.div>
 );
 
-export const StaggerContainer = ({ children, className = '', delayChildren = 0.1, staggerChildren = 0.1 }) => (
+export const StaggerContainer = ({
+  children,
+  className = '',
+  delayChildren = 0.1,
+  staggerChildren = 0.1,
+}) => (
   <motion.div
     initial="hidden"
     whileInView="visible"
@@ -86,8 +91,41 @@ export const StaggerItem = ({ children, className = '' }) => (
   <motion.div
     variants={{
       hidden: { opacity: 0, y: 20 },
-      visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } }
+      visible: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.5, ease: 'easeOut' },
+      },
     }}
+    className={className}
+  >
+    {children}
+  </motion.div>
+);
+
+export const FloatAnimation = ({ children, delay = 0, className = '' }) => (
+  <motion.div
+    initial={{ y: 0 }}
+    animate={{ y: [-10, 10, -10] }}
+    transition={{
+      duration: 5,
+      ease: 'easeInOut',
+      repeat: Infinity,
+      delay: delay,
+    }}
+    className={className}
+  >
+    {children}
+  </motion.div>
+);
+
+export const BadgeAnimation = ({ children, delay = 0, className = '' }) => (
+  <motion.div
+    // initial={{ opacity: 0, scale: 0.5, rotate: -10 }}
+    // whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+    // viewport={{ once: true, margin: '-50px' }}
+    whileHover={{ scale: 1.05 }}
+    transition={{ type: 'spring', stiffness: 200, damping: 15, delay }}
     className={className}
   >
     {children}

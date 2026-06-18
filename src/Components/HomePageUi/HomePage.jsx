@@ -15,15 +15,34 @@ const HomePage = () => {
   return (
     <main className="min-h-screen bg-[#F8FAFC] font-sans antialiased text-[#1E293B] overflow-x-hidden">
       <HeroSection />
+
+      {/* Social Proof */}
       <TrustStats />
-      <FeaturedClasses />
+
+      {/* How It Works */}
       <FitnessJourney />
+
+      {/* Main Offer */}
+      <FeaturedClasses />
+
+      {/* Benefits */}
       <WhyChooseUs />
+
+      {/* Trainers */}
       <TrainerSpotlight />
-      <TransformationStories />
-      <ForumPreview />
+
+      {/* Platform Features */}
       <AppFeatures />
+
+      {/* Success Stories */}
+      <TransformationStories />
+
+      {/* Community */}
+      <ForumPreview />
+
+      {/* Final CTA */}
       <CallToAction />
+
       <Footer />
     </main>
   );
