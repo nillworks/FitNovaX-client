@@ -394,47 +394,47 @@ export default function RegisterPage() {
                   )}
 
                   {/* Password Requirements UI */}
-                  <div className="mt-1 flex  gap-2 ml-1">
+                  <div className="mt-2 flex flex-col sm:flex-row sm:flex-wrap gap-3 ml-1">
                     <div className="flex items-center gap-2">
                       <div
-                        className={`w-4 h-4 rounded-full flex items-center justify-center transition-colors ${hasMinLength ? 'bg-[#22C55E]' : 'bg-[#E2E8F0]'}`}
+                        className={`w-4 h-4 rounded-full flex items-center justify-center transition-all duration-300 ${hasMinLength ? 'bg-[#22C55E] scale-110' : 'bg-[#E2E8F0]'}`}
                       >
                         {hasMinLength && (
-                          <Check size={10} className="text-white" />
+                          <Check size={10} className="text-white" strokeWidth={3} />
                         )}
                       </div>
                       <span
-                        className={`text-xs ${hasMinLength ? 'text-[#1E293B] font-semibold' : 'text-[#64748B]'}`}
+                        className={`text-xs transition-colors duration-300 ${hasMinLength ? 'text-[#15803D] font-bold' : 'text-[#64748B] font-medium'}`}
                       >
-                        Minimum 6 Characters
-                      </span>
-                    </div>
-                    <div className="flex items-center flex-wrap sm:flex-row gap-4">
-                      <div
-                        className={`w-4 h-4 rounded-full flex items-center justify-center transition-colors ${hasUpperCase ? 'bg-[#22C55E]' : 'bg-[#E2E8F0]'}`}
-                      >
-                        {hasUpperCase && (
-                          <Check size={10} className="text-white" />
-                        )}
-                      </div>
-                      <span
-                        className={`text-xs ${hasUpperCase ? 'text-[#1E293B] font-semibold' : 'text-[#64748B]'}`}
-                      >
-                        One Uppercase Letter
+                        6+ Characters
                       </span>
                     </div>
                     <div className="flex items-center gap-2">
                       <div
-                        className={`w-4 h-4 rounded-full flex items-center justify-center transition-colors ${hasLowerCase ? 'bg-[#22C55E]' : 'bg-[#E2E8F0]'}`}
+                        className={`w-4 h-4 rounded-full flex items-center justify-center transition-all duration-300 ${hasUpperCase ? 'bg-[#22C55E] scale-110' : 'bg-[#E2E8F0]'}`}
                       >
-                        {hasLowerCase && (
-                          <Check size={10} className="text-white" />
+                        {hasUpperCase && (
+                          <Check size={10} className="text-white" strokeWidth={3} />
                         )}
                       </div>
                       <span
-                        className={`text-xs ${hasLowerCase ? 'text-[#1E293B] font-semibold' : 'text-[#64748B]'}`}
+                        className={`text-xs transition-colors duration-300 ${hasUpperCase ? 'text-[#15803D] font-bold' : 'text-[#64748B] font-medium'}`}
                       >
-                        One Lowercase Letter
+                        Uppercase
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div
+                        className={`w-4 h-4 rounded-full flex items-center justify-center transition-all duration-300 ${hasLowerCase ? 'bg-[#22C55E] scale-110' : 'bg-[#E2E8F0]'}`}
+                      >
+                        {hasLowerCase && (
+                          <Check size={10} className="text-white" strokeWidth={3} />
+                        )}
+                      </div>
+                      <span
+                        className={`text-xs transition-colors duration-300 ${hasLowerCase ? 'text-[#15803D] font-bold' : 'text-[#64748B] font-medium'}`}
+                      >
+                        Lowercase
                       </span>
                     </div>
                   </div>
@@ -541,12 +541,35 @@ export default function RegisterPage() {
                   </div>
                 </div>
 
+                {/* Terms and Conditions Checkbox */}
+                <div className="flex items-start gap-3 mt-2 ml-1">
+                  <div className="flex items-center h-5 mt-0.5">
+                    <input
+                      id="terms"
+                      name="terms"
+                      type="checkbox"
+                      required
+                      className="w-4 h-4 text-[#22C55E] bg-white border-[#E2E8F0] rounded focus:ring-[#22C55E] focus:ring-2 cursor-pointer transition-colors accent-[#22C55E]"
+                    />
+                  </div>
+                  <label htmlFor="terms" className="text-sm text-[#64748B] leading-snug cursor-pointer">
+                    I agree to the{' '}
+                    <NextLink href="/terms" className="text-[#16A34A] font-bold hover:underline transition-all">
+                      Terms of Service
+                    </NextLink>{' '}
+                    and{' '}
+                    <NextLink href="/privacy" className="text-[#16A34A] font-bold hover:underline transition-all">
+                      Privacy Policy
+                    </NextLink>
+                  </label>
+                </div>
+
                 <button
                   type="submit"
                   disabled={
                     isLoading || !hasMinLength || !hasUpperCase || !hasLowerCase
                   }
-                  className="w-full bg-[#22C55E] cursor-pointer hover:bg-[#16A34A] text-[#FFFFFF] h-14 rounded-2xl font-bold text-lg shadow-md hover:shadow-lg transition-all mt-4 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-[#22C55E] cursor-pointer hover:bg-[#16A34A] text-[#FFFFFF] h-14 rounded-2xl font-bold text-lg shadow-md hover:shadow-lg transition-all mt-2 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isLoading ? (
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>

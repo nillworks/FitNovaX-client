@@ -243,6 +243,22 @@ export default function LoginPage() {
                   </div>
                 </div>
 
+                {/* Remember Me Checkbox */}
+                <div className="flex items-start gap-3 mt-1 ml-1">
+                  <div className="flex items-center h-5 mt-0.5">
+                    <input
+                      id="remember"
+                      name="remember"
+                      type="checkbox"
+                      defaultChecked
+                      className="w-4 h-4 text-[#22C55E] bg-white border-[#E2E8F0] rounded focus:ring-[#22C55E] focus:ring-2 cursor-pointer transition-colors accent-[#22C55E]"
+                    />
+                  </div>
+                  <label htmlFor="remember" className="text-sm text-[#64748B] font-medium leading-snug cursor-pointer hover:text-[#1E293B] transition-colors">
+                    Remember me for 30 days
+                  </label>
+                </div>
+
                 <button
                   type="submit"
                   disabled={isLoading}

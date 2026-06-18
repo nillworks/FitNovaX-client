@@ -8,12 +8,14 @@ import ProfileDropDown from './ProfileDropDown';
 import MobileMenu from './MobileMenu';
 import { signOut, useSession } from '@/lib/auth-client';
 import CustomToast from './CustomToast';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
+  const isHomePage = pathname === '/';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -62,7 +64,7 @@ const Navbar = () => {
     <>
       <motion.header
         className={`fixed top-0 w-full z-40 transition-all duration-300 ${
-          isScrolled
+          isScrolled || !isHomePage
             ? 'bg-white/80 backdrop-blur-md border-b border-[#E2E8F0] shadow-sm dark:bg-[#0F172A]/80 dark:border-gray-800'
             : 'bg-transparent'
         }`}
