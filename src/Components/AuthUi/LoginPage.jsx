@@ -13,11 +13,15 @@ import {
 import { FcGoogle } from 'react-icons/fc';
 import { motion } from 'framer-motion';
 import NextLink from 'next/link';
+import { useRouter } from 'next/navigation';
+import CustomToast from '@/Shared/CustomToast';
+import { authClient } from '@/lib/auth-client';
 
 export default function LoginPage() {
   const [isVisible, setIsVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const router = useRouter();
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
@@ -41,6 +45,25 @@ export default function LoginPage() {
 
     setErrors({});
     setIsLoading(true);
+
+    const { data, error } = await authClient.signIn.email({
+      email: email, // required
+      password: password, // required
+      rememberMe: true,
+      callbackURL: '/',
+    });
+
+    if (data) {
+      CustomToast('success', 'Login Successful', 'Welcome back!');
+      e.target.reset();
+
+      router.push('/');
+      router.refresh();
+    }
+
+    if (error) {
+      CustomToast('error', 'Login Failed', error.message);
+    }
 
     // Simulate login
     setTimeout(() => {

@@ -6,10 +6,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 import ActiveLink from './ActiveLink';
 import ProfileDropDown from './ProfileDropDown';
 import MobileMenu from './MobileMenu';
+import { signOut, useSession } from '@/lib/auth-client';
+import CustomToast from './CustomToast';
+import { useRouter } from 'next/navigation';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,7 +23,8 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const user = false;
+  const { data } = useSession();
+  const user = data?.user;
 
   const navLinks = [
     { name: 'Home', href: '/' },
@@ -30,6 +35,17 @@ const Navbar = () => {
   if (user) {
     navLinks.push({ name: 'Dashboard', href: '/dashboard' });
   }
+
+  const handleSignOut = () => {
+    signOut();
+    CustomToast(
+      'success',
+      'Signed out',
+      'You have been signed out successfully.',
+    );
+    router.push('/login');
+    router.refresh();
+  };
 
   return (
     <>
@@ -78,7 +94,7 @@ const Navbar = () => {
                   </button>
 
                   {/* Avatar & Profile Dropdown */}
-                  <ProfileDropDown user={user} />
+                  <ProfileDropDown user={user} handleSignOut={handleSignOut} />
                 </div>
               ) : (
                 <div className="flex items-center gap-3">
@@ -116,6 +132,7 @@ const Navbar = () => {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <MobileMenu
+            handleSignOut={handleSignOut}
             isOpen={isMobileMenuOpen}
             onClose={() => setIsMobileMenuOpen(false)}
             navLinks={navLinks}

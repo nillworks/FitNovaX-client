@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { X, Dumbbell, LogOut } from 'lucide-react';
 import { Avatar } from '@heroui/react';
 
-const MobileMenu = ({ isOpen, onClose, navLinks, user }) => {
+const MobileMenu = ({ handleSignOut, isOpen, onClose, navLinks, user }) => {
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -86,7 +86,7 @@ const MobileMenu = ({ isOpen, onClose, navLinks, user }) => {
                 <Avatar
                   isBordered
                   color="success"
-                  src={user?.avatar || 'https://i.pravatar.cc/150?img=68'}
+                  src={user?.image || 'https://i.pravatar.cc/150?img=68'}
                   className="w-10 h-10 border-[#C6F4D6]"
                 />
                 <div>
@@ -99,8 +99,11 @@ const MobileMenu = ({ isOpen, onClose, navLinks, user }) => {
                 </div>
               </div>
               <button
-                onClick={onClose}
-                className="p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-full transition-colors"
+                onClick={() => {
+                  handleSignOut();
+                  onClose();
+                }}
+                className="p-2 text-red-500 cursor-pointer hover:bg-red-50 dark:hover:bg-red-500/10 rounded-full transition-colors"
                 aria-label="Logout"
               >
                 <LogOut className="w-5 h-5" />
