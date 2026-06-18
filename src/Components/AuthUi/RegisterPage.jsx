@@ -104,12 +104,17 @@ export default function RegisterPage() {
         image: image?.url || '',
       };
 
+      console.log(registerData);
+
+      const role = registerData.role;
+
       // Email Password Register
       const { data, error } = await authClient.signUp.email({
         name: registerData?.fullName, // required
         email: registerData?.email, // required
         password: registerData?.password, // required
         image: registerData?.image,
+        role,
         // callbackURL: '/',
       });
 
