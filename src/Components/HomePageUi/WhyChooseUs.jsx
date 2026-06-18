@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { FadeUp, StaggerContainer, StaggerItem } from '../Animations/MotionWrappers';
 const benefits = [
   { id: 1, title: 'Certified Trainers', description: 'Work with industry-leading experts to achieve your goals safely.', icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z' },
   { id: 2, title: 'Personalized Programs', description: 'Tailored workout plans designed specifically for your body type.', icon: 'M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z' },
@@ -16,18 +16,18 @@ const WhyChooseUs = () => {
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#16A34A]/10 rounded-full blur-3xl"></div>
       
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <FadeUp className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-4xl lg:text-5xl font-bold text-white tracking-tight mb-4">
             Why Choose <span className="text-[#22C55E]">Us</span>
           </h2>
           <p className="text-[#E2E8F0] text-lg leading-relaxed">
             Experience the difference with a premium platform built to elevate your performance.
           </p>
-        </div>
+        </FadeUp>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {benefits.map((benefit) => (
-            <div 
+            <StaggerItem 
               key={benefit.id} 
               className="bg-[#1E293B]/50 border border-white/10 p-8 rounded-3xl backdrop-blur-md hover:bg-[#1E293B] transition-all duration-300 group hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#22C55E]/10"
             >
@@ -40,9 +40,9 @@ const WhyChooseUs = () => {
               <p className="text-[#E2E8F0]/70 leading-relaxed text-sm">
                 {benefit.description}
               </p>
-            </div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
       </div>
     </section>
   );

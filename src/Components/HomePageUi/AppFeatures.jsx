@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import React from 'react';
+import { FadeUp, SlideInLeft, SlideInRight } from '../Animations/MotionWrappers';
 
 const features = [
   {
@@ -35,7 +36,7 @@ const AppFeatures = () => {
   return (
     <section className="py-24 bg-[#F8FAFC]">
       <div className="container mx-auto px-6 lg:px-12">
-        <div className="text-center max-w-3xl mx-auto mb-20">
+        <FadeUp className="text-center max-w-3xl mx-auto mb-20">
           <h2 className="text-4xl lg:text-5xl font-bold text-[#1E293B] tracking-tight mb-4">
             Everything You Need,{' '}
             <span className="text-[#22C55E]">All in One Place</span>
@@ -44,46 +45,48 @@ const AppFeatures = () => {
             Discover the powerful tools designed to elevate your fitness
             experience and simplify your routine.
           </p>
-        </div>
+        </FadeUp>
 
         <div className="space-y-24">
-          {features.map((feature, index) => (
-            <div
-              key={feature.id}
-              className={`flex flex-col ${index % 2 === 1 ? 'lg:flex-row-reverse' : 'lg:flex-row'} items-center gap-12 lg:gap-20`}
-            >
-              <div className="flex-1 w-full relative">
-                <div className="absolute inset-0 bg-[#22C55E]/10 rounded-[3rem] transform rotate-3 blur-sm"></div>
-                <div className="relative rounded-[3rem] overflow-hidden border border-[#E2E8F0] shadow-2xl aspect-[4/3]">
-                  <Image
-                    width={400}
-                    height={400}
-                    src={feature.image}
-                    alt={feature.title}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+          {features.map((feature, index) => {
+            const ImageWrap = index % 2 === 0 ? SlideInLeft : SlideInRight;
+            const TextWrap = index % 2 === 0 ? SlideInRight : SlideInLeft;
+            return (
+              <div
+                key={feature.id}
+                className={`flex flex-col ${index % 2 === 1 ? 'lg:flex-row-reverse' : 'lg:flex-row'} items-center gap-12 lg:gap-20`}
+              >
+                <ImageWrap className="flex-1 w-full relative" delay={0.1}>
+                  <div className="absolute inset-0 bg-[#22C55E]/10 rounded-[3rem] transform rotate-3 blur-sm"></div>
+                  <div className="relative rounded-[3rem] overflow-hidden border border-[#E2E8F0] shadow-2xl aspect-[4/3]">
+                    <img
+                      src={feature.image}
+                      alt={feature.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </ImageWrap>
+                <TextWrap className="flex-1 w-full space-y-6" delay={0.2}>
+                  <h3 className="text-3xl lg:text-4xl font-bold text-[#1E293B] tracking-tight leading-tight">
+                    {feature.title}
+                  </h3>
+                  <p className="text-[#64748B] text-lg leading-relaxed">
+                    {feature.description}
+                  </p>
+                  <div className="flex flex-wrap gap-3 pt-4">
+                    {feature.tags.map((tag, idx) => (
+                      <span
+                        key={idx}
+                        className="px-4 py-2 rounded-full bg-[#C6F4D6] text-[#15803D] font-bold text-sm tracking-tight"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </TextWrap>
               </div>
-              <div className="flex-1 w-full space-y-6">
-                <h3 className="text-3xl lg:text-4xl font-bold text-[#1E293B] tracking-tight leading-tight">
-                  {feature.title}
-                </h3>
-                <p className="text-[#64748B] text-lg leading-relaxed">
-                  {feature.description}
-                </p>
-                <div className="flex flex-wrap gap-3 pt-4">
-                  {feature.tags.map((tag, idx) => (
-                    <span
-                      key={idx}
-                      className="px-4 py-2 rounded-full bg-[#C6F4D6] text-[#15803D] font-bold text-sm tracking-tight"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

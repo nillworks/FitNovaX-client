@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { FadeUp, StaggerContainer, StaggerItem } from '../Animations/MotionWrappers';
 const stories = [
   {
     id: 1,
@@ -25,7 +25,7 @@ const TransformationStories = () => {
   return (
     <section className="py-24 bg-[#F8FAFC]">
       <div className="container mx-auto px-6 lg:px-12">
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <FadeUp className="text-center max-w-3xl mx-auto mb-16">
           <span className="inline-block py-1.5 px-4 rounded-full bg-[#8FE3B0]/20 text-[#15803D] text-sm font-bold tracking-widest uppercase mb-4">
             Success Stories
           </span>
@@ -36,11 +36,11 @@ const TransformationStories = () => {
             Read how our members transformed their lives through dedication and
             the right guidance.
           </p>
-        </div>
+        </FadeUp>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+        <StaggerContainer className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           {stories.map(story => (
-            <div
+            <StaggerItem
               key={story.id}
               className="bg-[#FFFFFF] p-8 md:p-10 rounded-[2.5rem] border border-[#E2E8F0] flex flex-col md:flex-row items-center gap-8 shadow-sm hover:shadow-xl transition-all duration-300"
             >
@@ -62,9 +62,9 @@ const TransformationStories = () => {
                   {story.name}
                 </h4>
               </div>
-            </div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
       </div>
     </section>
   );

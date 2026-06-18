@@ -1,5 +1,6 @@
 import React from 'react';
 import Card from '../../Shared/Card';
+import { FadeUp, StaggerContainer, StaggerItem } from '../Animations/MotionWrappers';
 
 const classes = [
   {
@@ -35,7 +36,7 @@ const FeaturedClasses = () => {
   return (
     <section className="py-24 bg-[#FFFFFF]">
       <div className="container mx-auto px-6 lg:px-12">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-12">
+        <FadeUp className="flex flex-col md:flex-row justify-between items-end mb-12">
           <div className="max-w-2xl">
             <h2 className="text-4xl lg:text-5xl font-bold text-[#1E293B] tracking-tight mb-4">
               Featured <span className="text-[#22C55E]">Classes</span>
@@ -50,13 +51,15 @@ const FeaturedClasses = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
             </svg>
           </button>
-        </div>
+        </FadeUp>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {classes.map((cls) => (
-            <Card key={cls.id} {...cls} />
+            <StaggerItem key={cls.id}>
+              <Card {...cls} />
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
       </div>
     </section>
   );

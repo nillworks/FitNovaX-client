@@ -1,11 +1,11 @@
 import React from 'react';
-
+import { StaggerContainer, StaggerItem, FadeIn } from '../Animations/MotionWrappers';
 const Footer = () => {
   return (
     <footer className="bg-[#0F172A] text-[#E2E8F0] pt-20 pb-10">
       <div className="container mx-auto px-6 lg:px-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-          <div className="space-y-6">
+        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+          <StaggerItem className="space-y-6">
             <div className="text-3xl font-bold text-white tracking-tight flex items-center space-x-2">
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#22C55E] to-[#15803D]"></div>
               <span>Fit<span className="text-[#22C55E]">Core</span></span>
@@ -13,9 +13,9 @@ const Footer = () => {
             <p className="text-[#64748B] leading-relaxed max-w-xs">
               Elevating your fitness experience through premium classes and expert training programs.
             </p>
-          </div>
+          </StaggerItem>
 
-          <div>
+          <StaggerItem>
             <h4 className="text-white font-bold text-lg mb-6 tracking-tight">Quick Links</h4>
             <ul className="space-y-4 text-[#64748B] font-semibold">
               <li><a href="#" className="hover:text-[#22C55E] transition-colors">Home</a></li>
@@ -23,9 +23,9 @@ const Footer = () => {
               <li><a href="#" className="hover:text-[#22C55E] transition-colors">Trainers</a></li>
               <li><a href="#" className="hover:text-[#22C55E] transition-colors">Community</a></li>
             </ul>
-          </div>
+          </StaggerItem>
 
-          <div>
+          <StaggerItem>
             <h4 className="text-white font-bold text-lg mb-6 tracking-tight">Support</h4>
             <ul className="space-y-4 text-[#64748B] font-semibold">
               <li><a href="#" className="hover:text-[#22C55E] transition-colors">Help Center</a></li>
@@ -33,9 +33,9 @@ const Footer = () => {
               <li><a href="#" className="hover:text-[#22C55E] transition-colors">Terms of Service</a></li>
               <li><a href="#" className="hover:text-[#22C55E] transition-colors">Contact Us</a></li>
             </ul>
-          </div>
+          </StaggerItem>
 
-          <div>
+          <StaggerItem>
             <h4 className="text-white font-bold text-lg mb-6 tracking-tight">Connect</h4>
             <div className="flex space-x-4 mb-6">
               <a href="#" className="w-10 h-10 rounded-full bg-[#1E293B] flex items-center justify-center text-[#64748B] hover:bg-[#22C55E] hover:text-white transition-colors">
@@ -51,16 +51,16 @@ const Footer = () => {
               support@fitcore.com<br/>
               +1 (555) 123-4567
             </p>
-          </div>
-        </div>
+          </StaggerItem>
+        </StaggerContainer>
         
-        <div className="border-t border-[#1E293B] pt-8 text-center md:text-left flex flex-col md:flex-row justify-between items-center text-[#64748B] text-sm font-semibold">
+        <FadeIn className="border-t border-[#1E293B] pt-8 text-center md:text-left flex flex-col md:flex-row justify-between items-center text-[#64748B] text-sm font-semibold" delay={0.4}>
           <p>&copy; {new Date().getFullYear()} FitCore Platform. All rights reserved.</p>
           <div className="mt-4 md:mt-0 space-x-6">
             <a href="#" className="hover:text-white transition-colors">Privacy</a>
             <a href="#" className="hover:text-white transition-colors">Terms</a>
           </div>
-        </div>
+        </FadeIn>
       </div>
     </footer>
   );

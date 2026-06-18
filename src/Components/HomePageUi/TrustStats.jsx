@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { StaggerContainer, StaggerItem } from '../Animations/MotionWrappers';
 const stats = [
   {
     id: 1,
@@ -31,9 +31,9 @@ const TrustStats = () => {
   return (
     <section className="py-20 bg-[#F8FAFC]">
       <div className="container mx-auto px-6 lg:px-12">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-10">
+        <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-10">
           {stats.map(stat => (
-            <div
+            <StaggerItem
               key={stat.id}
               className="bg-[#FFFFFF] p-8 rounded-3xl border border-[#E2E8F0] flex flex-col items-center justify-center text-center shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 group"
             >
@@ -58,9 +58,9 @@ const TrustStats = () => {
               <p className="text-[#64748B] font-semibold uppercase tracking-wider text-sm">
                 {stat.label}
               </p>
-            </div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
       </div>
     </section>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { FadeUp, StaggerContainer, StaggerItem } from '../Animations/MotionWrappers';
 const posts = [
   {
     id: 1,
@@ -34,7 +34,7 @@ const ForumPreview = () => {
   return (
     <section className="py-24 bg-[#FFFFFF]">
       <div className="container mx-auto px-6 lg:px-12">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-12">
+        <FadeUp className="flex flex-col md:flex-row justify-between items-end mb-12">
           <div className="max-w-2xl">
             <h2 className="text-4xl lg:text-5xl font-bold text-[#1E293B] tracking-tight mb-4">
               Community <span className="text-[#22C55E]">Forum</span>
@@ -48,11 +48,11 @@ const ForumPreview = () => {
           <button className="mt-6 cursor-pointer max-w-max md:mt-0 py-3 px-6 rounded-full border border-[#22C55E] text-[#16A34A] font-bold tracking-tight hover:bg-[#22C55E] hover:text-white transition-all duration-300">
             Visit Forum
           </button>
-        </div>
+        </FadeUp>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {posts.map(post => (
-            <div
+            <StaggerItem
               key={post.id}
               className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-3xl overflow-hidden group flex flex-col hover:shadow-xl transition-all duration-300"
             >
@@ -90,9 +90,9 @@ const ForumPreview = () => {
                   </svg>
                 </button>
               </div>
-            </div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
       </div>
     </section>
   );

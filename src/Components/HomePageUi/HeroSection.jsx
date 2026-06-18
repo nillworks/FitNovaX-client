@@ -1,4 +1,5 @@
 import React from 'react';
+import { SlideInLeft, SlideInRight, FadeIn, FadeUp } from '../Animations/MotionWrappers';
 
 const HeroSection = () => {
   return (
@@ -8,7 +9,7 @@ const HeroSection = () => {
       <div className="container mx-auto px-6 lg:px-12 py-20 lg:py-32 relative z-10 flex flex-col lg:flex-row items-center">
         
         {/* Left Side Content */}
-        <div className="w-full lg:w-1/2 text-white mb-16 lg:mb-0 lg:pr-12">
+        <SlideInLeft className="w-full lg:w-1/2 text-white mb-16 lg:mb-0 lg:pr-12">
           <span className="inline-block py-1.5 px-4 rounded-full bg-[#8FE3B0]/20 border border-[#8FE3B0]/30 text-[#C6F4D6] text-sm font-bold tracking-widest uppercase mb-6 backdrop-blur-sm">
             Premium Fitness Platform
           </span>
@@ -27,10 +28,10 @@ const HeroSection = () => {
               Become a Trainer
             </button>
           </div>
-        </div>
+        </SlideInLeft>
 
         {/* Right Side Image & Stats */}
-        <div className="w-full lg:w-1/2 relative">
+        <SlideInRight className="w-full lg:w-1/2 relative" delay={0.2}>
           <div className="relative w-full aspect-[4/5] lg:aspect-square rounded-[3rem] overflow-hidden border border-white/10 shadow-2xl">
             <img 
               src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=2070&auto=format&fit=crop" 
@@ -81,7 +82,7 @@ const HeroSection = () => {
              </div>
           </div>
 
-        </div>
+        </SlideInRight>
       </div>
     </section>
   );

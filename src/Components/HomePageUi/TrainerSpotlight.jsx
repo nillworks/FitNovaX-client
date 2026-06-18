@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { FadeUp, StaggerContainer, StaggerItem } from '../Animations/MotionWrappers';
 const trainers = [
   {
     id: 1,
@@ -34,18 +34,18 @@ const TrainerSpotlight = () => {
   return (
     <section className="py-24 bg-[#FFFFFF]">
       <div className="container mx-auto px-6 lg:px-12">
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <FadeUp className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-4xl lg:text-5xl font-bold text-[#1E293B] tracking-tight mb-4">
             Meet Our <span className="text-[#22C55E]">Expert Trainers</span>
           </h2>
           <p className="text-[#64748B] text-lg leading-relaxed">
             Train with industry professionals dedicated to helping you unlock your full potential.
           </p>
-        </div>
+        </FadeUp>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {trainers.map((trainer) => (
-            <div key={trainer.id} className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-[2rem] overflow-hidden group shadow-sm hover:shadow-xl transition-all duration-300">
+            <StaggerItem key={trainer.id} className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-[2rem] overflow-hidden group shadow-sm hover:shadow-xl transition-all duration-300">
               <div className="relative h-72 w-full overflow-hidden">
                 <img 
                   src={trainer.image} 
@@ -92,9 +92,9 @@ const TrainerSpotlight = () => {
                   </button>
                 </div>
               </div>
-            </div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
       </div>
     </section>
   );
