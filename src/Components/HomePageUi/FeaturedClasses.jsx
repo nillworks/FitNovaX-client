@@ -45,8 +45,8 @@ const FeaturedClasses = () => {
   return (
     <section className="py-24 bg-[#FFFFFF]">
       <div className="container mx-auto px-6 lg:px-12">
-        <FadeUp className="flex flex-col md:flex-row justify-between items-end mb-12">
-          <div className="max-w-2xl text-center">
+        <FadeUp className="flex flex-col justify-between items-center mb-12">
+          <div className="text-center">
             <h2 className="text-4xl lg:text-5xl font-bold text-[#1E293B] tracking-tight mb-4">
               Featured <span className="text-[#22C55E]">Classes</span>
             </h2>

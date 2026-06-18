@@ -60,6 +60,11 @@ const Navbar = () => {
     router.refresh();
   };
 
+  // Do not render the main navbar on dashboard routes
+  if (pathname?.startsWith('/dashboard')) {
+    return null;
+  }
+
   return (
     <>
       <motion.header
