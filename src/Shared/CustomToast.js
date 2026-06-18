@@ -1,12 +1,13 @@
 import { toast } from 'sonner';
 
-const CustomToast = ({ data, error, title, description }) => {
-  if (data) {
+const CustomToast = (type, title, description) => {
+  if (type === 'success') {
     toast.success(title, {
       description,
     });
   }
-  if (error) {
+
+  if (type === 'error') {
     toast.error(title, {
       description,
     });

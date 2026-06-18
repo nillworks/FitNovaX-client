@@ -19,6 +19,9 @@ import { FcGoogle } from 'react-icons/fc';
 import { motion } from 'framer-motion';
 import NextLink from 'next/link';
 import { imageUpload } from '@/lib/imageUpload';
+import { authClient, signOut } from '@/lib/auth-client';
+import CustomToast from '@/Shared/CustomToast';
+import { useRouter } from 'next/navigation';
 
 export default function RegisterPage() {
   const [isVisible, setIsVisible] = useState(false);
@@ -27,6 +30,7 @@ export default function RegisterPage() {
   const [errors, setErrors] = useState({});
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('user');
+  const router = useRouter();
 
   const [previewUrl, setPreviewUrl] = useState(null);
   const fileInputRef = useRef(null);
@@ -56,7 +60,13 @@ export default function RegisterPage() {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const FromData = Object.fromEntries(formData.entries());
-    const { fullName, email, password: formPassword, confirmPassword, role } = FromData;
+    const {
+      fullName,
+      email,
+      password: formPassword,
+      confirmPassword,
+      role,
+    } = FromData;
 
     const newErrors = {};
     const profileImage = formData.get('profileImage');
@@ -89,18 +99,44 @@ export default function RegisterPage() {
 
     try {
       const image = await imageUpload(profileImage);
-      const product = {
+      const registerData = {
         ...FromData,
         image: image?.url || '',
       };
 
-      console.log('Form Data Successfully Validated & Uploaded:', product);
+      // Email Password Register
+      const { data, error } = await authClient.signUp.email({
+        name: registerData?.fullName, // required
+        email: registerData?.email, // required
+        password: registerData?.password, // required
+        image: registerData?.image,
+        // callbackURL: '/',
+      });
 
       // Simulate registration complete
       setIsLoading(false);
-    } catch (err) {
-      console.error('Image upload failed:', err);
+
+      if (data) {
+        signOut();
+        CustomToast('success', 'Success', 'Account created successfully');
+        e.target.reset();
+        setPassword('');
+        setPreviewUrl(null);
+        setRole('user');
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
+
+        router.push('/login');
+      }
+
+      if (error) {
+        CustomToast('error', 'Registration Failed', error.message);
+      }
+    } catch (error) {
+      console.error('Image upload failed:', error);
       setIsLoading(false);
+
       setErrors({ profileImage: 'Image upload failed. Please try again.' });
     }
   };
@@ -442,19 +478,59 @@ export default function RegisterPage() {
                     I am registering as a
                   </label>
                   <div className="grid grid-cols-2 gap-4">
-                    <label className={`relative flex items-center justify-center p-4 rounded-2xl border-2 cursor-pointer transition-all duration-200 ${role === 'user' ? 'border-[#22C55E] bg-[#C6F4D6]/20 shadow-md' : 'border-[#E2E8F0] bg-[#FFFFFF] hover:border-[#8FE3B0]'}`}>
-                      <input type="radio" name="role" value="user" checked={role === 'user'} onChange={() => setRole('user')} className="hidden" />
+                    <label
+                      className={`relative flex items-center justify-center p-4 rounded-2xl border-2 cursor-pointer transition-all duration-200 ${role === 'user' ? 'border-[#22C55E] bg-[#C6F4D6]/20 shadow-md' : 'border-[#E2E8F0] bg-[#FFFFFF] hover:border-[#8FE3B0]'}`}
+                    >
+                      <input
+                        type="radio"
+                        name="role"
+                        value="user"
+                        checked={role === 'user'}
+                        onChange={() => setRole('user')}
+                        className="hidden"
+                      />
                       <div className="flex flex-col items-center gap-1">
-                        <Users size={24} className={role === 'user' ? 'text-[#16A34A]' : 'text-[#64748B]'} />
-                        <span className={`font-bold ${role === 'user' ? 'text-[#15803D]' : 'text-[#64748B]'}`}>Member</span>
+                        <Users
+                          size={24}
+                          className={
+                            role === 'user'
+                              ? 'text-[#16A34A]'
+                              : 'text-[#64748B]'
+                          }
+                        />
+                        <span
+                          className={`font-bold ${role === 'user' ? 'text-[#15803D]' : 'text-[#64748B]'}`}
+                        >
+                          Member
+                        </span>
                       </div>
                     </label>
-                    
-                    <label className={`relative flex items-center justify-center p-4 rounded-2xl border-2 cursor-pointer transition-all duration-200 ${role === 'trainer' ? 'border-[#22C55E] bg-[#C6F4D6]/20 shadow-md' : 'border-[#E2E8F0] bg-[#FFFFFF] hover:border-[#8FE3B0]'}`}>
-                      <input type="radio" name="role" value="trainer" checked={role === 'trainer'} onChange={() => setRole('trainer')} className="hidden" />
+
+                    <label
+                      className={`relative flex items-center justify-center p-4 rounded-2xl border-2 cursor-pointer transition-all duration-200 ${role === 'trainer' ? 'border-[#22C55E] bg-[#C6F4D6]/20 shadow-md' : 'border-[#E2E8F0] bg-[#FFFFFF] hover:border-[#8FE3B0]'}`}
+                    >
+                      <input
+                        type="radio"
+                        name="role"
+                        value="trainer"
+                        checked={role === 'trainer'}
+                        onChange={() => setRole('trainer')}
+                        className="hidden"
+                      />
                       <div className="flex flex-col items-center gap-1">
-                        <Award size={24} className={role === 'trainer' ? 'text-[#16A34A]' : 'text-[#64748B]'} />
-                        <span className={`font-bold ${role === 'trainer' ? 'text-[#15803D]' : 'text-[#64748B]'}`}>Trainer</span>
+                        <Award
+                          size={24}
+                          className={
+                            role === 'trainer'
+                              ? 'text-[#16A34A]'
+                              : 'text-[#64748B]'
+                          }
+                        />
+                        <span
+                          className={`font-bold ${role === 'trainer' ? 'text-[#15803D]' : 'text-[#64748B]'}`}
+                        >
+                          Trainer
+                        </span>
                       </div>
                     </label>
                   </div>
