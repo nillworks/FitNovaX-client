@@ -15,6 +15,11 @@ import {
   Users,
   Settings,
   Activity,
+  Plus,
+  PlusCircle,
+  FilePlus2,
+  MessageSquare,
+  CirclePlus,
 } from 'lucide-react';
 import { signOut } from '@/lib/auth-client';
 import CustomToast from './CustomToast';
@@ -31,13 +36,31 @@ const getNavLinks = role => {
     ];
   } else if (baseRole === 'trainer') {
     return [
-      { name: 'Overview', href: '/dashboard/trainer', icon: LayoutDashboard },
+      {
+        name: 'Overview',
+        href: '/dashboard/trainer',
+        icon: LayoutDashboard,
+      },
+      {
+        name: 'Add Class',
+        href: '/dashboard/trainer/add-class',
+        icon: CirclePlus,
+      },
       {
         name: 'My Classes',
         href: '/dashboard/trainer/classes',
         icon: CalendarCheck,
       },
-      { name: 'Students', href: '/dashboard/trainer/students', icon: Users },
+      {
+        name: 'Add Forum Post',
+        href: '/dashboard/trainer/add-forum-post',
+        icon: FilePlus2,
+      },
+      {
+        name: 'My Posts',
+        href: '/dashboard/trainer/posts',
+        icon: MessageSquare,
+      },
     ];
   } else {
     // Default user
@@ -102,7 +125,7 @@ const SidBarDashBoard = ({ user, isMobileOpen, setIsMobileOpen }) => {
             src={user?.image || 'https://i.pravatar.cc/150?img=68'}
             alt={user?.name || 'User Avatar'}
             className="w-12 h-12 rounded-full border-2 border-[#22C55E] object-cover shrink-0"
-            onError={(e) => {
+            onError={e => {
               e.target.onerror = null;
               e.target.src = 'https://i.pravatar.cc/150?img=68';
             }}
