@@ -43,15 +43,17 @@ const TrainerOverviewPageUi = () => {
   return (
     <div className="bg-[#F8FAFC] min-h-screen pb-12">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl pt-6 md:pt-10">
-        
         {/* Page Header */}
         <div className="mb-8 md:mb-10">
-          <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-[#1E293B]">Dashboard Overview</h1>
-          <p className="text-[#64748B] mt-2 font-medium text-lg">Welcome back, here's what's happening with your classes today.</p>
+          <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-[#1E293B]">
+            Dashboard Overview
+          </h1>
+          <p className="text-[#64748B] mt-2 font-medium text-lg">
+            Welcome back, heres whats happening with your classes today.
+          </p>
         </div>
 
         <div className="flex flex-col space-y-10">
-          
           {/* Profile Section containing Quick Actions */}
           <section>
             <TrainerProfileSection profileData={profileData}>
@@ -62,11 +64,12 @@ const TrainerOverviewPageUi = () => {
           {/* Stats Section */}
           <section>
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold tracking-tight text-[#1E293B]">Performance Summary</h2>
+              <h2 className="text-2xl font-bold tracking-tight text-[#1E293B]">
+                Performance Summary
+              </h2>
             </div>
             <TrainerStatsSection statsData={statsData} />
           </section>
-          
         </div>
       </div>
     </div>
