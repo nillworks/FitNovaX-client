@@ -32,7 +32,7 @@ const UserProfile = ({ user }) => {
         </div>
       </div>
 
-      <button className="w-full mt-auto bg-[#F8FAFC] border border-[#E2E8F0] hover:bg-[#E2E8F0] text-[#1E293B] font-semibold py-3 rounded-xl transition-colors">
+      <button className="w-full cursor-pointer mt-auto bg-[#F8FAFC] border border-[#E2E8F0] hover:bg-[#E2E8F0] text-[#1E293B] font-semibold py-3 rounded-xl transition-colors">
         Edit Profile
       </button>
     </div>

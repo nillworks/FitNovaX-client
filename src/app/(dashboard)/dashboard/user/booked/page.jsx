@@ -1,5 +1,11 @@
+import BookedClassesTable from '@/Components/DashBoardUi/UserUi/BookedClasses/BookedClassesTable';
+
 const page = () => {
-  return <div>page</div>;
+  return (
+    <>
+      <BookedClassesTable />
+    </>
+  );
 };
 
 export default page;
