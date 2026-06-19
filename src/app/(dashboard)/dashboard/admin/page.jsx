@@ -1,5 +1,11 @@
+import AdminOverviewSection from "@/Components/DashBoardUi/AdminUi/AdminOverciew/AdminOverviewSection";
+
 const page = () => {
-  return <div>page</div>;
+  return <>
+
+    <AdminOverviewSection />
+
+  </>;
 };
 
 export default page;

@@ -20,6 +20,11 @@ import {
   FilePlus2,
   MessageSquare,
   CirclePlus,
+  ClipboardList,
+  UserCog,
+  CheckSquare,
+  FilePlus,
+  CreditCard,
 } from 'lucide-react';
 import { signOut } from '@/lib/auth-client';
 import CustomToast from './CustomToast';
@@ -29,10 +34,46 @@ const getNavLinks = role => {
 
   if (baseRole === 'admin') {
     return [
-      { name: 'Overview', href: '/dashboard/admin', icon: LayoutDashboard },
-      { name: 'Manage Users', href: '/dashboard/admin/users', icon: Users },
-      { name: 'All Classes', href: '/dashboard/admin/classes', icon: Activity },
-      { name: 'Settings', href: '/dashboard/admin/settings', icon: Settings },
+      {
+        name: 'Overview',
+        href: '/dashboard/admin',
+        icon: LayoutDashboard,
+      },
+      {
+        name: 'Manage Users',
+        href: '/dashboard/admin/users',
+        icon: Users,
+      },
+      {
+        name: 'Trainer Applications',
+        href: '/dashboard/admin/trainer-applications',
+        icon: ClipboardList,
+      },
+      {
+        name: 'Manage Trainers',
+        href: '/dashboard/admin/trainers',
+        icon: UserCog,
+      },
+      {
+        name: 'Manage Classes',
+        href: '/dashboard/admin/classes',
+        icon: CheckSquare,
+      },
+      {
+        name: 'Add Forum Post',
+        href: '/dashboard/admin/forum/add-post',
+        icon: FilePlus,
+      },
+      {
+        name: 'Forum Posts',
+        href: '/dashboard/admin/forum-posts',
+        icon: MessageSquare,
+      },
+      {
+        name: 'Transactions',
+        href: '/dashboard/admin/transactions',
+        icon: CreditCard,
+      },
     ];
   } else if (baseRole === 'trainer') {
     return [
