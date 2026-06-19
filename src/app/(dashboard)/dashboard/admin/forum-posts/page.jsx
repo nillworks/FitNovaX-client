@@ -1,7 +1,12 @@
+import ForumPostManagementSection from '@/Components/DashBoardUi/AdminUi/ForumPosts/ForumPostManagementSection';
 import React from 'react';
 
 const page = () => {
-  return <div>page</div>;
+  return <>
+  
+    <ForumPostManagementSection/>
+  
+  </>;
 };
 
 export default page;
