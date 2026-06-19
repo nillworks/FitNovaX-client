@@ -1,5 +1,11 @@
+import FavoriteClasses from '@/Components/DashBoardUi/UserUi/FavoritesPageUi/FavoriteClasses';
+
 const page = () => {
-  return <div>page</div>;
+  return (
+    <>
+      <FavoriteClasses />
+    </>
+  );
 };
 
 export default page;
