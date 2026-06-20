@@ -13,6 +13,9 @@ import {
   Image as ImageIcon,
 } from 'lucide-react';
 import MyClassesUpdateModal from './MyClassesUpdateModal';
+import updateNewClass from '@/lib/Action/updateNewClass';
+import CustomToast from '@/Shared/CustomToast';
+import { useRouter } from 'next/navigation';
 
 const formatDate = dateString => {
   if (!dateString) return '';
@@ -85,9 +88,30 @@ const MyClassesRow = ({ data }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
-  const handleUpdateSubmit = async (updatedData) => {
-    console.log("Updated Class Data:", updatedData);
-    // Add any necessary backend updates here later
+  const router = useRouter();
+
+  // update Function
+  const handleUpdateSubmit = async updatedData => {
+    // console.log('Updated Class Data:', updatedData);
+
+    const res = await updateNewClass(data._id, updatedData);
+
+    if (res.acknowledged && res.modifiedCount > 0) {
+      router.refresh();
+      CustomToast(
+        'success',
+        'Class Updated Successfully',
+        'Your class information has been updated successfully.',
+      );
+    } else {
+      CustomToast(
+        'error',
+        'Update Failed',
+        'Unable to update the class. Please try again.',
+      );
+    }
+
+    console.log(res);
   };
 
   const isStatusActive =
@@ -98,7 +122,9 @@ const MyClassesRow = ({ data }) => {
 
   return (
     <>
-      <div className={`group bg-[#FFFFFF] border border-[#E2E8F0] rounded-3xl p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 relative flex flex-col h-full overflow-hidden ${isDropdownOpen ? 'z-50' : 'z-0'}`}>
+      <div
+        className={`group bg-[#FFFFFF] border border-[#E2E8F0] rounded-3xl p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 relative flex flex-col h-full overflow-hidden ${isDropdownOpen ? 'z-50' : 'z-0'}`}
+      >
         {/* Decorative Gradient Background on top half */}
         {classImage ? (
           <>
@@ -113,7 +139,9 @@ const MyClassesRow = ({ data }) => {
         )}
 
         {/* Header */}
-        <div className={`flex justify-between items-start mb-4 relative ${isDropdownOpen ? 'z-50' : 'z-10'}`}>
+        <div
+          className={`flex justify-between items-start mb-4 relative ${isDropdownOpen ? 'z-50' : 'z-10'}`}
+        >
           <span
             className={`inline-flex items-center px-3.5 py-1.5 rounded-full text-xs font-bold tracking-tight uppercase shadow-sm border 
               ${
@@ -143,14 +171,14 @@ const MyClassesRow = ({ data }) => {
               <>
                 <div
                   className="fixed inset-0 z-40"
-                  onClick={(e) => {
+                  onClick={e => {
                     e.stopPropagation();
                     setIsDropdownOpen(false);
                   }}
                 ></div>
                 <div className="absolute right-0 mt-2 w-40 bg-white rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] border border-[#E2E8F0] z-50 overflow-hidden py-1.5">
                   <button
-                    onClick={(e) => {
+                    onClick={e => {
                       e.stopPropagation();
                       e.preventDefault();
                       setIsDropdownOpen(false);
@@ -162,7 +190,7 @@ const MyClassesRow = ({ data }) => {
                   </button>
                   <div className="w-full h-px bg-[#E2E8F0] my-1"></div>
                   <button
-                    onClick={(e) => {
+                    onClick={e => {
                       e.stopPropagation();
                       e.preventDefault();
                       setIsDropdownOpen(false);
@@ -220,7 +248,9 @@ const MyClassesRow = ({ data }) => {
               </span>
               <span className="text-[#1E293B]">
                 {students} /{' '}
-                <span className="text-[#64748B] font-medium">{maxStudents}</span>
+                <span className="text-[#64748B] font-medium">
+                  {maxStudents}
+                </span>
               </span>
             </div>
             <div className="w-full h-2 bg-[#E2E8F0] rounded-full overflow-hidden">
@@ -246,7 +276,7 @@ const MyClassesRow = ({ data }) => {
         </div>
       </div>
 
-      <MyClassesUpdateModal 
+      <MyClassesUpdateModal
         isOpen={isUpdateModalOpen}
         onClose={() => setIsUpdateModalOpen(false)}
         initialData={data}

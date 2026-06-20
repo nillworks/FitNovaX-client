@@ -4,8 +4,13 @@ import TrainerStatsSection from './TrainerStatsSection';
 import TrainerProfileSection from './TrainerProfileSection';
 import TrainerQuickActions from './TrainerQuickActions';
 import { useSession } from '@/lib/auth-client';
+import { getTrainerClass } from '@/lib/api/getTrainerClass';
 
-const TrainerOverviewPageUi = () => {
+const TrainerOverviewPageUi = ({
+  classesCreatedData,
+  forumPostData,
+  totalEnrollments,
+}) => {
   const { data } = useSession();
   const user = data?.user;
 
@@ -13,19 +18,19 @@ const TrainerOverviewPageUi = () => {
     {
       id: 1,
       label: 'Classes Created',
-      value: '24', // Changed to non-zero for visual demonstration
+      value: classesCreatedData?.length,
       icon: 'Puzzle',
     },
     {
       id: 2,
       label: 'Students Enrolled',
-      value: '186',
+      value: totalEnrollments,
       icon: 'Users',
     },
     {
       id: 3,
       label: 'Forum Posts',
-      value: '42',
+      value: forumPostData?.length,
       icon: 'MessageSquare',
     },
   ];
@@ -35,14 +40,35 @@ const TrainerOverviewPageUi = () => {
     email: user?.email || '',
     role: user?.role || 'Trainer',
     imageUrl:
-      user?.image || 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80',
+      user?.image ||
+      'https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80',
   };
 
   const actionButtonsData = [
-    { id: 1, name: 'Add Class', href: '/dashboard/trainer/add-class', icon: 'CirclePlus' },
-    { id: 2, name: 'My Classes', href: '/dashboard/trainer/classes', icon: 'CalendarCheck' },
-    { id: 3, name: 'Add Forum Post', href: '/dashboard/trainer/add-forum-post', icon: 'FilePlus2' },
-    { id: 4, name: 'My Posts', href: '/dashboard/trainer/posts', icon: 'MessageSquare' },
+    {
+      id: 1,
+      name: 'Add Class',
+      href: '/dashboard/trainer/add-class',
+      icon: 'CirclePlus',
+    },
+    {
+      id: 2,
+      name: 'My Classes',
+      href: '/dashboard/trainer/classes',
+      icon: 'CalendarCheck',
+    },
+    {
+      id: 3,
+      name: 'Add Forum Post',
+      href: '/dashboard/trainer/add-forum-post',
+      icon: 'FilePlus2',
+    },
+    {
+      id: 4,
+      name: 'My Posts',
+      href: '/dashboard/trainer/posts',
+      icon: 'MessageSquare',
+    },
   ];
 
   return (
