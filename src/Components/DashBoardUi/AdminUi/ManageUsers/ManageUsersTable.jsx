@@ -10,24 +10,46 @@ import {
   MoreVertical,
   TrendingUp,
   Star,
+  Eye,
 } from 'lucide-react';
 import { useSession } from '@/lib/auth-client';
 import {
   setUserRole,
   blockUser,
   unblockUser,
+  impersonateUser,
 } from '@/lib/admin/manageUsers';
+import {
+  isTopAdmin,
+  canChangeRole,
+  canImpersonateTarget,
+  canBlockTarget,
+  isAdminUser,
+} from '@/lib/admin/topAdmin';
 import CustomToast from '@/Shared/CustomToast';
+
+const DASHBOARD_BY_ROLE = {
+  user: '/dashboard/user',
+  trainer: '/dashboard/trainer',
+  admin: '/dashboard/admin',
+};
 
 const ManageUsersTable = ({ users }) => {
   const router = useRouter();
   const { data: session } = useSession();
   const currentUserId = session?.user?.id;
+  const actorRole = session?.user?.role;
+  const actorIsAdmin = isAdminUser(actorRole);
   const [loadingId, setLoadingId] = useState(null);
 
   const activityScore = 100;
 
-  const handleRoleChange = async (userId, role) => {
+  const handleRoleChange = async (userId, role, user) => {
+    if (!canChangeRole(actorRole, user)) {
+      CustomToast('error', 'Not allowed', 'You cannot change this role.');
+      return;
+    }
+
     setLoadingId(userId);
     const { error } = await setUserRole(userId, role);
     setLoadingId(null);
@@ -67,6 +89,19 @@ const ManageUsersTable = ({ users }) => {
 
     CustomToast('success', 'User Unblocked');
     router.refresh();
+  };
+
+  const handleImpersonate = async (userId, role) => {
+    setLoadingId(userId);
+    const { error } = await impersonateUser(userId);
+    setLoadingId(null);
+
+    if (error) {
+      CustomToast('error', 'View as user failed', error.message);
+      return;
+    }
+
+    window.location.href = DASHBOARD_BY_ROLE[role] || '/dashboard/user';
   };
 
   return (
@@ -161,7 +196,7 @@ const ManageUsersTable = ({ users }) => {
                       {user?.role === 'admin' ? (
                         <span className="inline-flex items-center gap-1.5 bg-[#C6F4D6] text-[#15803D] text-xs px-2.5 py-1 rounded-full font-bold shadow-sm">
                           <Crown size={12} strokeWidth={3} />
-                          Admin
+                          {isTopAdmin(user.id) ? 'Top Admin' : 'Admin'}
                         </span>
                       ) : user?.role === 'trainer' ? (
                         <span className="inline-flex items-center gap-1.5 bg-[#DBEAFE] text-[#1D4ED8] text-xs px-2.5 py-1 rounded-full font-bold shadow-sm">
@@ -222,22 +257,43 @@ const ManageUsersTable = ({ users }) => {
                   <td className="px-6 py-5">
                     <div className="flex items-center justify-end gap-3 opacity-80 group-hover:opacity-100 transition-opacity">
                       {/* Action Buttons */}
-                      {user.id !== currentUserId && (
-                        <select
-                          value={user.role || 'user'}
-                          disabled={loadingId === user.id}
-                          onChange={e =>
-                            handleRoleChange(user.id, e.target.value)
-                          }
-                          className="text-xs font-semibold text-[#1E293B] bg-[#F8FAFC] border border-[#E2E8F0] px-2 py-1.5 rounded-xl cursor-pointer disabled:opacity-50"
-                        >
-                          <option value="user">User</option>
-                          <option value="trainer">Trainer</option>
-                          <option value="admin">Admin</option>
-                        </select>
-                      )}
+                      {actorIsAdmin &&
+                        user.id !== currentUserId &&
+                        canChangeRole(actorRole, user) && (
+                          <select
+                            value={user.role || 'user'}
+                            disabled={loadingId === user.id}
+                            onChange={e =>
+                              handleRoleChange(user.id, e.target.value, user)
+                            }
+                            className="text-xs font-semibold text-[#1E293B] bg-[#F8FAFC] border border-[#E2E8F0] px-2 py-1.5 rounded-xl cursor-pointer disabled:opacity-50"
+                          >
+                            <option value="user">User</option>
+                            <option value="trainer">Trainer</option>
+                            <option value="admin">Admin</option>
+                          </select>
+                        )}
+
+                      {canImpersonateTarget(
+                        currentUserId,
+                        actorRole,
+                        user,
+                      ) && (
+                          <button
+                            type="button"
+                            disabled={loadingId === user.id}
+                            onClick={() =>
+                              handleImpersonate(user.id, user.role || 'user')
+                            }
+                            className="text-xs cursor-pointer font-bold text-[#1D4ED8] bg-[#DBEAFE] hover:bg-[#BFDBFE] border border-[#93C5FD]/50 px-3 py-1.5 rounded-xl transition-all flex items-center gap-1.5 hover:shadow-sm disabled:opacity-50"
+                          >
+                            <Eye size={14} />
+                            View as
+                          </button>
+                        )}
 
                       {user.id !== currentUserId &&
+                        canBlockTarget(user) &&
                         (!user.banned ? (
                           <button
                             type="button"

@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import TopBardDashBoard from '@/Shared/TopBardDashBoard';
 import SidBarDashBoard from '@/Shared/SidBarDashBoard';
+import ImpersonationBanner from '@/lib/admin/ImpersonationBanner';
 import { useSession } from '@/lib/auth-client';
 
 const DashBoardLayout = ({ children }) => {
@@ -18,7 +19,8 @@ const DashBoardLayout = ({ children }) => {
         setIsMobileOpen={setIsMobileOpen} 
       />
       <div className="lg:ml-[280px] flex flex-col min-h-screen transition-all duration-300 relative z-10">
-        <TopBardDashBoard 
+        <ImpersonationBanner />
+        <TopBardDashBoard
           user={user} 
           onMenuClick={() => setIsMobileOpen(true)} 
         />
