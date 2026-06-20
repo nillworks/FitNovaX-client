@@ -16,6 +16,7 @@ import MyClassesUpdateModal from './MyClassesUpdateModal';
 import updateNewClass from '@/lib/Action/updateNewClass';
 import CustomToast from '@/Shared/CustomToast';
 import { useRouter } from 'next/navigation';
+import deleteClass from '@/lib/Action/deleteClass';
 
 const formatDate = dateString => {
   if (!dateString) return '';
@@ -87,6 +88,7 @@ const MyClassesRow = ({ data }) => {
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const router = useRouter();
 
@@ -112,6 +114,21 @@ const MyClassesRow = ({ data }) => {
     }
 
     console.log(res);
+  };
+
+  const handleDelete = async id => {
+    const res = await deleteClass(id);
+
+    if (res.deletedCount > 0) {
+      router.refresh();
+      CustomToast(
+        'success',
+        'Class Deleted Successfully',
+        'The class has been permanently removed.',
+      );
+    } else {
+      CustomToast('error', 'Delete Failed', 'Unable to delete the class.');
+    }
   };
 
   const isStatusActive =
@@ -194,6 +211,7 @@ const MyClassesRow = ({ data }) => {
                       e.stopPropagation();
                       e.preventDefault();
                       setIsDropdownOpen(false);
+                      setIsDeleteModalOpen(true);
                     }}
                     className="w-full text-left px-4 py-2.5 text-sm text-[#DC2626] hover:bg-red-50 transition-colors cursor-pointer font-bold flex items-center gap-2"
                   >
@@ -282,6 +300,49 @@ const MyClassesRow = ({ data }) => {
         initialData={data}
         onSubmit={handleUpdateSubmit}
       />
+
+      {/* Delete Confirmation Modal */}
+      {isDeleteModalOpen && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+          <div
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            onClick={() => setIsDeleteModalOpen(false)}
+          ></div>
+          <div className="relative bg-white rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden flex flex-col z-10 animate-in fade-in zoom-in-95 duration-200">
+            <div className="p-8 text-center">
+              <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Trash2 className="w-10 h-10 text-red-500" />
+              </div>
+              <h3 className="text-2xl font-bold text-[#1E293B] mb-3 tracking-tight">
+                Delete Class?
+              </h3>
+              <p className="text-[#64748B] text-sm font-medium mb-8 leading-relaxed px-4">
+                Are you sure you want to delete{' '}
+                <span className="font-bold text-[#1E293B]">{name}</span>? This
+                action cannot be undone.
+              </p>
+              <div className="flex gap-4">
+                <button
+                  onClick={() => setIsDeleteModalOpen(false)}
+                  className="flex-1 px-5 py-3 rounded-xl font-bold text-[#64748B] bg-[#F8FAFC] border border-[#E2E8F0] hover:bg-[#E2E8F0] hover:text-[#1E293B] transition-all cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    // TODO: Implement delete functionality
+                    handleDelete(data?._id);
+                    setIsDeleteModalOpen(false);
+                  }}
+                  className="flex-1 px-5 py-3 rounded-xl font-bold text-white bg-red-500 hover:bg-red-600 transition-all shadow-lg shadow-red-500/30 hover:shadow-red-500/50 hover:-translate-y-0.5 cursor-pointer"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

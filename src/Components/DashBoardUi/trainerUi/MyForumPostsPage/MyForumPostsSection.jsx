@@ -11,17 +11,21 @@ import {
 } from 'lucide-react';
 import MyForumPostsGrid from './MyForumPostsGrid';
 import MyForumUpdateModal from './MyForumUpdateModal';
+import { useRouter } from 'next/navigation';
+import CustomToast from '@/Shared/CustomToast';
+import deleteTrainerForum from '@/lib/Action/deleteTrainerForum';
 
 const MyForumPostsSection = ({ fromData }) => {
-  const [posts, setPosts] = useState(fromData || dummyPosts);
+  // const [fromData, setPosts] = useState(fromData || dummyPosts);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [postToDelete, setPostToDelete] = useState(null);
 
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [postToUpdate, setPostToUpdate] = useState(null);
 
-  const totalPosts = posts.length;
-  const featuredPosts = posts.filter(p => p.isFeatured || p.featured).length;
+  const totalPosts = fromData.length;
+  const featuredPosts = fromData.filter(p => p.isFeatured || p.featured).length;
+  const router = useRouter();
 
   const openDeleteModal = post => {
     setPostToDelete(post);
@@ -34,24 +38,33 @@ const MyForumPostsSection = ({ fromData }) => {
   };
 
   // UI ONLY: Does not actually mutate backend, just state for demo
-  const handleDeleteConfirm = () => {
-    if (postToDelete) {
-      setPosts(posts.filter(p => p.id !== postToDelete.id));
+  const handleDeleteConfirm = async id => {
+    const res = await deleteTrainerForum(id);
+
+    if (res.success) {
+      router.refresh();
+      CustomToast(
+        'success',
+        'Deleted Successfully',
+        'Forum post has been removed',
+      );
+    } else {
+      CustomToast('error', 'Delete Failed', 'Something went wrong');
     }
+
     closeDeleteModal();
   };
 
-  const handleUpdateClick = (post) => {
+  const handleUpdateClick = post => {
     setPostToUpdate(post);
     setIsUpdateModalOpen(true);
   };
 
-  const handleUpdateSubmit = (updateForum) => {
-    console.log('Update Forum Data:', updateForum);
-    // In a real app, you would make an API call here.
-    // update posts state for demo
-    setPosts(posts.map((p) => (p._id === updateForum._id || p.id === updateForum._id) ? { ...p, ...updateForum } : p));
-  };
+  // const handleUpdateSubmit = async (id, updateForum) => {
+  //   // console.log('Update Forum Data:', updateForum);
+
+  //   // setPosts(posts.map((p) => (p._id === updateForum._id || p.id === updateForum._id) ? { ...p, ...updateForum } : p));
+  // };
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] py-8 md:py-12 relative">
@@ -127,8 +140,12 @@ const MyForumPostsSection = ({ fromData }) => {
         </div>
 
         {/* Grid Section */}
-        {posts.length > 0 ? (
-          <MyForumPostsGrid posts={posts} onDeleteClick={openDeleteModal} onUpdateClick={handleUpdateClick} />
+        {fromData.length > 0 ? (
+          <MyForumPostsGrid
+            posts={fromData}
+            onDeleteClick={openDeleteModal}
+            onUpdateClick={handleUpdateClick}
+          />
         ) : (
           <div className="text-center py-20 bg-[#FFFFFF] rounded-3xl border border-[#E2E8F0] shadow-sm">
             <FileText className="w-16 h-16 text-[#8FE3B0] mx-auto mb-4" />
@@ -136,7 +153,7 @@ const MyForumPostsSection = ({ fromData }) => {
               No Posts Yet
             </h3>
             <p className="text-[#64748B] font-medium">
-              You haven't published any forum posts. Start sharing your
+              You havent published any forum posts. Start sharing your
               knowledge!
             </p>
           </div>
@@ -173,7 +190,7 @@ const MyForumPostsSection = ({ fromData }) => {
               <p className="text-[#64748B] font-medium leading-relaxed mb-8">
                 Are you sure you want to delete{' '}
                 <span className="font-bold text-[#1E293B]">
-                  "{postToDelete?.title}"
+                  {postToDelete?.title}
                 </span>
                 ? This action cannot be undone.
               </p>
@@ -186,7 +203,7 @@ const MyForumPostsSection = ({ fromData }) => {
                   Cancel
                 </button>
                 <button
-                  onClick={handleDeleteConfirm}
+                  onClick={() => handleDeleteConfirm(postToDelete?._id)}
                   className="flex-1 px-6 py-3.5 rounded-full font-bold text-white bg-red-500 hover:bg-red-600 border border-red-600 transition-colors shadow-md shadow-red-500/20 flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <Trash2 className="w-4 h-4" />
@@ -203,7 +220,6 @@ const MyForumPostsSection = ({ fromData }) => {
         isOpen={isUpdateModalOpen}
         onClose={() => setIsUpdateModalOpen(false)}
         initialData={postToUpdate}
-        onSubmit={handleUpdateSubmit}
       />
     </div>
   );
