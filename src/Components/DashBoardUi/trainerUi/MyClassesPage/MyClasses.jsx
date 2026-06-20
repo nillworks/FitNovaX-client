@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import MyClassesRow from './MyClassesRow';
 import { Dumbbell, PlusCircle } from 'lucide-react';
 import getTrainerClass from '@/lib/api/getTrainerClass';
@@ -31,10 +32,10 @@ const MyClasses = async () => {
               bookings and class capacities.
             </p>
           </div>
-          <button className="flex items-center justify-center gap-2 bg-[#22C55E] hover:bg-[#16A34A] text-white px-8 py-3.5 rounded-full font-bold transition-all duration-300 shadow-lg shadow-[#22C55E]/30 transform hover:-translate-y-0.5 cursor-pointer whitespace-nowrap">
+          <Link href="/dashboard/trainer/add-class" className="flex items-center justify-center gap-2 bg-[#22C55E] hover:bg-[#16A34A] text-white px-8 py-3.5 rounded-full font-bold transition-all duration-300 shadow-lg shadow-[#22C55E]/30 transform hover:-translate-y-0.5 cursor-pointer whitespace-nowrap">
             <PlusCircle className="w-5 h-5" />
             Create New Class
-          </button>
+          </Link>
         </div>
 
         {/* Content Section */}
@@ -50,9 +51,9 @@ const MyClasses = async () => {
               You havent scheduled any training classes yet. Start adding new
               classes to see them listed here and begin your training journey.
             </p>
-            <button className="mt-8 bg-white border border-[#E2E8F0] hover:border-[#8FE3B0] hover:bg-[#F8FAFC] text-[#1E293B] hover:text-[#15803D] px-8 py-3 rounded-full font-bold transition-all duration-300 shadow-sm cursor-pointer flex items-center gap-2">
+            <Link href="/dashboard/trainer/add-class" className="mt-8 bg-white border border-[#E2E8F0] hover:border-[#8FE3B0] hover:bg-[#F8FAFC] text-[#1E293B] hover:text-[#15803D] px-8 py-3 rounded-full font-bold transition-all duration-300 shadow-sm cursor-pointer flex items-center gap-2">
               <PlusCircle className="w-4 h-4" /> Create First Class
-            </button>
+            </Link>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

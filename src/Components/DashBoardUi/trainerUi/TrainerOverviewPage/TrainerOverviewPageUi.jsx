@@ -1,9 +1,14 @@
+'use client';
 import React from 'react';
 import TrainerStatsSection from './TrainerStatsSection';
 import TrainerProfileSection from './TrainerProfileSection';
 import TrainerQuickActions from './TrainerQuickActions';
+import { useSession } from '@/lib/auth-client';
 
 const TrainerOverviewPageUi = () => {
+  const { data } = useSession();
+  const user = data?.user;
+
   const statsData = [
     {
       id: 1,
@@ -26,18 +31,18 @@ const TrainerOverviewPageUi = () => {
   ];
 
   const profileData = {
-    name: 'Thaddeus Cortez',
-    email: 'rokof@example.com',
-    role: 'Senior Trainer',
+    name: user?.name || 'Trainer',
+    email: user?.email || '',
+    role: user?.role || 'Trainer',
     imageUrl:
-      'https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80',
+      user?.image || 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80',
   };
 
   const actionButtonsData = [
-    { id: 1, label: 'Add New Class', icon: 'PlusCircle' },
-    { id: 2, label: 'My Classes', icon: 'LayoutGrid' },
-    { id: 3, label: 'Add Forum Post', icon: 'FileText' },
-    { id: 4, label: 'My Posts', icon: 'MessageCircle' },
+    { id: 1, name: 'Add Class', href: '/dashboard/trainer/add-class', icon: 'CirclePlus' },
+    { id: 2, name: 'My Classes', href: '/dashboard/trainer/classes', icon: 'CalendarCheck' },
+    { id: 3, name: 'Add Forum Post', href: '/dashboard/trainer/add-forum-post', icon: 'FilePlus2' },
+    { id: 4, name: 'My Posts', href: '/dashboard/trainer/posts', icon: 'MessageSquare' },
   ];
 
   return (
