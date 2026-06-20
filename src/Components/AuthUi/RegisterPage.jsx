@@ -106,16 +106,14 @@ export default function RegisterPage() {
 
       console.log(registerData);
 
-      const role = registerData.role;
+      const selectedRole = registerData.role || 'user';
 
-      // Email Password Register
       const { data, error } = await authClient.signUp.email({
-        name: registerData?.fullName, // required
-        email: registerData?.email, // required
-        password: registerData?.password, // required
+        name: registerData?.fullName,
+        email: registerData?.email,
+        password: registerData?.password,
         image: registerData?.image,
-        role,
-        // callbackURL: '/',
+        accountType: selectedRole,
       });
 
       // Simulate registration complete

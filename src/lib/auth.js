@@ -24,12 +24,28 @@ export const auth = betterAuth({
 
   user: {
     additionalFields: {
-      role: {
+      accountType: {
         defaultValue: 'user',
         input: true,
       },
     },
   },
 
-  plugins: [jwt()],
+  databaseHooks: {
+    user: {
+      create: {
+        before: async user => {
+          const role = user.accountType === 'trainer' ? 'trainer' : 'user';
+          return {
+            data: {
+              ...user,
+              role,
+            },
+          };
+        },
+      },
+    },
+  },
+
+  plugins: [jwt(), admin()],
 });

@@ -3,69 +3,10 @@ import React from 'react';
 import ManageUsersTable from './ManageUsersTable';
 import { Users, ShieldAlert, CheckCircle, Info } from 'lucide-react';
 
-const ManageUsersSection = () => {
-  // Dummy Users Data
-  const usersData = [
-    {
-      id: 'USR-001',
-      name: 'Emma Watson',
-      email: 'emma.w@example.com',
-      role: 'User',
-      status: 'Active',
-      joinedDate: '2024-01-15',
-      profileImage: 'https://i.pravatar.cc/150?u=1',
-      totalBookings: 24,
-      activityScore: 92,
-    },
-    {
-      id: 'USR-002',
-      name: 'Michael Chen',
-      email: 'm.chen@example.com',
-      role: 'Admin',
-      status: 'Active',
-      joinedDate: '2023-11-02',
-      profileImage: 'https://i.pravatar.cc/150?u=2',
-      totalBookings: 15,
-      activityScore: 88,
-    },
-    {
-      id: 'USR-003',
-      name: 'Sarah Johnson',
-      email: 'sarah.j@example.com',
-      role: 'User',
-      status: 'Blocked',
-      joinedDate: '2024-02-20',
-      profileImage: 'https://i.pravatar.cc/150?u=3',
-      totalBookings: 0,
-      activityScore: 12,
-    },
-    {
-      id: 'USR-004',
-      name: 'David Smith',
-      email: 'david.s@example.com',
-      role: 'User',
-      status: 'Active',
-      joinedDate: '2024-03-10',
-      profileImage: 'https://i.pravatar.cc/150?u=4',
-      totalBookings: 8,
-      activityScore: 75,
-    },
-    {
-      id: 'USR-005',
-      name: 'Jessica Davis',
-      email: 'j.davis@example.com',
-      role: 'User',
-      status: 'Active',
-      joinedDate: '2023-09-18',
-      profileImage: 'https://i.pravatar.cc/150?u=5',
-      totalBookings: 42,
-      activityScore: 98,
-    },
-  ];
-
-  const totalUsers = usersData.length;
-  const activeUsers = usersData.filter(u => u.status === 'Active').length;
-  const blockedUsers = usersData.filter(u => u.status === 'Blocked').length;
+const ManageUsersSection = ({ users }) => {
+  const totalUsers = users.length;
+  const activeUsers = users.filter(u => !u.banned).length;
+  const blockedUsers = users.filter(u => u.banned).length;
 
   return (
     <div
@@ -135,7 +76,7 @@ const ManageUsersSection = () => {
       <div className="flex flex-col xl:flex-row gap-8">
         {/* Main Section: Data Table */}
         <div className="flex-1 min-w-0">
-          <ManageUsersTable users={usersData} />
+          <ManageUsersTable users={users} />
         </div>
 
         {/* Right Side: Admin Guide Card */}
