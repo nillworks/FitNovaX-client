@@ -85,7 +85,7 @@ const Navbar = () => {
                 <Dumbbell className="w-6 h-6 text-[#15803D]" />
               </div>
               <span className="font-bold text-xl tracking-tight text-[#1E293B] dark:text-white">
-                Fit<span className="text-[#22C55E]">Core</span>
+                fitNova<span className="text-[#22C55E]">X</span>
               </span>
             </Link>
 

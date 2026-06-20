@@ -147,7 +147,7 @@ const SidBarDashBoard = ({ user, isMobileOpen, setIsMobileOpen }) => {
             <Dumbbell className="w-7 h-7 text-[#15803D]" />
           </div>
           <span className="font-bold text-2xl tracking-tight text-[#FFFFFF]">
-            FitCore
+            fitNovaX
           </span>
         </Link>
         {/* Mobile Close Button */}

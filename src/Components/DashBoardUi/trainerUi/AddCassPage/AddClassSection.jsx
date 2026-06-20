@@ -43,6 +43,7 @@ const AddClassSection = () => {
       status: 'pending',
       userId: user?.id,
       userRole: user?.role,
+      userImage: user?.image,
     };
 
     const res = await postAddNewClass(newClassData);

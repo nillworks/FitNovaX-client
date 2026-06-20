@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Dumbbell, MapPinOff, ArrowLeft, Search } from 'lucide-react';
 
 export const metadata = {
-  title: 'Page Not Found - FitCore',
+  title: 'Page Not Found - fitNovaX',
   description: 'The page you are looking for does not exist.',
 };
 

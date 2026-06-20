@@ -48,14 +48,14 @@ const Footer = () => {
               </a>
             </div>
             <p className="text-[#64748B] text-sm">
-              support@fitcore.com<br/>
+              support@fitnovax.com<br/>
               +1 (555) 123-4567
             </p>
           </StaggerItem>
         </StaggerContainer>
         
         <FadeIn className="border-t border-[#1E293B] pt-8 text-center md:text-left flex flex-col md:flex-row justify-between items-center text-[#64748B] text-sm font-semibold" delay={0.4}>
-          <p>&copy; {new Date().getFullYear()} FitCore Platform. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} fitNovaX Platform. All rights reserved.</p>
           <div className="mt-4 md:mt-0 space-x-6">
             <a href="#" className="hover:text-white transition-colors">Privacy</a>
             <a href="#" className="hover:text-white transition-colors">Terms</a>
