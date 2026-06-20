@@ -2,11 +2,11 @@ import ForumPostManagementSection from '@/Components/DashBoardUi/AdminUi/ForumPo
 import React from 'react';
 
 const page = () => {
-  return <>
-  
-    <ForumPostManagementSection/>
-  
-  </>;
+  return (
+    <>
+      <ForumPostManagementSection />
+    </>
+  );
 };
 
 export default page;

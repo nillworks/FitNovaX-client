@@ -1,13 +1,38 @@
 "use client";
 import React, { useState } from 'react';
-import { Upload, Clock, DollarSign, Calendar, Activity, Type, Image as ImageIcon, FileText, PlusCircle } from 'lucide-react';
+import { Upload, Clock, DollarSign, Calendar, Activity, Type, Image as ImageIcon, FileText, PlusCircle, Users } from 'lucide-react';
 import { imageUpload } from '../../../../lib/imageUpload';
+
+const InputWrapper = ({ label, icon: Icon, required, children }) => (
+  <div className="flex flex-col gap-2">
+    <label className="flex items-center gap-2 text-sm font-semibold text-[#1E293B]">
+      {Icon && <Icon className="w-4 h-4 text-[#64748B]" />}
+      {label}
+      {required && <span className="text-red-500">*</span>}
+    </label>
+    {children}
+  </div>
+);
 
 const AddClassForm = ({ categoryOptions, difficultyOptions, scheduleDays, onSubmit }) => {
   const [selectedDays, setSelectedDays] = useState([]);
   const [imagePreview, setImagePreview] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
+  const [duration, setDuration] = useState('');
+
+  React.useEffect(() => {
+    if (startTime && endTime) {
+      const start = new Date(`1970-01-01T${startTime}`);
+      const end = new Date(`1970-01-01T${endTime}`);
+      let diff = (end - start) / 1000 / 60; // in minutes
+      if (diff < 0) diff += 24 * 60; // cross midnight
+      setDuration(diff.toString());
+    }
+  }, [startTime, endTime]);
 
   const toggleDay = (dayId) => {
     if (selectedDays.includes(dayId)) {
@@ -41,7 +66,16 @@ const AddClassForm = ({ categoryOptions, difficultyOptions, scheduleDays, onSubm
       }
 
       if (onSubmit) {
-        onSubmit(dataObj);
+        const isSuccess = await onSubmit(dataObj);
+        if (isSuccess !== false) {
+          e.target.reset();
+          setSelectedDays([]);
+          setImagePreview(null);
+          setImageFile(null);
+          setStartTime('');
+          setEndTime('');
+          setDuration('');
+        }
       }
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -49,16 +83,6 @@ const AddClassForm = ({ categoryOptions, difficultyOptions, scheduleDays, onSubm
       setIsSubmitting(false);
     }
   };
-
-  const InputWrapper = ({ label, icon: Icon, children }) => (
-    <div className="flex flex-col gap-2">
-      <label className="flex items-center gap-2 text-sm font-semibold text-[#1E293B]">
-        {Icon && <Icon className="w-4 h-4 text-[#64748B]" />}
-        {label}
-      </label>
-      {children}
-    </div>
-  );
 
   return (
     <form onSubmit={handleFormSubmit} className="space-y-8">
@@ -70,7 +94,7 @@ const AddClassForm = ({ categoryOptions, difficultyOptions, scheduleDays, onSubm
             <h2 className="text-xl font-bold text-[#1E293B]">Basic Class Information</h2>
           </div>
           <div className="flex flex-col gap-6">
-            <InputWrapper label="Class Name" icon={Type}>
+            <InputWrapper label="Class Name" icon={Type} required>
               <input 
                 type="text" 
                 name="className"
@@ -80,7 +104,7 @@ const AddClassForm = ({ categoryOptions, difficultyOptions, scheduleDays, onSubm
               />
             </InputWrapper>
             
-            <InputWrapper label="Class Image Upload" icon={ImageIcon}>
+            <InputWrapper label="Class Image Upload" icon={ImageIcon} required>
               <div className={`relative border-2 border-dashed border-[#E2E8F0] rounded-xl bg-[#F8FAFC] p-6 flex transition-all overflow-hidden ${imagePreview ? 'items-center justify-between' : 'flex-col items-center justify-center h-48 md:h-56 group hover:bg-[#C6F4D6]/20 hover:border-[#8FE3B0]'}`}>
                 {imagePreview ? (
                   <div className="flex items-center justify-between w-full">
@@ -130,7 +154,7 @@ const AddClassForm = ({ categoryOptions, difficultyOptions, scheduleDays, onSubm
             <h2 className="text-xl font-bold text-[#1E293B]">Class Configuration</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <InputWrapper label="Category" icon={Activity}>
+            <InputWrapper label="Category" icon={Activity} required>
               <div className="relative">
                 <select 
                   name="category"
@@ -146,7 +170,7 @@ const AddClassForm = ({ categoryOptions, difficultyOptions, scheduleDays, onSubm
               </div>
             </InputWrapper>
             
-            <InputWrapper label="Difficulty Level" icon={Activity}>
+            <InputWrapper label="Difficulty Level" icon={Activity} required>
               <div className="relative">
                 <select 
                   name="difficulty"
@@ -161,6 +185,17 @@ const AddClassForm = ({ categoryOptions, difficultyOptions, scheduleDays, onSubm
                 </select>
               </div>
             </InputWrapper>
+            
+            <InputWrapper label="Max Booking Slots" icon={Users} required>
+              <input 
+                type="number" 
+                name="maxBookings"
+                placeholder="e.g. 15"
+                min="1"
+                className="w-full px-4 py-3 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] text-[#1E293B] focus:outline-none focus:ring-2 focus:ring-[#4AD27A] focus:border-transparent transition-all placeholder:text-[#64748B]"
+                required
+              />
+            </InputWrapper>
           </div>
         </section>
 
@@ -170,10 +205,12 @@ const AddClassForm = ({ categoryOptions, difficultyOptions, scheduleDays, onSubm
             <h2 className="text-xl font-bold text-[#1E293B]">Pricing & Duration</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <InputWrapper label="Duration (minutes)" icon={Clock}>
+            <InputWrapper label="Duration (minutes)" icon={Clock} required>
               <input 
                 type="number" 
                 name="duration"
+                value={duration}
+                onChange={(e) => setDuration(e.target.value)}
                 placeholder="e.g. 60"
                 min="1"
                 className="w-full px-4 py-3 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] text-[#1E293B] focus:outline-none focus:ring-2 focus:ring-[#4AD27A] focus:border-transparent transition-all placeholder:text-[#64748B]"
@@ -181,7 +218,7 @@ const AddClassForm = ({ categoryOptions, difficultyOptions, scheduleDays, onSubm
               />
             </InputWrapper>
             
-            <InputWrapper label="Price ($)" icon={DollarSign}>
+            <InputWrapper label="Price ($)" icon={DollarSign} required>
               <input 
                 type="number" 
                 name="price"
@@ -200,7 +237,7 @@ const AddClassForm = ({ categoryOptions, difficultyOptions, scheduleDays, onSubm
           <div className="mb-6 border-b border-[#E2E8F0] pb-4">
             <h2 className="text-xl font-bold text-[#1E293B]">Weekly Schedule</h2>
           </div>
-          <InputWrapper label="Select Days" icon={Calendar}>
+          <InputWrapper label="Select Days" icon={Calendar} required>
             <div className="flex flex-wrap gap-3 mt-2">
               {scheduleDays?.map((day) => {
                 const isSelected = selectedDays.includes(day.id);
@@ -229,17 +266,45 @@ const AddClassForm = ({ categoryOptions, difficultyOptions, scheduleDays, onSubm
           </InputWrapper>
         </section>
 
-        {/* Section 5: Class Time */}
+        {/* Section 5: Class Dates & Times */}
         <section>
           <div className="mb-6 border-b border-[#E2E8F0] pb-4">
-            <h2 className="text-xl font-bold text-[#1E293B]">Class Time</h2>
+            <h2 className="text-xl font-bold text-[#1E293B]">Class Dates & Times</h2>
           </div>
-          <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6 shadow-sm">
-            <InputWrapper label="Start Time" icon={Clock}>
+          <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-6">
+            <InputWrapper label="Start Date" icon={Calendar} required>
+              <input 
+                type="date" 
+                name="startDate"
+                className="w-full px-4 py-3 rounded-xl border border-[#E2E8F0] bg-[#FFFFFF] text-[#1E293B] focus:outline-none focus:ring-2 focus:ring-[#4AD27A] focus:border-transparent transition-all"
+                required
+              />
+            </InputWrapper>
+            <InputWrapper label="End Date" icon={Calendar} required>
+              <input 
+                type="date" 
+                name="endDate"
+                className="w-full px-4 py-3 rounded-xl border border-[#E2E8F0] bg-[#FFFFFF] text-[#1E293B] focus:outline-none focus:ring-2 focus:ring-[#4AD27A] focus:border-transparent transition-all"
+                required
+              />
+            </InputWrapper>
+            <InputWrapper label="Start Time" icon={Clock} required>
               <input 
                 type="time" 
-                name="classTime"
-                className="md:max-w-xs w-full px-4 py-3 rounded-xl border border-[#E2E8F0] bg-[#FFFFFF] text-[#1E293B] focus:outline-none focus:ring-2 focus:ring-[#4AD27A] focus:border-transparent transition-all"
+                name="startTime"
+                value={startTime}
+                onChange={(e) => setStartTime(e.target.value)}
+                className="w-full px-4 py-3 rounded-xl border border-[#E2E8F0] bg-[#FFFFFF] text-[#1E293B] focus:outline-none focus:ring-2 focus:ring-[#4AD27A] focus:border-transparent transition-all"
+                required
+              />
+            </InputWrapper>
+            <InputWrapper label="End Time" icon={Clock} required>
+              <input 
+                type="time" 
+                name="endTime"
+                value={endTime}
+                onChange={(e) => setEndTime(e.target.value)}
+                className="w-full px-4 py-3 rounded-xl border border-[#E2E8F0] bg-[#FFFFFF] text-[#1E293B] focus:outline-none focus:ring-2 focus:ring-[#4AD27A] focus:border-transparent transition-all"
                 required
               />
             </InputWrapper>
@@ -251,7 +316,7 @@ const AddClassForm = ({ categoryOptions, difficultyOptions, scheduleDays, onSubm
           <div className="mb-6 border-b border-[#E2E8F0] pb-4">
             <h2 className="text-xl font-bold text-[#1E293B]">Class Description</h2>
           </div>
-          <InputWrapper label="Description" icon={FileText}>
+          <InputWrapper label="Description" icon={FileText} required>
             <textarea 
               name="description"
               rows={5}
@@ -270,7 +335,7 @@ const AddClassForm = ({ categoryOptions, difficultyOptions, scheduleDays, onSubm
             className={`w-full px-10 py-4 text-[#FFFFFF] rounded-2xl font-bold text-lg shadow-lg flex items-center justify-center gap-3 transition-all duration-300 ${
               isSubmitting 
                 ? 'bg-[#8FE3B0] cursor-not-allowed shadow-none'
-                : 'bg-[#22C55E] shadow-[#8FE3B0]/60 hover:bg-[#16A34A] hover:shadow-[#4AD27A]/50 hover:-translate-y-0.5 active:scale-95'
+                : 'bg-[#22C55E] cursor-pointer shadow-[#8FE3B0]/60 hover:bg-[#16A34A] hover:shadow-[#4AD27A]/50 hover:-translate-y-0.5 active:scale-95'
             }`}
           >
             {isSubmitting ? (
