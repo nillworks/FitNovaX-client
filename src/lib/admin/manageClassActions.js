@@ -1,9 +1,12 @@
+import headersAuthorization from '../headersAuthorization.client';
+
 export const approveClass = async id => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/admin/class-status/${id}`,
     {
       method: 'PATCH',
       headers: {
+        ...(await headersAuthorization()),
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -21,6 +24,7 @@ export const rejectClass = async id => {
     {
       method: 'PATCH',
       headers: {
+        ...(await headersAuthorization()),
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -37,6 +41,7 @@ export const deleteClass = async id => {
     `${process.env.NEXT_PUBLIC_URL}/api/admin/class-delete/${id}`,
     {
       method: 'DELETE',
+      headers: await headersAuthorization(),
     },
   );
 

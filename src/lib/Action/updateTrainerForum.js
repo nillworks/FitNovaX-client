@@ -1,9 +1,12 @@
+import headersAuthorization from '../headersAuthorization.client';
+
 const updateTrainerForum = async (id, updatedData) => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/Trainer-forum/${id}`,
     {
       method: 'PATCH',
       headers: {
+        ...(await headersAuthorization()),
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(updatedData),

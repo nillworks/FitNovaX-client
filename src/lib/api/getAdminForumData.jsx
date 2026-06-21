@@ -1,8 +1,10 @@
+import headersAuthorization from '../headersAuthorization.server';
+
 export const getAdminForumData = async (page = 1, limit = 10) => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_URL}/api/admin/forum-post?page=${page}&limit=${limit}`,
-      { cache: 'no-store' },
+      { cache: 'no-store', headers: await headersAuthorization() },
     );
 
     if (!res.ok) {

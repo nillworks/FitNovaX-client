@@ -1,4 +1,5 @@
-import headersAuthorization from '../headersAuthorization.client';
+import 'server-only';
+import headersAuthorization from '../headersAuthorization.server';
 
 export const getTrainerApplications = async (page = 1, limit = 10) => {
   const baseUrl =

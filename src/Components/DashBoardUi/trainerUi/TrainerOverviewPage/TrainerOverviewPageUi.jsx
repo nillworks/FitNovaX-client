@@ -4,7 +4,6 @@ import TrainerStatsSection from './TrainerStatsSection';
 import TrainerProfileSection from './TrainerProfileSection';
 import TrainerQuickActions from './TrainerQuickActions';
 import { useSession } from '@/lib/auth-client';
-import { getTrainerClass } from '@/lib/api/getTrainerClass';
 
 const TrainerOverviewPageUi = ({
   classesCreatedData,

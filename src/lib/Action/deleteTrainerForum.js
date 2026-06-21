@@ -1,8 +1,11 @@
+import headersAuthorization from '../headersAuthorization.client';
+
 const deleteTrainerForum = async id => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/Trainer-forum/${id}`,
     {
       method: 'DELETE',
+      headers: await headersAuthorization(),
     },
   );
 

@@ -1,5 +1,5 @@
 import AppliedTrainersSection from '@/Components/DashBoardUi/AdminUi/TrainerApplications/AppliedTrainersSection';
-import { getTrainerApplications } from '@/lib/api/getTrainerApplications';
+import { getTrainerApplications } from '@/lib/api/getTrainerApplications.server';
 
 const PAGE_SIZE = 10;
 

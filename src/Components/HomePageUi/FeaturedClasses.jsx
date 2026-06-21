@@ -7,6 +7,7 @@ import {
   StaggerItem,
 } from '../Animations/MotionWrappers';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 
 const classes = [
   {
@@ -67,22 +68,24 @@ const FeaturedClasses = () => {
 
         <div className="flex justify-center mt-8">
           <FadeUp delay={0.2}>
-            <motion.button className="px-8 cursor-pointer py-3 bg-[#16A34A] text-white rounded-full font-semibold shadow-lg hover:shadow-xl hover:bg-[#15803D] transition-all flex items-center space-x-2 group">
-              <span>View All Classes</span>
-              <svg
-                className="w-5 h-5 group-hover:translate-x-1 transition-transform"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M17 8l4 4m0 0l-4 4m4-4H3"
-                ></path>
-              </svg>
-            </motion.button>
+            <Link href={`/classes`}>
+              <motion.button className="px-8 cursor-pointer py-3 bg-[#16A34A] text-white rounded-full font-semibold shadow-lg hover:shadow-xl hover:bg-[#15803D] transition-all flex items-center space-x-2 group">
+                <span>View All Classes</span>
+                <svg
+                  className="w-5 h-5 group-hover:translate-x-1 transition-transform"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                  ></path>
+                </svg>
+              </motion.button>
+            </Link>
           </FadeUp>
         </div>
       </div>
