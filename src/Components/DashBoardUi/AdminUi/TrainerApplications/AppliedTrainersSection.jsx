@@ -1,85 +1,65 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TrainerApplicationsTable from './TrainerApplicationsTable';
 import TrainerApplicationModal from './TrainerApplicationModal';
-import { Users, Clock, CheckCircle, XCircle, Info, FileText } from 'lucide-react';
+import { Users, Clock, CheckCircle, XCircle, Info, FileText, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
+import { getTrainerApplications } from '@/lib/api/getTrainerApplications';
 
 const AppliedTrainersSection = () => {
-  // Dummy Data
-  const applicationsData = [
-    {
-      id: "APP-001",
-      applicantName: "Marcus Thorne",
-      email: "marcus.t@example.com",
-      profileImage: "https://i.pravatar.cc/150?u=10",
-      experience: "5 years",
-      specialty: "Strength Training",
-      availableTime: "Mon-Fri (Morning)",
-      applicationDate: "2024-03-22",
-      status: "Pending",
-      bio: "Certified personal trainer with 5 years of experience specializing in strength and conditioning. Passionate about helping clients achieve their peak physical potential through science-based programming."
-    },
-    {
-      id: "APP-002",
-      applicantName: "Elena Rodriguez",
-      email: "elena.rod@example.com",
-      profileImage: "https://i.pravatar.cc/150?u=11",
-      experience: "8 years",
-      specialty: "Yoga & Pilates",
-      availableTime: "Weekends (All Day)",
-      applicationDate: "2024-03-21",
-      status: "Approved",
-      bio: "RYT-500 Yoga Instructor and certified Pilates mat teacher. My classes focus on mindful movement, core stability, and breathwork to foster both physical and mental well-being."
-    },
-    {
-      id: "APP-003",
-      applicantName: "James Chen",
-      email: "j.chen.fit@example.com",
-      profileImage: "https://i.pravatar.cc/150?u=12",
-      experience: "3 years",
-      specialty: "HIIT",
-      availableTime: "Mon, Wed, Fri (Evening)",
-      applicationDate: "2024-03-20",
-      status: "Pending",
-      bio: "Former collegiate athlete turned fitness enthusiast. I bring high energy and intense motivation to every HIIT session, ensuring my clients push their limits safely."
-    },
-    {
-      id: "APP-004",
-      applicantName: "Sophie Williams",
-      email: "swilliams.train@example.com",
-      profileImage: "https://i.pravatar.cc/150?u=13",
-      experience: "2 years",
-      specialty: "Cardio",
-      availableTime: "Tue, Thu (Morning)",
-      applicationDate: "2024-03-18",
-      status: "Rejected",
-      bio: "Enthusiastic new trainer specializing in cardiovascular endurance and marathon prep. Looking to inspire beginners to start their running journey."
-    },
-    {
-      id: "APP-005",
-      applicantName: "David Kim",
-      email: "dkim.power@example.com",
-      profileImage: "https://i.pravatar.cc/150?u=14",
-      experience: "10 years",
-      specialty: "Powerlifting",
-      availableTime: "Flexible",
-      applicationDate: "2024-03-15",
-      status: "Pending",
-      bio: "Competitive powerlifter and national record holder. I focus on technical perfection in the big three lifts and progressive overload for serious strength gains."
-    }
-  ];
+  const [applicationsData, setApplicationsData] = useState([]);
+  const [selectedApp, setSelectedApp] = useState(null);
+  
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalApplications, setTotalApplications] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const stats = {
-    totalApplications: applicationsData.length,
-    pendingReviews: applicationsData.filter(app => app.status === 'Pending').length,
-    approvedTrainers: applicationsData.filter(app => app.status === 'Approved').length,
-    rejectedApplications: applicationsData.filter(app => app.status === 'Rejected').length,
+  const [stats, setStats] = useState({
+    totalApplications: 0,
+    pendingReviews: 0,
+    approvedTrainers: 0,
+    rejectedApplications: 0,
+  });
+
+  const fetchApplications = async (page) => {
+    setIsLoading(true);
+    try {
+      const response = await getTrainerApplications(page, 10);
+      if (response && response.data) {
+        setApplicationsData(response.data);
+        setCurrentPage(response.currentPage || page);
+        setTotalPages(response.totalPages || 1);
+        setTotalApplications(response.total || response.data.length);
+        
+        // Use global stats if available in response, otherwise calculate from current page
+        setStats({
+          totalApplications: response.total || response.data.length,
+          pendingReviews: response.pendingCount ?? response.data.filter(app => app.status === 'pending').length,
+          approvedTrainers: response.approvedCount ?? response.data.filter(app => app.status === 'approved').length,
+          rejectedApplications: response.rejectedCount ?? response.data.filter(app => app.status === 'rejected').length,
+        });
+      }
+    } catch (error) {
+      console.error("Failed to fetch applications", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const [selectedApp, setSelectedApp] = useState(null);
+  useEffect(() => {
+    fetchApplications(currentPage);
+  }, [currentPage]);
 
   const openModal = (app) => setSelectedApp(app);
   const closeModal = () => setSelectedApp(null);
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(prev => prev + 1);
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) setCurrentPage(prev => prev - 1);
+  };
 
   return (
     <div className="container mx-auto p-4 lg:p-8 min-h-screen relative" style={{ backgroundColor: '#F8FAFC' }}>
@@ -109,7 +89,7 @@ const AppliedTrainersSection = () => {
             <div className="w-full bg-white/20 rounded-full h-2">
               <div 
                 className="bg-[#22C55E] h-2 rounded-full shadow-[0_0_10px_rgba(34,197,94,0.5)] transition-all duration-500" 
-                style={{ width: `${((stats.totalApplications - stats.pendingReviews) / stats.totalApplications) * 100}%` }}
+                style={{ width: `${stats.totalApplications > 0 ? ((stats.totalApplications - stats.pendingReviews) / stats.totalApplications) * 100 : 0}%` }}
               ></div>
             </div>
             <p className="text-xs text-[#94A3B8] mt-2 font-medium">{stats.pendingReviews} pending applications awaiting your decision.</p>
@@ -128,7 +108,7 @@ const AppliedTrainersSection = () => {
           <div key={idx} className="bg-white rounded-3xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-[#E2E8F0] flex items-center justify-between group hover:-translate-y-1 transition-transform duration-300">
             <div>
               <p className="text-[#64748B] text-sm font-semibold mb-1">{stat.label}</p>
-              <h3 className="text-3xl font-black text-[#1E293B]">{stat.value}</h3>
+              <h3 className="text-3xl font-black text-[#1E293B]">{isLoading ? <Loader2 className="animate-spin text-[#94A3B8] w-6 h-6 mt-2" /> : stat.value}</h3>
             </div>
             <div className={`${stat.bgColor} p-3.5 rounded-2xl group-hover:scale-110 transition-transform`}>
               <stat.icon size={24} className={stat.color} />
@@ -140,7 +120,44 @@ const AppliedTrainersSection = () => {
       <div className="flex flex-col xl:flex-row gap-8">
         {/* Main Section: Left Side - Applications Review Area */}
         <div className="flex-1 min-w-0">
-          <TrainerApplicationsTable applications={applicationsData} onOpenModal={openModal} />
+          {isLoading ? (
+            <div className="bg-white rounded-3xl p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-[#E2E8F0] flex flex-col items-center justify-center">
+              <Loader2 className="animate-spin text-[#22C55E] w-12 h-12 mb-4" />
+              <p className="text-[#64748B] font-medium">Loading applications...</p>
+            </div>
+          ) : (
+            <>
+              <TrainerApplicationsTable applications={applicationsData} onOpenModal={openModal} />
+              
+              {/* Pagination Controls */}
+              {totalPages > 1 && (
+                <div className="flex items-center justify-between mt-6 bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-sm">
+                  <span className="text-sm text-[#64748B] font-medium">
+                    Showing <span className="font-bold text-[#1E293B]">{applicationsData.length}</span> of <span className="font-bold text-[#1E293B]">{totalApplications}</span> applications
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={handlePrevPage}
+                      disabled={currentPage === 1}
+                      className="p-2 rounded-xl border border-[#E2E8F0] text-[#64748B] hover:bg-[#F8FAFC] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                      <ChevronLeft size={20} />
+                    </button>
+                    <span className="text-sm font-bold text-[#1E293B] px-4">
+                      Page {currentPage} of {totalPages}
+                    </span>
+                    <button
+                      onClick={handleNextPage}
+                      disabled={currentPage === totalPages}
+                      className="p-2 rounded-xl border border-[#E2E8F0] text-[#64748B] hover:bg-[#F8FAFC] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                      <ChevronRight size={20} />
+                    </button>
+                  </div>
+                </div>
+              )}
+            </>
+          )}
         </div>
 
         {/* Right Side: Trainer Approval Guide */}

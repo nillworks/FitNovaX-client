@@ -1,9 +1,15 @@
 import ApplicationForm from '@/Components/DashBoardUi/UserUi/ApplyPageui/ApplicationForm';
+import getTrainerApplicationData from '@/lib/api/getTrainerApplicationData';
+import getUserSession from '@/lib/getUserSession';
 
-const page = () => {
+const page = async () => {
+  const user = await getUserSession();
+
+  const result = await getTrainerApplicationData(user?.id);
+
   return (
     <div>
-      <ApplicationForm />
+      <ApplicationForm trainerData={result.data} />
     </div>
   );
 };
