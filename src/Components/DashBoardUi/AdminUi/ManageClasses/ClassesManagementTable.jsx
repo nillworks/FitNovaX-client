@@ -18,14 +18,14 @@ import {
   rejectClass,
   deleteClass,
 } from '@/lib/admin/manageClassActions';
+import CustomToast from '@/Shared/CustomToast';
+import { useRouter } from 'next/navigation';
 
 const getClassId = cls =>
   cls?._id?.$oid || cls?._id?.toString?.() || cls?._id || cls?.id;
 
 const formatLabel = value =>
-  value
-    ? String(value).charAt(0).toUpperCase() + String(value).slice(1)
-    : '—';
+  value ? String(value).charAt(0).toUpperCase() + String(value).slice(1) : '—';
 
 const ClassesManagementTable = ({
   classesData = [],
@@ -35,22 +35,66 @@ const ClassesManagementTable = ({
   const [loadingId, setLoadingId] = useState(null);
   const totalPages = pagination.totalPages || 1;
   const totalItems = pagination.total ?? classesData.length;
+  const router = useRouter();
 
   const handleApprove = async id => {
     setLoadingId(id);
-    await approveClass(id);
+    const res = await approveClass(id);
+
+    if (res.success) {
+      router.refresh();
+      CustomToast(
+        'success',
+        'Success',
+        res.message || 'Class approved successfully',
+      );
+    } else {
+      CustomToast('error', 'Error', res.message || 'Something went wrong');
+    }
     setLoadingId(null);
   };
 
   const handleReject = async id => {
     setLoadingId(id);
-    await rejectClass(id);
+    const res = await rejectClass(id);
+
+    if (res.success) {
+      router.refresh();
+      CustomToast(
+        'success',
+        'Class Rejected',
+        'The class has been rejected successfully.',
+      );
+    } else {
+      CustomToast(
+        'error',
+        'Rejection Failed',
+        res.message || 'Failed to reject the class.',
+      );
+    }
+
     setLoadingId(null);
   };
 
   const handleDelete = async id => {
     setLoadingId(id);
-    await deleteClass(id);
+    const res = await deleteClass(id);
+
+    if (res.success) {
+      router.refresh();
+
+      CustomToast(
+        'success',
+        'Class Deleted',
+        'The class has been deleted successfully.',
+      );
+    } else {
+      CustomToast(
+        'error',
+        'Delete Failed',
+        res.message || 'Failed to delete the class.',
+      );
+    }
     setLoadingId(null);
   };
 
@@ -229,7 +273,9 @@ const ClassesManagementTable = ({
                           {formatLabel(cls.category)}
                         </span>
                         {cls.startDate && (
-                          <span className="text-[#64748B]">{cls.startDate}</span>
+                          <span className="text-[#64748B]">
+                            {cls.startDate}
+                          </span>
                         )}
                       </div>
                     </div>
@@ -240,8 +286,7 @@ const ClassesManagementTable = ({
                   <div className="flex items-center gap-3">
                     <img
                       src={
-                        cls.userImage ||
-                        'https://i.pravatar.cc/150?u=trainer'
+                        cls.userImage || 'https://i.pravatar.cc/150?u=trainer'
                       }
                       alt={cls.trainerName || cls.userName || 'Trainer'}
                       className="w-8 h-8 rounded-full object-cover border border-[#E2E8F0]"
