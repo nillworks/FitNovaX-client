@@ -15,7 +15,11 @@ import {
   Clock,
   Crown,
   User,
+  Loader2,
 } from 'lucide-react';
+import { adminDeleteForumPost } from '@/lib/Action/adminDeleteForumPost';
+import CustomToast from '@/Shared/CustomToast';
+import { useRouter } from 'next/navigation';
 
 const getPostId = post =>
   post?._id?.$oid || post?._id?.toString?.() || post?._id || post?.id;
@@ -80,18 +84,53 @@ const CommunityPostsModerationTable = ({
 }) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
+  const [deletingId, setDeletingId] = useState(null);
 
   const totalPages = pagination.totalPages || 1;
   const totalItems = pagination.total ?? posts.length;
+  const router = useRouter();
+
+  const closeDeleteModal = () => {
+    if (deletingId) return;
+    setDeleteModalOpen(false);
+    setSelectedPost(null);
+  };
 
   const handleDeleteClick = post => {
     setSelectedPost(post);
     setDeleteModalOpen(true);
   };
 
-  const closeDeleteModal = () => {
+  const confirmDelete = async () => {
+    const id = getPostId(selectedPost);
+    if (!id) {
+      CustomToast('error', 'Delete Failed', 'Invalid post id');
+      return;
+    }
+
+    setDeletingId(id);
+    const res = await adminDeleteForumPost(id);
+    setDeletingId(null);
+
+    if (!res.success) {
+      CustomToast('error', 'Delete Failed', res.message || 'Something went wrong');
+      return;
+    }
+
     setDeleteModalOpen(false);
     setSelectedPost(null);
+
+    if (posts.length === 1 && currentPage > 1) {
+      router.push(`/dashboard/admin/forum-posts?page=${currentPage - 1}`);
+    } else {
+      router.refresh();
+    }
+
+    CustomToast(
+      'success',
+      'Post Deleted',
+      res.message || 'Post deleted successfully',
+    );
   };
 
   if (!posts.length) {
@@ -117,7 +156,9 @@ const CommunityPostsModerationTable = ({
       <div className="bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-[#E2E8F0] overflow-hidden">
         <div className="p-5 border-b border-[#E2E8F0] bg-[#F8FAFC] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <h2 className="text-lg font-black text-[#1E293B]">Community Posts</h2>
+            <h2 className="text-lg font-black text-[#1E293B]">
+              Community Posts
+            </h2>
             <p className="text-sm font-medium text-[#64748B]">
               Showing {posts.length} of {totalItems} posts
             </p>
@@ -318,7 +359,8 @@ const CommunityPostsModerationTable = ({
             <div className="relative p-6 sm:p-8 bg-gradient-to-b from-[#FEF2F2] to-white border-b border-[#E2E8F0] flex flex-col items-center text-center">
               <button
                 onClick={closeDeleteModal}
-                className="absolute top-4 right-4 p-2 bg-white rounded-full border border-[#E2E8F0] text-[#64748B] hover:text-[#1E293B] hover:bg-[#F8FAFC] transition-colors shadow-sm cursor-pointer"
+                disabled={!!deletingId}
+                className="absolute top-4 right-4 p-2 bg-white rounded-full border border-[#E2E8F0] text-[#64748B] hover:text-[#1E293B] hover:bg-[#F8FAFC] transition-colors shadow-sm cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <X size={16} />
               </button>
@@ -337,15 +379,24 @@ const CommunityPostsModerationTable = ({
             <div className="p-5 bg-[#F8FAFC] flex flex-col sm:flex-row gap-3">
               <button
                 onClick={closeDeleteModal}
-                className="flex-1 px-4 py-2.5 rounded-xl text-sm font-bold text-[#1E293B] bg-white border border-[#E2E8F0] hover:bg-[#F8FAFC] transition-colors shadow-sm cursor-pointer"
+                disabled={!!deletingId}
+                className="flex-1 px-4 py-2.5 rounded-xl text-sm font-bold text-[#1E293B] bg-white border border-[#E2E8F0] hover:bg-[#F8FAFC] transition-colors shadow-sm cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Cancel
               </button>
               <button
-                onClick={closeDeleteModal}
-                className="flex-1 px-4 py-2.5 rounded-xl text-sm font-bold text-white bg-[#EF4444] hover:bg-[#DC2626] transition-colors shadow-sm cursor-pointer"
+                onClick={confirmDelete}
+                disabled={!!deletingId}
+                className="flex-1 px-4 py-2.5 rounded-xl text-sm font-bold text-white bg-[#EF4444] hover:bg-[#DC2626] transition-colors shadow-sm cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2"
               >
-                Delete Post
+                {deletingId ? (
+                  <>
+                    <Loader2 size={16} className="animate-spin" />
+                    Deleting...
+                  </>
+                ) : (
+                  'Delete Post'
+                )}
               </button>
             </div>
           </div>
