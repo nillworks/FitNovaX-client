@@ -1,68 +1,57 @@
 "use client";
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ActiveTrainersTable from './ActiveTrainersTable';
 import TrainerRoleManagementPanel from './TrainerRoleManagementPanel';
-import { Users, Presentation, CalendarCheck, Star, Shield } from 'lucide-react';
+import { Users, Presentation, CalendarCheck, Star, Shield, Loader2 } from 'lucide-react';
+import getTrainerApplicationRoleData from '@/lib/api/getTrainerApplicationRoleData';
 
 const ManageTrainersSection = () => {
-  // Dummy Data
-  const trainersData = [
-    {
-      id: "TRN-001",
-      name: "Marcus Thorne",
-      email: "marcus.t@example.com",
-      profileImage: "https://i.pravatar.cc/150?u=10",
-      specialty: "Strength Training",
-      experience: "5 years",
-      joinedDate: "2023-01-15",
-      totalClasses: 124,
-      totalBookings: 2840,
-      status: "Active",
-      rating: 4.9
-    },
-    {
-      id: "TRN-002",
-      name: "Elena Rodriguez",
-      email: "elena.rod@example.com",
-      profileImage: "https://i.pravatar.cc/150?u=11",
-      specialty: "Yoga & Pilates",
-      experience: "8 years",
-      joinedDate: "2022-11-04",
-      totalClasses: 210,
-      totalBookings: 4150,
-      status: "Active",
-      rating: 4.8
-    },
-    {
-      id: "TRN-003",
-      name: "David Kim",
-      email: "dkim.power@example.com",
-      profileImage: "https://i.pravatar.cc/150?u=14",
-      specialty: "Powerlifting",
-      experience: "10 years",
-      joinedDate: "2021-06-22",
-      totalClasses: 85,
-      totalBookings: 1200,
-      status: "Active",
-      rating: 4.9
-    }
-  ];
+  const [trainersData, setTrainersData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Active trainers (Set to empty array [] to test the beautiful empty state)
-  const activeTrainers = trainersData;
+  const fetchTrainers = async () => {
+    setIsLoading(true);
+    try {
+      const response = await getTrainerApplicationRoleData(1, 10);
+      if (response && response.data) {
+        const formattedTrainers = response.data.map(trainer => ({
+          id: trainer._id?.$oid || trainer._id || trainer.id,
+          name: trainer.fullName || trainer.name || 'Unknown',
+          email: trainer.email || '—',
+          profileImage: trainer.userImage || "https://i.pravatar.cc/150?u=trainer",
+          specialty: trainer.specialty || "Not Specified",
+          experience: trainer.experience || "0",
+          joinedDate: trainer.createdAt?.$date || trainer.createdAt,
+          totalClasses: trainer.totalClasses || 0,
+          totalBookings: trainer.totalBookings || 0,
+          status: trainer.status || "Active",
+          rating: trainer.rating || 4.5
+        }));
+        setTrainersData(formattedTrainers);
+      }
+    } catch (error) {
+      console.error("Failed to fetch active trainers", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchTrainers();
+  }, []);
 
   const dashboardStats = {
-    totalTrainers: activeTrainers.length,
-    activeClasses: 419,
-    totalBookings: 8190,
-    averageRating: 4.8,
+    totalTrainers: trainersData.length,
+    activeClasses: trainersData.reduce((acc, curr) => acc + (curr.totalClasses || 0), 0) || 12,
+    totalBookings: trainersData.reduce((acc, curr) => acc + (curr.totalBookings || 0), 0) || 450,
+    averageRating: trainersData.length ? (trainersData.reduce((acc, curr) => acc + (curr.rating || 0), 0) / trainersData.length).toFixed(1) : 0,
     platformCapacity: 50
   };
 
   const overviewData = {
-    totalTrainers: activeTrainers.length,
-    popularSpecialty: "Strength Training",
-    averageExperience: "7.6 years"
+    totalTrainers: trainersData.length,
+    popularSpecialty: trainersData.length > 0 ? trainersData[0].specialty : "N/A",
+    averageExperience: trainersData.length ? (trainersData.reduce((acc, curr) => acc + parseInt(curr.experience || 0), 0) / trainersData.length).toFixed(1) + " years" : "0 years"
   };
 
   return (
@@ -126,7 +115,14 @@ const ManageTrainersSection = () => {
       <div className="flex flex-col xl:flex-row gap-8">
         {/* Main Section: Left Side - Active Trainers Area */}
         <div className="flex-1 min-w-0">
-          <ActiveTrainersTable trainers={activeTrainers} />
+          {isLoading ? (
+            <div className="bg-white rounded-3xl p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-[#E2E8F0] flex flex-col items-center justify-center">
+              <Loader2 className="animate-spin text-[#22C55E] w-12 h-12 mb-4" />
+              <p className="text-[#64748B] font-medium">Loading active trainers...</p>
+            </div>
+          ) : (
+            <ActiveTrainersTable trainers={trainersData} />
+          )}
         </div>
 
         {/* Right Side: Trainer Management Panel */}

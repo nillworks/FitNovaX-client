@@ -293,7 +293,7 @@ const ClassesManagementTable = ({
                     />
                     <div>
                       <span className="text-[#1E293B] text-sm font-semibold block">
-                        {cls.trainerName || cls.userName || 'Trainer'}
+                        {cls.UserName || cls.userName || 'Trainer'}
                       </span>
                       <span className="text-[#64748B] text-[10px] font-medium capitalize">
                         {cls.userRole || 'trainer'}

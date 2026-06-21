@@ -43,6 +43,7 @@ const AddClassSection = () => {
       status: 'pending',
       userId: user?.id,
       userRole: user?.role,
+      userName: user?.name,
       userImage: user?.image,
     };
 

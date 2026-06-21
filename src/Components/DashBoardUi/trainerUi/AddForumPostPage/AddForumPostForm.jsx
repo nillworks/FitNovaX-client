@@ -75,8 +75,11 @@ const AddForumPostForm = ({ categories, tags }) => {
         readingTime: Number(readingTime),
         isFeatured,
         userId: user?.id,
+        userName: user?.name,
         userImage: user?.image,
         userRole: user?.role,
+        like: 0,
+        comment: 0,
       };
 
       const res = await postForum(NewForumData);
