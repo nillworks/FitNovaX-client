@@ -1,9 +1,11 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import {
   Search,
   CheckCircle,
+  XCircle,
+  Trash2,
   Clock,
   BarChart3,
   Presentation,
@@ -11,9 +13,14 @@ import {
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react';
+import {
+  approveClass,
+  rejectClass,
+  deleteClass,
+} from '@/lib/admin/manageClassActions';
 
 const getClassId = cls =>
-  cls?._id?.$oid || cls?._id || cls?.id || cls?.className;
+  cls?._id?.$oid || cls?._id?.toString?.() || cls?._id || cls?.id;
 
 const formatLabel = value =>
   value
@@ -25,8 +32,27 @@ const ClassesManagementTable = ({
   pagination = {},
   currentPage = 1,
 }) => {
+  const [loadingId, setLoadingId] = useState(null);
   const totalPages = pagination.totalPages || 1;
   const totalItems = pagination.total ?? classesData.length;
+
+  const handleApprove = async id => {
+    setLoadingId(id);
+    await approveClass(id);
+    setLoadingId(null);
+  };
+
+  const handleReject = async id => {
+    setLoadingId(id);
+    await rejectClass(id);
+    setLoadingId(null);
+  };
+
+  const handleDelete = async id => {
+    setLoadingId(id);
+    await deleteClass(id);
+    setLoadingId(null);
+  };
 
   if (!classesData.length) {
     return (
@@ -65,12 +91,10 @@ const ClassesManagementTable = ({
 
     if (normalized === 'pending') {
       return (
-        <div className="inline-flex flex-col gap-1">
-          <span className="inline-flex items-center gap-1.5 bg-[#FFFBEB] text-[#D97706] border border-[#FEF3C7] text-xs px-2.5 py-1 rounded-full font-bold shadow-sm">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#F59E0B] animate-pulse"></span>
-            Pending
-          </span>
-        </div>
+        <span className="inline-flex items-center gap-1.5 bg-[#FFFBEB] text-[#D97706] border border-[#FEF3C7] text-xs px-2.5 py-1 rounded-full font-bold shadow-sm">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#F59E0B] animate-pulse"></span>
+          Pending
+        </span>
       );
     }
 
@@ -83,11 +107,54 @@ const ClassesManagementTable = ({
     }
 
     return (
-      <div className="inline-flex flex-col gap-1">
-        <span className="inline-flex items-center gap-1.5 bg-[#F0FDF4] text-[#15803D] border border-[#DCFCE7] text-xs px-2.5 py-1 rounded-full font-bold shadow-sm">
-          <CheckCircle size={12} />
-          {formatLabel(normalized)}
-        </span>
+      <span className="inline-flex items-center gap-1.5 bg-[#F0FDF4] text-[#15803D] border border-[#DCFCE7] text-xs px-2.5 py-1 rounded-full font-bold shadow-sm">
+        <CheckCircle size={12} />
+        {formatLabel(normalized)}
+      </span>
+    );
+  };
+
+  const renderActions = cls => {
+    const id = getClassId(cls);
+    const status = String(cls.status || 'pending').toLowerCase();
+    const isLoading = loadingId === id;
+
+    const showApprove = status === 'pending' || status === 'rejected';
+    const showReject = status === 'pending' || status === 'approved';
+
+    return (
+      <div className="flex items-center justify-end gap-2">
+        {showApprove && (
+          <button
+            type="button"
+            disabled={isLoading}
+            onClick={() => handleApprove(id)}
+            title="Approve"
+            className="p-2 rounded-xl text-[#16A34A] bg-[#F0FDF4] border border-[#DCFCE7] hover:bg-[#DCFCE7] transition-colors shadow-sm cursor-pointer disabled:opacity-50"
+          >
+            <CheckCircle size={16} />
+          </button>
+        )}
+        {showReject && (
+          <button
+            type="button"
+            disabled={isLoading}
+            onClick={() => handleReject(id)}
+            title="Reject"
+            className="p-2 rounded-xl text-[#EF4444] bg-[#FEF2F2] border border-[#FECACA] hover:bg-[#FEE2E2] transition-colors shadow-sm cursor-pointer disabled:opacity-50"
+          >
+            <XCircle size={16} />
+          </button>
+        )}
+        <button
+          type="button"
+          disabled={isLoading}
+          onClick={() => handleDelete(id)}
+          title="Delete"
+          className="p-2 rounded-xl text-[#64748B] bg-[#F8FAFC] border border-[#E2E8F0] hover:bg-white hover:text-[#EF4444] hover:border-[#FECACA] transition-colors shadow-sm cursor-pointer disabled:opacity-50"
+        >
+          <Trash2 size={16} />
+        </button>
       </div>
     );
   };
@@ -114,7 +181,7 @@ const ClassesManagementTable = ({
       </div>
 
       <div className="overflow-x-auto">
-        <table className="w-full text-left border-collapse min-w-[900px]">
+        <table className="w-full text-left border-collapse min-w-[1000px]">
           <thead>
             <tr className="bg-[#F8FAFC] border-b border-[#E2E8F0]">
               <th className="px-5 py-4 text-xs font-bold text-[#64748B] uppercase tracking-wider">
@@ -131,6 +198,9 @@ const ClassesManagementTable = ({
               </th>
               <th className="px-5 py-4 text-xs font-bold text-[#64748B] uppercase tracking-wider">
                 Status
+              </th>
+              <th className="px-5 py-4 text-xs font-bold text-[#64748B] uppercase tracking-wider text-right">
+                Actions
               </th>
             </tr>
           </thead>
@@ -168,15 +238,20 @@ const ClassesManagementTable = ({
 
                 <td className="px-5 py-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-[#C6F4D6] flex items-center justify-center border border-[#E2E8F0] text-[#15803D] text-xs font-bold">
-                      {(cls.userRole || 'T').charAt(0).toUpperCase()}
-                    </div>
+                    <img
+                      src={
+                        cls.userImage ||
+                        'https://i.pravatar.cc/150?u=trainer'
+                      }
+                      alt={cls.trainerName || cls.userName || 'Trainer'}
+                      className="w-8 h-8 rounded-full object-cover border border-[#E2E8F0]"
+                    />
                     <div>
                       <span className="text-[#1E293B] text-sm font-semibold block">
-                        {cls.trainerName || 'Trainer'}
+                        {cls.trainerName || cls.userName || 'Trainer'}
                       </span>
-                      <span className="text-[#64748B] text-[10px] font-medium">
-                        ID: {String(cls.userId || '').slice(-8) || '—'}
+                      <span className="text-[#64748B] text-[10px] font-medium capitalize">
+                        {cls.userRole || 'trainer'}
                       </span>
                     </div>
                   </div>
@@ -212,6 +287,8 @@ const ClassesManagementTable = ({
                 </td>
 
                 <td className="px-5 py-4">{getStatusBadge(cls.status)}</td>
+
+                <td className="px-5 py-4 text-right">{renderActions(cls)}</td>
               </tr>
             ))}
           </tbody>
