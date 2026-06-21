@@ -1,5 +1,35 @@
+import React from 'react';
+import { ExternalLink, FileText, Award, CreditCard } from 'lucide-react';
+
 const TrainerApplication = ({ application }) => {
   if (!application) return null;
+
+  const documents = [
+    {
+      name: 'Resume/CV',
+      link: application.resumeLink,
+      icon: <FileText size={16} />,
+      status: 'Submitted',
+    },
+    {
+      name: 'Certificate',
+      link: application.certificateLink,
+      icon: <Award size={16} />,
+      status: 'Submitted',
+    },
+    {
+      name: 'NID Document',
+      link: application.nidUrl,
+      icon: <CreditCard size={16} />,
+      status: 'Submitted',
+    },
+  ];
+
+  const statusColor = application.status === 'pending' 
+    ? 'bg-[#FEF08A] text-[#854D0E]' 
+    : application.status === 'approved' 
+      ? 'bg-[#C6F4D6] text-[#15803D]' 
+      : 'bg-[#FECACA] text-[#991B1B]';
 
   return (
     <div className="flex flex-col gap-6 h-full">
@@ -8,18 +38,18 @@ const TrainerApplication = ({ application }) => {
           <span className="text-[#1E293B] font-semibold">
             Application Status
           </span>
-          <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#C6F4D6] text-[#15803D]">
-            {application.status}
+          <span className={`px-3 py-1 rounded-full text-xs font-bold capitalize ${statusColor}`}>
+            {application.status || 'Pending'}
           </span>
         </div>
         <div className="w-full bg-[#E2E8F0] rounded-full h-2.5 mt-2">
           <div
-            className="bg-[#22C55E] h-2.5 rounded-full"
-            style={{ width: `${application.progress}%` }}
+            className={`h-2.5 rounded-full transition-all duration-500 ${application.status === 'rejected' ? 'bg-[#EF4444]' : 'bg-[#22C55E]'}`}
+            style={{ width: application.status === 'pending' ? '50%' : '100%' }}
           ></div>
         </div>
-        <p className="text-xs text-[#64748B] mt-1 text-right">
-          {application.step}
+        <p className="text-xs text-[#64748B] mt-1 text-right capitalize">
+          {application.status === 'pending' ? 'Under Review' : application.status}
         </p>
       </div>
 
@@ -27,29 +57,31 @@ const TrainerApplication = ({ application }) => {
         <h5 className="text-sm font-bold text-[#1E293B]">
           Submitted Documents
         </h5>
-        {application.documents.map((doc, idx) => (
-          <div
-            key={idx}
-            className="flex items-center justify-between text-sm bg-white p-3 rounded-xl border border-[#E2E8F0]"
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-[#8FE3B0]/20 flex items-center justify-center text-[#16A34A] font-bold">
-                {doc.type}
-              </div>
-              <span className="text-[#1E293B] font-medium">{doc.name}</span>
-            </div>
-            <span
-              className={`${doc.statusColor} font-semibold text-xs ${doc.statusBg} px-2 py-1 rounded`}
+        {documents.map((doc, idx) => (
+          doc.link ? (
+            <a
+              key={idx}
+              href={doc.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-between text-sm bg-white p-3 rounded-xl border border-[#E2E8F0] hover:border-[#8FE3B0] transition-colors cursor-pointer group"
             >
-              {doc.status}
-            </span>
-          </div>
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-[#8FE3B0]/20 flex items-center justify-center text-[#16A34A] group-hover:scale-110 transition-transform">
+                  {doc.icon}
+                </div>
+                <span className="text-[#1E293B] font-medium">{doc.name}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-[#15803D] bg-[#C6F4D6] font-semibold text-[10px] uppercase px-2 py-1 rounded">
+                  {doc.status}
+                </span>
+                <ExternalLink size={14} className="text-[#64748B] group-hover:text-[#16A34A]" />
+              </div>
+            </a>
+          ) : null
         ))}
       </div>
-
-      <button className="w-full cursor-pointer mt-auto bg-[#F8FAFC] border border-[#E2E8F0] hover:bg-[#E2E8F0] text-[#1E293B] font-semibold py-3 rounded-xl transition-colors">
-        View Application Details
-      </button>
     </div>
   );
 };

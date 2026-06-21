@@ -3,9 +3,11 @@ import OverviewGridCard from './OverviewGridCard';
 import ResentBookings from './ResentBookings';
 import TrainerApplication from './TrainerApplication';
 import UserProfile from './UserProfile';
+import getTrainerApplicationData from '@/lib/api/getTrainerApplicationData';
 
 const OverviewPageUi = async () => {
   const user = await getUserSession();
+  const applicationSingleData = await getTrainerApplicationData(user?.id);
 
   const userData = {
     name: user?.name,
@@ -18,27 +20,29 @@ const OverviewPageUi = async () => {
     image: user?.image,
   };
 
-  const applicationData = {
-    status: 'Pending Review',
-    step: 'Step 2 of 4: Documentation',
-    progress: 50,
-    documents: [
-      {
-        name: 'Resume.pdf',
-        type: 'PDF',
-        status: 'Verified',
-        statusColor: 'text-[#22C55E]',
-        statusBg: 'bg-[#C6F4D6]/50',
-      },
-      {
-        name: 'Certificates.zip',
-        type: 'ZIP',
-        status: 'In Review',
-        statusColor: 'text-[#4AD27A]',
-        statusBg: 'bg-[#8FE3B0]/20',
-      },
-    ],
-  };
+  // const applicationData = {
+  //   status: 'Pending Review',
+  //   step: 'Step 2 of 4: Documentation',
+  //   progress: 50,
+  //   documents: [
+  //     {
+  //       name: 'Resume.pdf',
+  //       type: 'PDF',
+  //       status: 'Verified',
+  //       statusColor: 'text-[#22C55E]',
+  //       statusBg: 'bg-[#C6F4D6]/50',
+  //     },
+  //     {
+  //       name: 'Certificates.zip',
+  //       type: 'ZIP',
+  //       status: 'In Review',
+  //       statusColor: 'text-[#4AD27A]',
+  //       statusBg: 'bg-[#8FE3B0]/20',
+  //     },
+  //   ],
+  // };
+
+  const applicationData = applicationSingleData?.data;
 
   const demoBookings = [
     {
