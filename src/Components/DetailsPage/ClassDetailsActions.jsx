@@ -14,15 +14,18 @@ import {
 import CustomToast from '@/Shared/CustomToast';
 import { useSession } from '@/lib/auth-client';
 import addToFavorite from '@/lib/api/addToFavorite';
+import deleteFavorite from '@/lib/Action/deleteFavorite';
 
 const ClassDetailsActions = ({
   classData,
   classId,
   isBooked = false,
   isFavorited = false,
+  initialFavoriteId = null,
 }) => {
   const [booked, setBooked] = useState(isBooked);
   const [favorited, setFavorited] = useState(isFavorited);
+  const [favoriteId, setFavoriteId] = useState(initialFavoriteId);
   const [isSubmittingFavorite, setIsSubmittingFavorite] = useState(false);
   const { data } = useSession();
   const user = data?.user;
@@ -69,9 +72,26 @@ const ClassDetailsActions = ({
     }
 
     if (favorited) {
-      // Assuming a removal functionality might be added later, updating UI state for now
-      setFavorited(false);
-      CustomToast('success', 'Removed', 'Class removed from your favorites.');
+      if (!favoriteId) {
+        CustomToast('error', 'Error', 'Cannot remove favorite: Missing ID');
+        return;
+      }
+      try {
+        setIsSubmittingFavorite(true);
+        const res = await deleteFavorite(favoriteId);
+        
+        if (res.success) {
+          setFavorited(false);
+          setFavoriteId(null);
+          CustomToast('success', 'Removed', 'Class removed from your favorites.');
+        } else {
+          CustomToast('error', 'Error', res.message || 'Failed to remove favorite');
+        }
+      } catch (error) {
+        CustomToast('error', 'Error', 'Something went wrong while removing favorite');
+      } finally {
+        setIsSubmittingFavorite(false);
+      }
       return;
     }
 
@@ -86,6 +106,7 @@ const ClassDetailsActions = ({
 
       if (res.success) {
         setFavorited(true);
+        setFavoriteId(res.insertedId);
         CustomToast('success', 'Added to Favorites', res.message);
       } else {
         if (res.message === 'Already added to favorites') {

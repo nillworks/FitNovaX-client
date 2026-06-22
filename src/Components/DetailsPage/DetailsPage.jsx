@@ -7,7 +7,7 @@ import ClassDetailsActions from './ClassDetailsActions';
 const getClassId = data =>
   data?._id?.$oid || data?._id?.toString?.() || data?._id || data?.id;
 
-const DetailsPage = ({ singleClassData, isBooked = false, isFavorited = false }) => {
+const DetailsPage = ({ singleClassData, isBooked = false, isFavorited = false, favoriteId = null }) => {
   if (!singleClassData) {
     return (
       <div className="min-h-screen bg-[#F8FAFC] pt-28 pb-16 flex items-center justify-center px-4">
@@ -70,6 +70,7 @@ const DetailsPage = ({ singleClassData, isBooked = false, isFavorited = false })
               classId={classId}
               isBooked={isBooked}
               isFavorited={isFavorited}
+              initialFavoriteId={favoriteId}
             />
           </div>
         </div>

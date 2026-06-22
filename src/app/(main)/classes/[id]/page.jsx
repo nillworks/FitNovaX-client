@@ -10,11 +10,15 @@ const page = async ({ params }) => {
 
   const user = await getUserSession();
   const favoriteData = await getUserFavorites(user?.id);
-  const isFavorite = favoriteData?.data?.favorite;
+  
+  // Find if this class exists in the user's favorites array
+  const favoriteObj = favoriteData?.data?.find(fav => fav.classId === id);
+  const isFavorite = !!favoriteObj;
+  const favoriteId = favoriteObj?._id?.$oid || favoriteObj?._id || null;
 
   return (
     <>
-      <DetailsPage singleClassData={singleClassData} isFavorite={isFavorite} />
+      <DetailsPage singleClassData={singleClassData} isFavorited={isFavorite} favoriteId={favoriteId} />
     </>
   );
 };
