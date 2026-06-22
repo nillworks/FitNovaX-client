@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
 const Card = ({ classes }) => {
@@ -83,7 +84,10 @@ const Card = ({ classes }) => {
         </div>
 
         <div className="mt-6">
-          <button className="w-full py-3.5 cursor-pointer px-6 rounded-full bg-[#22C55E] hover:bg-[#16A34A] text-[#FFFFFF] font-bold tracking-tight transition-all duration-300 shadow-sm hover:shadow-md active:scale-95 flex justify-center items-center space-x-2">
+          <Link
+            href={`/classes/${classes?._id}`}
+            className="w-full py-3.5 cursor-pointer px-6 rounded-full bg-[#22C55E] hover:bg-[#16A34A] text-[#FFFFFF] font-bold tracking-tight transition-all duration-300 shadow-sm hover:shadow-md active:scale-95 flex justify-center items-center space-x-2"
+          >
             <span>View Details</span>
             <svg
               className="w-4 h-4"
@@ -98,7 +102,7 @@ const Card = ({ classes }) => {
                 d="M14 5l7 7m0 0l-7 7m7-7H3"
               />
             </svg>
-          </button>
+          </Link>
         </div>
       </div>
     </div>
