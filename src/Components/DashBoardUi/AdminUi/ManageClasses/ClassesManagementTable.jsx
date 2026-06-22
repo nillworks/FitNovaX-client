@@ -1,4 +1,6 @@
 'use client';
+
+import Image from 'next/image';
 import React, { useState } from 'react';
 import Link from 'next/link';
 import {
@@ -256,7 +258,7 @@ const ClassesManagementTable = ({
               >
                 <td className="px-5 py-4">
                   <div className="flex items-center gap-4">
-                    <img
+                    <Image width={500} height={500} unoptimized
                       src={
                         cls.classImage ||
                         'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=200&auto=format&fit=crop'
@@ -284,7 +286,7 @@ const ClassesManagementTable = ({
 
                 <td className="px-5 py-4">
                   <div className="flex items-center gap-3">
-                    <img
+                    <Image width={500} height={500} unoptimized
                       src={
                         cls.userImage || 'https://i.pravatar.cc/150?u=trainer'
                       }

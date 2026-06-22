@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 
 import React from 'react';
 import Link from 'next/link';
@@ -162,7 +163,10 @@ const SidBarDashBoard = ({ user, isMobileOpen, setIsMobileOpen }) => {
       {/* User Profile Card */}
       <div className="px-6 mb-8 mt-2">
         <div className="bg-[#FFFFFF] rounded-3xl p-4 flex items-center gap-4 border border-[#E2E8F0] shadow-sm">
-          <img
+          <Image
+            width={500}
+            height={500}
+            unoptimized
             src={user?.image || 'https://i.pravatar.cc/150?img=68'}
             alt={user?.name || 'User Avatar'}
             className="w-12 h-12 rounded-full border-2 border-[#22C55E] object-cover shrink-0"

@@ -1,4 +1,6 @@
 'use client';
+
+import Image from 'next/image';
 import React, { useState } from 'react';
 import { ShieldMinus, Users, Search, AlertTriangle, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -101,7 +103,7 @@ const ActiveTrainersTable = ({ trainers }) => {
                   <td className="px-6 py-5">
                     <div className="flex items-center gap-4">
                       <div className="relative">
-                        <img
+                        <Image width={500} height={500} unoptimized
                           src={trainer.profileImage}
                           alt={trainer.name}
                           className="w-12 h-12 rounded-2xl object-cover shadow-sm group-hover:shadow transition-shadow border border-[#E2E8F0]"

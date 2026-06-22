@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react';
 import { TrendingUp, Award, MapPin } from 'lucide-react';
 
@@ -11,7 +12,7 @@ const TrainerProfileSection = ({ profileData, children }) => {
         <div className="flex flex-col md:flex-row items-center md:items-end gap-6 text-center md:text-left">
           {/* Profile Image */}
           <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-white shadow-xl bg-white relative z-10 flex-shrink-0">
-            <img 
+            <Image width={500} height={500} unoptimized 
               src={profileData.imageUrl} 
               alt={profileData.name} 
               className="w-full h-full object-cover"

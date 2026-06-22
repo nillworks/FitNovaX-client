@@ -11,7 +11,7 @@ const CallToAction = () => {
             Start Your Fitness Journey Today
           </h2>
           <p className="text-xl text-[#C6F4D6] leading-relaxed mb-12 max-w-2xl mx-auto">
-            Join the community that's reshaping the way we train, connect, and grow. Whether you're here to sweat or to coach, your next level starts now.
+            Join the community that&apos;s reshaping the way we train, connect, and grow. Whether you&apos;re here to sweat or to coach, your next level starts now.
           </p>
           
           <FadeUp delay={0.3} className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">

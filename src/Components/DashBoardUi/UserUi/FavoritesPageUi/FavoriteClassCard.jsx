@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react';
 
 const FavoriteClassCard = ({ data }) => {
@@ -19,7 +20,7 @@ const FavoriteClassCard = ({ data }) => {
     <div className="group flex flex-col bg-[#FFFFFF] border border-[#E2E8F0] rounded-3xl overflow-hidden transition-all duration-300 hover:shadow-[0_8px_30px_rgb(198,244,214,0.5)] hover:-translate-y-1">
       {/* Top Area: Image & Overlays */}
       <div className="relative h-48 sm:h-52 w-full overflow-hidden shrink-0 bg-[#F8FAFC]">
-        <img
+        <Image width={500} height={500} unoptimized
           src={image}
           alt={title}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
@@ -72,7 +73,7 @@ const FavoriteClassCard = ({ data }) => {
 
         {/* Trainer */}
         <div className="flex items-center gap-3 mb-5 pb-5 border-b border-[#E2E8F0]">
-          <img
+          <Image width={500} height={500} unoptimized
             src={trainer.avatar}
             alt={trainer.name}
             className="w-10 h-10 rounded-full object-cover border-2 border-[#F8FAFC] shadow-sm"

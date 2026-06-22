@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
@@ -83,7 +84,10 @@ const MobileMenu = ({ handleSignOut, isOpen, onClose, navLinks, user }) => {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="relative">
-                  <img
+                  <Image
+                    width={500}
+                    height={500}
+                    unoptimized
                     src={user?.image || 'https://i.pravatar.cc/150?img=68'}
                     alt="User avatar"
                     className="w-10 h-10 rounded-full border-2 border-[#C6F4D6] object-cover"

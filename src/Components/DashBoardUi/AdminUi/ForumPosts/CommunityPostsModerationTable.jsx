@@ -1,4 +1,6 @@
 'use client';
+
+import Image from 'next/image';
 import React, { useState } from 'react';
 import Link from 'next/link';
 import {
@@ -177,7 +179,7 @@ const CommunityPostsModerationTable = ({
               <div className="p-6">
                 <div className="flex justify-between items-start mb-4 gap-4">
                   <div className="flex items-center gap-3">
-                    <img
+                    <Image width={500} height={500} unoptimized
                       src={
                         post.userImage ||
                         'https://i.pravatar.cc/150?u=forum-user'
@@ -219,7 +221,7 @@ const CommunityPostsModerationTable = ({
                   </p>
                   {post.coverImage && (
                     <div className="mt-4 rounded-2xl overflow-hidden border border-[#E2E8F0]">
-                      <img
+                      <Image width={500} height={500} unoptimized
                         src={post.coverImage}
                         alt={post.title}
                         className="w-full max-h-64 object-cover"

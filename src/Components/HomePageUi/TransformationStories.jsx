@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react';
 import { FadeUp, StaggerContainer, StaggerItem } from '../Animations/MotionWrappers';
 const stories = [
@@ -45,7 +46,7 @@ const TransformationStories = () => {
               className="bg-[#FFFFFF] p-8 md:p-10 rounded-[2.5rem] border border-[#E2E8F0] flex flex-col md:flex-row items-center gap-8 shadow-sm hover:shadow-xl transition-all duration-300"
             >
               <div className="w-40 h-40 md:w-48 md:h-48 flex-shrink-0 rounded-full overflow-hidden border-4 border-[#C6F4D6]">
-                <img
+                <Image width={500} height={500} unoptimized
                   src={story.image}
                   alt={story.name}
                   className="w-full h-full object-cover"

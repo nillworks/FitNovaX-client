@@ -9,40 +9,10 @@ import {
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
-const classes = [
-  {
-    id: 1,
-    image:
-      'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop',
-    category: 'Strength Training',
-    title: 'Advanced Powerlifting',
-    trainerName: 'Alex Johnson',
-    price: '$45',
-    bookingCount: '120+',
-  },
-  {
-    id: 2,
-    image:
-      'https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=1470&auto=format&fit=crop',
-    category: 'Cardio',
-    title: 'HIIT Intensity Burn',
-    trainerName: 'Sarah Connor',
-    price: '$35',
-    bookingCount: '250+',
-  },
-  {
-    id: 3,
-    image:
-      'https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?q=80&w=1470&auto=format&fit=crop',
-    category: 'Yoga & Flexibility',
-    title: 'Morning Vinyasa Flow',
-    trainerName: 'Elena Rostova',
-    price: '$30',
-    bookingCount: '85+',
-  },
-];
+const FeaturedClasses = ({ featuredClass }) => {
+  const classes = featuredClass?.data;
+  console.log(classes);
 
-const FeaturedClasses = () => {
   return (
     <section className="py-24 bg-[#FFFFFF]">
       <div className="container mx-auto px-6 lg:px-12">
@@ -60,8 +30,8 @@ const FeaturedClasses = () => {
 
         <StaggerContainer className="grid grid-cols-1 pb-5 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {classes.map(cls => (
-            <StaggerItem key={cls.id}>
-              <Card {...cls} />
+            <StaggerItem key={cls._id}>
+              <Card classes={cls} />
             </StaggerItem>
           ))}
         </StaggerContainer>

@@ -1,4 +1,6 @@
 'use client';
+
+import Image from 'next/image';
 import React, { useEffect } from 'react';
 import {
   X,
@@ -99,7 +101,7 @@ const TrainerApplicationModal = ({ application, onClose }) => {
           </button>
 
           <div className="flex items-start gap-5">
-            <img
+            <Image width={500} height={500} unoptimized
               src={
                 application.userImage || 'https://i.pravatar.cc/150?u=trainer'
               }

@@ -1,4 +1,6 @@
 'use client';
+
+import Image from 'next/image';
 import AdminOverviewHero from './AdminOverviewHero';
 import AdminAnalyticsPanel from './AdminAnalyticsPanel';
 
@@ -99,7 +101,7 @@ const AdminOverviewSection = () => {
             <div className="bg-white rounded-3xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-[#E2E8F0]">
               <div className="flex items-center gap-4 mb-6">
                 <div className="relative">
-                  <img
+                  <Image width={500} height={500} unoptimized
                     src={adminData.avatar}
                     alt="Admin"
                     className="w-16 h-16 rounded-full object-cover border-2 border-[#C6F4D6]"

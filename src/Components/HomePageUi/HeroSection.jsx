@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import {
   SlideInLeft,
   SlideInRight,
@@ -47,7 +48,7 @@ const HeroSection = () => {
         {/* Right Side Image & Stats */}
         <SlideInRight className="w-full lg:w-1/2 relative" delay={0.2}>
           <div className="relative w-full aspect-[4/5] lg:aspect-square rounded-[3rem] overflow-hidden border border-white/10 shadow-2xl">
-            <img
+            <Image width={500} height={500} unoptimized
               src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=2070&auto=format&fit=crop"
               alt="Fitness Training"
               className="object-cover w-full h-full object-center"

@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react';
 
 const BookedClassRow = ({ data }) => {
@@ -10,7 +11,7 @@ const BookedClassRow = ({ data }) => {
       <div className="flex flex-col sm:flex-row items-center sm:items-start lg:items-center gap-5 lg:gap-6">
         {/* Mobile: Image Top, Tablet/Desktop: Image Left */}
         <div className="w-28 h-28 sm:w-24 sm:h-24 lg:w-28 lg:h-28 rounded-3xl overflow-hidden shrink-0 border-2 border-[#F8FAFC]">
-          <img
+          <Image width={500} height={500} unoptimized
             src={image}
             alt={className}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"

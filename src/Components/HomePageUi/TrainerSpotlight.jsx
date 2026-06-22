@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react';
 import { FadeUp, StaggerContainer, StaggerItem } from '../Animations/MotionWrappers';
 const trainers = [
@@ -47,7 +48,7 @@ const TrainerSpotlight = () => {
           {trainers.map((trainer) => (
             <StaggerItem key={trainer.id} className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-[2rem] overflow-hidden group shadow-sm hover:shadow-xl transition-all duration-300">
               <div className="relative h-72 w-full overflow-hidden">
-                <img 
+                <Image width={500} height={500} unoptimized 
                   src={trainer.image} 
                   alt={trainer.name} 
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out"

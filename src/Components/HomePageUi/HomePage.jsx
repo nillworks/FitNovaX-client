@@ -10,8 +10,11 @@ import ForumPreview from './ForumPreview';
 import AppFeatures from './AppFeatures';
 import CallToAction from './CallToAction';
 import Footer from './Footer';
+import getFeaturedClasses from '@/lib/api/getFeaturedClasses';
 
-const HomePage = () => {
+const HomePage = async () => {
+  const featuredClass = await getFeaturedClasses();
+
   return (
     <main className="min-h-screen bg-[#F8FAFC] font-sans antialiased text-[#1E293B] overflow-x-hidden">
       <HeroSection />
@@ -23,7 +26,7 @@ const HomePage = () => {
       <FitnessJourney />
 
       {/* Main Offer */}
-      <FeaturedClasses />
+      <FeaturedClasses featuredClass={featuredClass} />
 
       {/* Benefits */}
       <WhyChooseUs />

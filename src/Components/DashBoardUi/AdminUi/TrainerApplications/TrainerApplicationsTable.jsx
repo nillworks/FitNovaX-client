@@ -1,4 +1,6 @@
 'use client';
+
+import Image from 'next/image';
 import React from 'react';
 import { Eye, Calendar, Clock, Star } from 'lucide-react';
 
@@ -66,7 +68,7 @@ const TrainerApplicationsTable = ({ applications, onOpenModal }) => {
               >
                 <td className="px-6 py-5">
                   <div className="flex items-center gap-4">
-                    <img
+                    <Image width={500} height={500} unoptimized
                       src={
                         app.userImage ||
                         'https://i.pravatar.cc/150?u=trainer'

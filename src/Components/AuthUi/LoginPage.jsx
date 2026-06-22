@@ -1,5 +1,7 @@
 'use client';
 
+import Image from 'next/image';
+
 import React, { useState } from 'react';
 import {
   Mail,
@@ -114,7 +116,7 @@ export default function LoginPage() {
             >
               <div className="w-full rounded-2xl overflow-hidden ring-1 ring-white/10 shadow-2xl relative">
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A] to-transparent z-10 opacity-60"></div>
-                <img
+                <Image width={500} height={500} unoptimized
                   src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop"
                   alt="Fitness Training"
                   className="w-full h-[320px] object-cover"

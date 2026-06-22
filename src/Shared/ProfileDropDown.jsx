@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -37,7 +38,10 @@ const ProfileDropDown = ({ user, handleSignOut }) => {
         className="flex items-center gap-2 focus:outline-none"
       >
         <div className="relative transition-transform hover:scale-105">
-          <img
+          <Image
+            width={500}
+            height={500}
+            unoptimized
             src={user?.image || 'https://i.pravatar.cc/150?img=68'}
             alt="User avatar"
             className="w-10 h-10 rounded-full border-2 border-[#C6F4D6] hover:border-[#22C55E] transition-colors object-cover"

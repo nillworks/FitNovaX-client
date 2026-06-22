@@ -1,4 +1,6 @@
 "use client";
+
+import Image from 'next/image';
 import React, { useState } from 'react';
 import { Upload, Clock, DollarSign, Calendar, Activity, Type, Image as ImageIcon, FileText, PlusCircle, Users } from 'lucide-react';
 import { imageUpload } from '../../../../lib/imageUpload';
@@ -110,7 +112,7 @@ const AddClassForm = ({ categoryOptions, difficultyOptions, scheduleDays, onSubm
                   <div className="flex items-center justify-between w-full">
                     <div className="flex items-center gap-5">
                       <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-[#C6F4D6] shadow-sm shrink-0">
-                        <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+                        <Image width={500} height={500} unoptimized src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
                       </div>
                       <div className="hidden sm:block">
                         <p className="text-[#1E293B] font-bold text-base">Image Selected</p>

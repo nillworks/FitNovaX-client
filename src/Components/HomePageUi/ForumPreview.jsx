@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react';
 import { FadeUp, StaggerContainer, StaggerItem } from '../Animations/MotionWrappers';
 const posts = [
@@ -57,7 +58,7 @@ const ForumPreview = () => {
               className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-3xl overflow-hidden group flex flex-col hover:shadow-xl transition-all duration-300"
             >
               <div className="h-56 overflow-hidden">
-                <img
+                <Image width={500} height={500} unoptimized
                   src={post.image}
                   alt={post.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"

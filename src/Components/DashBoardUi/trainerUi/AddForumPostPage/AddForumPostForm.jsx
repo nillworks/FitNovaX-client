@@ -1,4 +1,6 @@
 'use client';
+
+import Image from 'next/image';
 import React, { useState, useRef } from 'react';
 import { UploadCloud, FileText, CheckCircle2, Loader2, X } from 'lucide-react';
 import { imageUpload } from '../../../../lib/imageUpload';
@@ -227,7 +229,7 @@ const AddForumPostForm = ({ categories, tags }) => {
 
           {imagePreview ? (
             <div className="relative w-full max-w-sm mx-auto rounded-2xl overflow-hidden shadow-sm border border-[#E2E8F0]">
-              <img
+              <Image width={500} height={500} unoptimized
                 src={imagePreview}
                 alt="Preview"
                 className="w-full h-auto object-cover"

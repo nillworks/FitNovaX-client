@@ -1,4 +1,6 @@
 'use client';
+
+import Image from 'next/image';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
@@ -160,7 +162,7 @@ const ManageUsersTable = ({ users }) => {
                   <td className="px-6 py-5">
                     <div className="flex items-center gap-4">
                       <div className="relative">
-                        <img
+                        <Image width={500} height={500} unoptimized
                           src={user?.image}
                           alt={user?.name}
                           className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm group-hover:border-[#C6F4D6] transition-colors"

@@ -1,4 +1,6 @@
 "use client";
+
+import Image from 'next/image';
 import React from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { Activity, Star, Award, BarChart2 } from 'lucide-react';
@@ -105,7 +107,7 @@ const AdminAnalyticsPanel = ({ chartData, popularClass, quickInsights, activityD
                         <h3 className="text-[#1E293B] font-bold">Most Popular Class</h3>
                     </div>
                     <div className="flex gap-4 items-center bg-[#F8FAFC] p-3 rounded-2xl border border-[#E2E8F0]">
-                        <img src={popularClass.image} alt={popularClass.name} className="w-20 h-20 rounded-xl object-cover shadow-sm" />
+                        <Image width={500} height={500} unoptimized src={popularClass.image} alt={popularClass.name} className="w-20 h-20 rounded-xl object-cover shadow-sm" />
                         <div>
                             <span className="bg-white text-[#64748B] border border-[#E2E8F0] text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wider shadow-sm">{popularClass.category}</span>
                             <h4 className="text-[#1E293B] font-bold mt-2 text-sm leading-tight">{popularClass.name}</h4>

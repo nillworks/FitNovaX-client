@@ -1,44 +1,52 @@
+import Image from 'next/image';
 import React from 'react';
 
-const Card = ({
-  image = 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop',
-  category = 'Strength Training',
-  title = 'Advanced Powerlifting',
-  trainerName = 'Alex Johnson',
-  price = '$45',
-  bookingCount = '120+',
-}) => {
+const Card = ({ classes }) => {
   return (
     <div className="group flex flex-col bg-[#FFFFFF] border border-[#E2E8F0] rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
       <div className="relative w-full h-64 overflow-hidden bg-[#F8FAFC]">
-        <img
-          src={image}
-          alt={title}
+        <Image
+          width={400}
+          height={400}
+          src={classes?.classImage}
+          alt={classes?.className}
           className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700 ease-in-out"
         />
         <div className="absolute top-4 left-4">
           <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#8FE3B0] text-[#15803D] text-xs font-bold uppercase tracking-tight shadow-sm">
-            {category}
+            {classes?.category}
           </span>
         </div>
       </div>
 
       <div className="flex flex-col flex-grow p-6 md:p-8">
         <h3 className="text-xl md:text-2xl font-bold text-[#1E293B] tracking-tight leading-relaxed mb-3 group-hover:text-[#22C55E] transition-colors duration-300">
-          {title}
+          {classes?.className}
         </h3>
 
         <div className="flex items-center space-x-3 mb-6">
-          <div className="w-10 h-10 rounded-full bg-[#C6F4D6] flex items-center justify-center flex-shrink-0 border border-[#8FE3B0]">
-            <span className="text-[#15803D] font-bold text-sm">
-              {trainerName.charAt(0)}
-            </span>
+          <div className="w-10 h-10 rounded-full bg-[#C6F4D6] flex items-center justify-center flex-shrink-0 border border-[#8FE3B0] overflow-hidden">
+            {classes?.userImage ? (
+              <Image
+                width={400}
+                height={400}
+                src={classes?.userImage}
+                alt={classes?.userName}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <span className="text-[#15803D] font-bold text-sm">
+                {classes?.userName?.charAt(0)}
+              </span>
+            )}
           </div>
           <div>
             <p className="text-[#64748B] text-xs font-semibold uppercase tracking-tight">
               Trainer
             </p>
-            <p className="text-[#1E293B] text-sm font-bold">{trainerName}</p>
+            <p className="text-[#1E293B] text-sm font-bold">
+              {classes?.userName}
+            </p>
           </div>
         </div>
 
@@ -48,7 +56,7 @@ const Card = ({
               Session Price
             </span>
             <span className="text-xl font-bold text-[#1E293B] leading-relaxed">
-              {price}
+              ${classes?.price}
             </span>
           </div>
           <div className="flex flex-col text-right">
@@ -68,7 +76,7 @@ const Card = ({
                 />
               </svg>
               <span className="text-sm font-bold text-[#1E293B]">
-                {bookingCount}
+                {classes?.bookedCount}
               </span>
             </div>
           </div>

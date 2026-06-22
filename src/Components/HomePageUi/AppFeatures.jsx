@@ -59,7 +59,7 @@ const AppFeatures = () => {
                 <ImageWrap className="flex-1 w-full relative" delay={0.1}>
                   <div className="absolute inset-0 bg-[#22C55E]/10 rounded-[3rem] transform rotate-3 blur-sm"></div>
                   <div className="relative rounded-[3rem] overflow-hidden border border-[#E2E8F0] shadow-2xl aspect-[4/3]">
-                    <img
+                    <Image width={500} height={500} unoptimized
                       src={feature.image}
                       alt={feature.title}
                       className="w-full h-full object-cover"

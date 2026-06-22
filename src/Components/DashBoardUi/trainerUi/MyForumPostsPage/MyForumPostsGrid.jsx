@@ -1,4 +1,6 @@
 "use client";
+
+import Image from 'next/image';
 import React from 'react';
 import { Calendar, Clock, Star, Trash2, Edit2 } from 'lucide-react';
 
@@ -21,7 +23,7 @@ const MyForumPostsGrid = ({ posts, onDeleteClick, onUpdateClick }) => {
           
           {/* Image Header Area */}
           <div className="relative h-48 overflow-hidden bg-[#F8FAFC]">
-            <img 
+            <Image width={500} height={500} unoptimized 
               src={post.coverImage} 
               alt={post.title} 
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"

@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React, { useState, useRef, useEffect } from 'react';
 import {
   UploadCloud,
@@ -58,6 +59,7 @@ const MyForumUpdateModal = ({ isOpen, onClose, initialData }) => {
 
   const fileInputRef = useRef(null);
 
+   
   useEffect(() => {
     if (initialData && isOpen) {
       setTitle(initialData.title || '');
@@ -256,7 +258,7 @@ const MyForumUpdateModal = ({ isOpen, onClose, initialData }) => {
 
                 {imagePreview ? (
                   <div className="relative w-full max-w-xs mx-auto rounded-xl overflow-hidden shadow-sm border border-[#E2E8F0]">
-                    <img
+                    <Image width={500} height={500} unoptimized
                       src={imagePreview}
                       alt="Preview"
                       className="w-full h-32 object-cover"
