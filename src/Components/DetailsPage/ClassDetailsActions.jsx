@@ -9,8 +9,11 @@ import {
   ShieldCheck,
   Sparkles,
   Users,
+  Loader2,
 } from 'lucide-react';
 import CustomToast from '@/Shared/CustomToast';
+import { useSession } from '@/lib/auth-client';
+import addToFavorite from '@/lib/api/addToFavorite';
 
 const ClassDetailsActions = ({
   classData,
@@ -20,6 +23,10 @@ const ClassDetailsActions = ({
 }) => {
   const [booked, setBooked] = useState(isBooked);
   const [favorited, setFavorited] = useState(isFavorited);
+  const [isSubmittingFavorite, setIsSubmittingFavorite] = useState(false);
+  const { data } = useSession();
+  const user = data?.user;
+  // console.log(user?.id);
 
   const spotsLeft = Math.max(
     0,
@@ -51,19 +58,54 @@ const ClassDetailsActions = ({
     );
   };
 
-  const handleFavorite = () => {
+  const handleFavorite = async () => {
+    if (!user) {
+      CustomToast(
+        'error',
+        'Authentication Required',
+        'Please login to add to favorites',
+      );
+      return;
+    }
+
     if (favorited) {
+      // Assuming a removal functionality might be added later, updating UI state for now
       setFavorited(false);
       CustomToast('success', 'Removed', 'Class removed from your favorites.');
       return;
     }
 
-    setFavorited(true);
-    CustomToast(
-      'success',
-      'Added to Favorites',
-      'Successfully added to your favorites!',
-    );
+    try {
+      setIsSubmittingFavorite(true);
+      const favoriteData = {
+        classId: classId,
+        userId: user?.id,
+      };
+
+      const res = await addToFavorite(favoriteData);
+
+      if (res.success) {
+        setFavorited(true);
+        CustomToast('success', 'Added to Favorites', res.message);
+      } else {
+        if (res.message === 'Already added to favorites') {
+          setFavorited(true);
+        }
+        CustomToast(
+          'error',
+          'Notice',
+          res.message || 'Failed to add to favorites',
+        );
+      }
+    } catch (error) {
+      CustomToast(
+        'error',
+        'Error',
+        'Something went wrong while adding to favorites',
+      );
+    } finally {
+      setIsSubmittingFavorite(false);
+    }
   };
 
   return (
@@ -133,17 +175,22 @@ const ClassDetailsActions = ({
 
           <button
             type="button"
-            onClick={() => handleFavorite()}
-            className={`w-full flex items-center justify-center gap-2 px-6 py-4 rounded-2xl font-bold text-sm border transition-all duration-300 cursor-pointer ${
+            onClick={handleFavorite}
+            disabled={isSubmittingFavorite}
+            className={`w-full flex items-center justify-center gap-2 px-6 py-4 rounded-2xl font-bold text-sm border transition-all duration-300 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed ${
               favorited
                 ? 'bg-[#F0FDF4] border-[#8FE3B0] text-[#15803D] hover:bg-[#DCFCE7]'
                 : 'bg-white border-[#E2E8F0] text-[#1E293B] hover:border-[#8FE3B0] hover:bg-[#F8FAFC]'
             }`}
           >
-            <Heart
-              size={18}
-              className={favorited ? 'fill-[#22C55E] text-[#22C55E]' : ''}
-            />
+            {isSubmittingFavorite ? (
+              <Loader2 size={18} className="animate-spin text-[#22C55E]" />
+            ) : (
+              <Heart
+                size={18}
+                className={favorited ? 'fill-[#22C55E] text-[#22C55E]' : ''}
+              />
+            )}
             {favorited ? 'Saved to Favorites' : 'Add to Favorites'}
           </button>
         </div>

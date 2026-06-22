@@ -5,7 +5,7 @@ import TrainerApplication from './TrainerApplication';
 import UserProfile from './UserProfile';
 import getTrainerApplicationData from '@/lib/api/getTrainerApplicationData';
 
-const OverviewPageUi = async () => {
+const OverviewPageUi = async ({ favoriteData }) => {
   const user = await getUserSession();
   const applicationSingleData = await getTrainerApplicationData(user?.id);
 
@@ -72,7 +72,12 @@ const OverviewPageUi = async () => {
   ];
 
   const statsData = [
-    { id: 1, title: 'Total Workouts', value: '124', trend: '+12% this month' },
+    {
+      id: 1,
+      title: 'Total Favorites',
+      value: favoriteData.length || 0,
+      trend: '+12% this month',
+    },
     { id: 2, title: 'Active Days', value: '18', trend: 'Consistent' },
     {
       id: 3,

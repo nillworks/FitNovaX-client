@@ -1,28 +1,36 @@
+'use client';
+
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
-const FavoriteClassCard = ({ data }) => {
+const FavoriteClassCard = ({ data, handleDeleteFavorite }) => {
   if (!data) return null;
 
   const {
-    title,
-    trainer,
+    className,
+    userName,
+    userImage,
     category,
-    schedule,
+    scheduleDays,
     duration,
     difficulty,
     price,
-    rating,
-    image,
+    classImage,
+    classId,
+    _id,
   } = data;
 
   return (
     <div className="group flex flex-col bg-[#FFFFFF] border border-[#E2E8F0] rounded-3xl overflow-hidden transition-all duration-300 hover:shadow-[0_8px_30px_rgb(198,244,214,0.5)] hover:-translate-y-1">
       {/* Top Area: Image & Overlays */}
       <div className="relative h-48 sm:h-52 w-full overflow-hidden shrink-0 bg-[#F8FAFC]">
-        <Image width={500} height={500} unoptimized
-          src={image}
-          alt={title}
+        <Image
+          width={500}
+          height={500}
+          unoptimized
+          src={classImage}
+          alt={className}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
         />
 
@@ -35,7 +43,14 @@ const FavoriteClassCard = ({ data }) => {
 
         {/* Top Right: Favorite Indicator */}
         <div className="absolute top-4 right-4">
-          <button className="p-2 bg-[#8FE3B0] text-[#15803D] rounded-full hover:bg-[#C6F4D6] transition-colors shadow-sm cursor-pointer border border-[#4AD27A]">
+          <button
+            onClick={() => {
+              const idToPass = typeof _id === 'object' ? _id.$oid : _id;
+              console.log('Browser Console: Delete clicked for ID ->', idToPass);
+              handleDeleteFavorite(idToPass);
+            }}
+            className="p-2 bg-[#8FE3B0] text-[#15803D] rounded-full hover:bg-[#C6F4D6] transition-colors shadow-sm cursor-pointer border border-[#4AD27A]"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4 fill-current"
@@ -56,26 +71,18 @@ const FavoriteClassCard = ({ data }) => {
         {/* Title and Rating */}
         <div className="flex items-start justify-between gap-3 mb-4">
           <h3 className="text-xl font-bold text-[#1E293B] tracking-tight leading-relaxed line-clamp-2">
-            {title}
+            {className}
           </h3>
-          <div className="flex items-center gap-1 bg-[#F8FAFC] px-2 py-1 rounded-lg border border-[#E2E8F0] shrink-0 mt-1">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-3.5 w-3.5 text-[#22C55E]"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-            </svg>
-            <span className="text-xs font-bold text-[#1E293B]">{rating}</span>
-          </div>
         </div>
 
         {/* Trainer */}
         <div className="flex items-center gap-3 mb-5 pb-5 border-b border-[#E2E8F0]">
-          <Image width={500} height={500} unoptimized
-            src={trainer.avatar}
-            alt={trainer.name}
+          <Image
+            width={500}
+            height={500}
+            unoptimized
+            src={userImage || '/placeholder-avatar.png'}
+            alt={userName || 'Instructor'}
             className="w-10 h-10 rounded-full object-cover border-2 border-[#F8FAFC] shadow-sm"
           />
           <div className="flex flex-col">
@@ -83,7 +90,7 @@ const FavoriteClassCard = ({ data }) => {
               Instructor
             </span>
             <span className="text-sm font-semibold text-[#1E293B]">
-              {trainer.name}
+              {userName}
             </span>
           </div>
         </div>
@@ -108,8 +115,8 @@ const FavoriteClassCard = ({ data }) => {
                 />
               </svg>
             </div>
-            <span className="text-sm font-semibold text-[#1E293B] tracking-tight">
-              {schedule}
+            <span className="text-sm font-semibold text-[#1E293B] tracking-tight uppercase">
+              {scheduleDays?.join(', ') || 'N/A'}
             </span>
           </div>
 
@@ -173,7 +180,7 @@ const FavoriteClassCard = ({ data }) => {
                 Price
               </span>
               <span className="text-lg font-bold text-[#1E293B] leading-none">
-                {price}
+                ${price}
               </span>
             </div>
           </div>
@@ -183,7 +190,10 @@ const FavoriteClassCard = ({ data }) => {
             {/* <button className="w-full sm:w-auto px-5 py-2.5 bg-transparent border border-[#E2E8F0] hover:border-[#15803D] text-[#15803D] font-bold text-sm rounded-full transition-all duration-300 hover:bg-[#F8FAFC] cursor-pointer text-center">
               Remove
             </button> */}
-            <button className="w-full sm:w-auto px-5 py-2.5 bg-[#22C55E] hover:bg-[#16A34A] text-[#FFFFFF] font-bold text-sm rounded-full transition-all duration-300 shadow-[0_4px_14px_0_rgb(34,197,94,0.39)] hover:shadow-[0_6px_20px_rgb(22,163,74,0.23)] cursor-pointer text-center flex items-center justify-center gap-2 group/view">
+            <Link
+              href={`/classes/${classId}`}
+              className="w-full sm:w-auto px-5 py-2.5 bg-[#22C55E] hover:bg-[#16A34A] text-[#FFFFFF] font-bold text-sm rounded-full transition-all duration-300 shadow-[0_4px_14px_0_rgb(34,197,94,0.39)] hover:shadow-[0_6px_20px_rgb(22,163,74,0.23)] cursor-pointer text-center flex items-center justify-center gap-2 group/view"
+            >
               View Details
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -197,7 +207,7 @@ const FavoriteClassCard = ({ data }) => {
                   clipRule="evenodd"
                 />
               </svg>
-            </button>
+            </Link>
           </div>
         </div>
       </div>
