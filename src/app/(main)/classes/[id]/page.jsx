@@ -2,6 +2,7 @@ import DetailsPage from '@/Components/DetailsPage/DetailsPage';
 import getSingleClass from '@/lib/api/getSingleClass';
 import getUserFavorites from '@/lib/api/getUserFavorites';
 import getUserSession from '@/lib/getUserSession';
+import { redirect } from 'next/navigation';
 
 const page = async ({ params }) => {
   const { id } = await params;
@@ -9,6 +10,11 @@ const page = async ({ params }) => {
   const singleClassData = result.data;
 
   const user = await getUserSession();
+
+  if (!user) {
+    return redirect('/login');
+  }
+
   const favoriteData = await getUserFavorites(user?.id);
   
   // Find if this class exists in the user's favorites array

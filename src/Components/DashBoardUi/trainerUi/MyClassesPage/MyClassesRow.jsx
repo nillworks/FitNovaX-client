@@ -94,8 +94,6 @@ const MyClassesRow = ({ data }) => {
 
   // update Function
   const handleUpdateSubmit = async updatedData => {
-    // console.log('Updated Class Data:', updatedData);
-
     const res = await updateNewClass(data._id, updatedData);
 
     if (res.acknowledged && res.modifiedCount > 0) {
@@ -112,8 +110,6 @@ const MyClassesRow = ({ data }) => {
         'Unable to update the class. Please try again.',
       );
     }
-
-    console.log(res);
   };
 
   const handleDelete = async id => {

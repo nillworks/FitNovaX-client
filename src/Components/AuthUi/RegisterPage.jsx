@@ -106,8 +106,6 @@ export default function RegisterPage() {
         image: image?.url || '',
       };
 
-      console.log(registerData);
-
       const selectedRole = registerData.role || 'user';
 
       const { data, error } = await authClient.signUp.email({
@@ -189,7 +187,10 @@ export default function RegisterPage() {
             >
               <div className="w-full rounded-2xl overflow-hidden ring-1 ring-white/10 shadow-2xl relative">
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A] to-transparent z-10 opacity-60"></div>
-                <Image width={500} height={500} unoptimized
+                <Image
+                  width={500}
+                  height={500}
+                  unoptimized
                   src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1470&auto=format&fit=crop"
                   alt="Fitness Community"
                   className="w-full h-[280px] object-cover"
@@ -289,7 +290,10 @@ export default function RegisterPage() {
                       </label>
                     ) : (
                       <div className="relative w-full h-32 rounded-2xl border border-[#E2E8F0] overflow-hidden group bg-[#FFFFFF] flex items-center justify-center shadow-sm p-2">
-                        <Image width={500} height={500} unoptimized
+                        <Image
+                          width={500}
+                          height={500}
+                          unoptimized
                           src={previewUrl}
                           alt="Profile Preview"
                           className="h-full w-full object-contain"

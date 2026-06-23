@@ -29,7 +29,6 @@ const ClassDetailsActions = ({
   const [isSubmittingFavorite, setIsSubmittingFavorite] = useState(false);
   const { data } = useSession();
   const user = data?.user;
-  // console.log(user?.id);
 
   const spotsLeft = Math.max(
     0,
@@ -79,16 +78,28 @@ const ClassDetailsActions = ({
       try {
         setIsSubmittingFavorite(true);
         const res = await deleteFavorite(favoriteId);
-        
+
         if (res.success) {
           setFavorited(false);
           setFavoriteId(null);
-          CustomToast('success', 'Removed', 'Class removed from your favorites.');
+          CustomToast(
+            'success',
+            'Removed',
+            'Class removed from your favorites.',
+          );
         } else {
-          CustomToast('error', 'Error', res.message || 'Failed to remove favorite');
+          CustomToast(
+            'error',
+            'Error',
+            res.message || 'Failed to remove favorite',
+          );
         }
       } catch (error) {
-        CustomToast('error', 'Error', 'Something went wrong while removing favorite');
+        CustomToast(
+          'error',
+          'Error',
+          'Something went wrong while removing favorite',
+        );
       } finally {
         setIsSubmittingFavorite(false);
       }

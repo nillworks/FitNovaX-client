@@ -56,5 +56,7 @@ export const config = {
     '/forum/:path*',
     '/login',
     '/register',
+    '/classes/:id',
+    '/forum/:id',
   ],
 };

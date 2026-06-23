@@ -46,7 +46,6 @@ const FavoriteClassCard = ({ data, handleDeleteFavorite }) => {
           <button
             onClick={() => {
               const idToPass = typeof _id === 'object' ? _id.$oid : _id;
-              console.log('Browser Console: Delete clicked for ID ->', idToPass);
               handleDeleteFavorite(idToPass);
             }}
             className="p-2 bg-[#8FE3B0] text-[#15803D] rounded-full hover:bg-[#C6F4D6] transition-colors shadow-sm cursor-pointer border border-[#4AD27A]"

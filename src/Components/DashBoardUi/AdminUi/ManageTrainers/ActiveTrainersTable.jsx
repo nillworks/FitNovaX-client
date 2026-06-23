@@ -14,7 +14,6 @@ const ActiveTrainersTable = ({ trainers }) => {
 
   const confirmDemotion = async id => {
     const res = await demoteToUser(id);
-    console.log(res);
 
     if (res.success) {
       router.refresh();
@@ -103,7 +102,10 @@ const ActiveTrainersTable = ({ trainers }) => {
                   <td className="px-6 py-5">
                     <div className="flex items-center gap-4">
                       <div className="relative">
-                        <Image width={500} height={500} unoptimized
+                        <Image
+                          width={500}
+                          height={500}
+                          unoptimized
                           src={trainer.profileImage}
                           alt={trainer.name}
                           className="w-12 h-12 rounded-2xl object-cover shadow-sm group-hover:shadow transition-shadow border border-[#E2E8F0]"

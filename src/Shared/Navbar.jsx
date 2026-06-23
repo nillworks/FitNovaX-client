@@ -49,15 +49,20 @@ const Navbar = () => {
       : []),
   ];
 
-  const handleSignOut = () => {
-    signOut();
-    CustomToast(
-      'success',
-      'Signed out',
-      'You have been signed out successfully.',
-    );
-    router.push('/login');
-    router.refresh();
+  const handleSignOut = async () => {
+    await signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          CustomToast(
+            'success',
+            'Signed out',
+            'You have been signed out successfully.',
+          );
+          router.push('/login');
+          router.refresh();
+        },
+      },
+    });
   };
 
   // Do not render the main navbar on dashboard routes

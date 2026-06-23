@@ -61,7 +61,6 @@ const MyForumPostsSection = ({ fromData }) => {
   };
 
   // const handleUpdateSubmit = async (id, updateForum) => {
-  //   // console.log('Update Forum Data:', updateForum);
 
   //   // setPosts(posts.map((p) => (p._id === updateForum._id || p.id === updateForum._id) ? { ...p, ...updateForum } : p));
   // };

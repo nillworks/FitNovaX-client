@@ -35,8 +35,6 @@ const AddClassSection = () => {
   const user = data?.user;
 
   const handleFormSubmit = async formDataObj => {
-    // console.log('Form Submitted Data: ', formDataObj);
-
     const newClassData = {
       ...formDataObj,
       bookedCount: 0,

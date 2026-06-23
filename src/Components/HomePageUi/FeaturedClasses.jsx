@@ -11,7 +11,6 @@ import Link from 'next/link';
 
 const FeaturedClasses = ({ featuredClass }) => {
   const classes = featuredClass?.data;
-  console.log(classes);
 
   return (
     <section className="py-24 bg-[#FFFFFF]">
