@@ -4,10 +4,13 @@ import ResentBookings from './ResentBookings';
 import TrainerApplication from './TrainerApplication';
 import UserProfile from './UserProfile';
 import getTrainerApplicationData from '@/lib/api/getTrainerApplicationData';
+import getUserFavorites from '@/lib/api/getUserFavorites';
 
-const OverviewPageUi = async ({ favoriteData }) => {
+const OverviewPageUi = async () => {
   const user = await getUserSession();
   const applicationSingleData = await getTrainerApplicationData(user?.id);
+
+  const favoriteData = await getUserFavorites(user?.id);
 
   const userData = {
     name: user?.name,
@@ -75,7 +78,7 @@ const OverviewPageUi = async ({ favoriteData }) => {
     {
       id: 1,
       title: 'Total Favorites',
-      value: favoriteData.length || 0,
+      value: favoriteData.data.length || 0,
       trend: '+12% this month',
     },
     { id: 2, title: 'Active Days', value: '18', trend: 'Consistent' },
