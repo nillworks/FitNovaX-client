@@ -1,8 +1,16 @@
 import React from 'react';
 import CommunityForumDetailsApi from '@/lib/api/CommunityForumDetailsApi';
 import ForumPostDetailsSection from '@/Components/ForumDetailsPage/ForumPostDetailsSection';
+import getUserSession from '@/lib/getUserSession';
+import { redirect } from 'next/navigation';
 
 const page = async ({ params }) => {
+  const user = await getUserSession();
+
+  if (!user) {
+    return redirect('/login');
+  }
+
   const { id } = await params;
 
   // Fetch details

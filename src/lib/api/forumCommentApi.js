@@ -5,6 +5,9 @@ export const getComments = async (forumId) => {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_URL}/api/forum/comment/${forumId}`,
       {
+        headers: {
+          ...(await headersAuthorization()),
+        },
         cache: 'no-store',
       }
     );

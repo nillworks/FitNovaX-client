@@ -1,4 +1,3 @@
-import headersAuthorization from './../headersAuthorization.server';
 
 const CommunityForumApi = async (page = 1, limit = 10) => {
   try {
@@ -6,7 +5,6 @@ const CommunityForumApi = async (page = 1, limit = 10) => {
       `${process.env.NEXT_PUBLIC_URL}/api/community/forum?page=${page}&limit=${limit}`,
       {
         cache: 'no-store',
-        headers: await headersAuthorization(),
       },
     );
 

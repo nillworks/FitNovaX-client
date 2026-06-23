@@ -1,3 +1,5 @@
+import headersAuthorization from '../headersAuthorization.client';
+
 export const voteForum = async (forumId, userId, type) => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/forum/vote/${forumId}`,
@@ -5,6 +7,7 @@ export const voteForum = async (forumId, userId, type) => {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
+        ...(await headersAuthorization()),
       },
       body: JSON.stringify({
         userId,

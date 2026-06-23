@@ -15,11 +15,17 @@ const ForumPostContent = ({ post, children }) => {
   const [isVoting, setIsVoting] = useState(false);
   
   // Track user's current vote to properly decrement the opposite vote
-  const [userVote, setUserVote] = useState(() => {
-    if (post?.likedUsers?.includes(userId)) return 'like';
-    if (post?.dislikedUsers?.includes(userId)) return 'dislike';
-    return null;
-  });
+  const [userVote, setUserVote] = useState(null);
+
+  React.useEffect(() => {
+    if (userId) {
+      if (post?.likedUsers?.includes(userId)) {
+        setUserVote('like');
+      } else if (post?.dislikedUsers?.includes(userId)) {
+        setUserVote('dislike');
+      }
+    }
+  }, [userId, post?.likedUsers, post?.dislikedUsers]);
   
   const handleVote = async (type) => {
     if (!userId) {
