@@ -78,7 +78,7 @@ const AdminOverviewHero = ({ statsData, adminName }) => {
                         </div>
                     </div>
                     <div>
-                        <p className="text-[#64748B] text-sm font-semibold mb-1">Total Booked Classes</p>
+                        <p className="text-[#64748B] text-sm font-semibold mb-1">Total Applications</p>
                         <h3 className="text-3xl font-black text-[#1E293B] tracking-tight">{statsData.totalBookedClasses.toLocaleString()}</h3>
                     </div>
                 </div>

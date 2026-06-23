@@ -1,43 +1,58 @@
-'use client';
-
 import Image from 'next/image';
 import AdminOverviewHero from './AdminOverviewHero';
 import AdminAnalyticsPanel from './AdminAnalyticsPanel';
+import getUserSession from '@/lib/getUserSession';
+import getUserList from '@/lib/api/getUserList';
+import { getAllClasses } from '@/lib/api/getAllClasses';
+import { getTrainerApplications } from '@/lib/api/getTrainerApplications.server';
 
-const AdminOverviewSection = () => {
-  // Dummy Data
+const AdminOverviewSection = async () => {
+  const sessionUser = await getUserSession();
+  const usersData = await getUserList();
+  const classesData = await getAllClasses();
+  const applicationsData = await getTrainerApplications();
+
+  // Calculate Lengths
+  const totalUsersCount = usersData?.users?.length || 0;
+  const totalClassesCount = classesData?.data?.length || 0;
+  const totalApplicationsCount = applicationsData?.data?.length || 0;
+
+  // Dummy Data with real session mixed in
   const adminData = {
-    name: 'Alex Sterling',
-    role: 'Super Admin',
-    avatar: 'https://i.pravatar.cc/150?u=a04258114e29026702d',
+    name: sessionUser?.name || 'Alex Sterling',
+    role: sessionUser?.role || 'Super Admin',
+    avatar: sessionUser?.image || 'https://i.pravatar.cc/150?u=a04258114e29026702d',
     healthScore: 98,
     status: 'Online',
   };
 
   const statsData = {
-    totalUsers: 12450,
+    totalUsers: totalUsersCount,
     totalUsersGrowth: 12.5,
-    totalClasses: 84,
+    totalClasses: totalClassesCount,
     totalClassesGrowth: 5.2,
-    totalBookedClasses: 5240,
+    totalBookedClasses: totalApplicationsCount,
     totalBookedGrowth: 18.4,
   };
 
+  // Scale chart data to match real totals for a dynamic, realistic look
+  const currentMonthUsers = totalUsersCount > 0 ? totalUsersCount : 10;
+  
   const chartData = {
     growth: [
-      { name: 'Jan', users: 4000 },
-      { name: 'Feb', users: 5500 },
-      { name: 'Mar', users: 6200 },
-      { name: 'Apr', users: 7800 },
-      { name: 'May', users: 9500 },
-      { name: 'Jun', users: 10800 },
-      { name: 'Jul', users: 12450 },
+      { name: 'Jan', users: Math.floor(currentMonthUsers * 0.4) },
+      { name: 'Feb', users: Math.floor(currentMonthUsers * 0.5) },
+      { name: 'Mar', users: Math.floor(currentMonthUsers * 0.6) },
+      { name: 'Apr', users: Math.floor(currentMonthUsers * 0.75) },
+      { name: 'May', users: Math.floor(currentMonthUsers * 0.85) },
+      { name: 'Jun', users: Math.floor(currentMonthUsers * 0.95) },
+      { name: 'Jul', users: currentMonthUsers },
     ],
     classDistribution: [
-      { name: 'Yoga', value: 450 },
-      { name: 'HIIT', value: 300 },
-      { name: 'Pilates', value: 200 },
-      { name: 'Spin', value: 150 },
+      { name: 'Yoga', value: Math.floor(totalClassesCount * 0.4) || 4 },
+      { name: 'HIIT', value: Math.floor(totalClassesCount * 0.3) || 3 },
+      { name: 'Pilates', value: Math.floor(totalClassesCount * 0.2) || 2 },
+      { name: 'Spin', value: Math.floor(totalClassesCount * 0.1) || 1 },
     ],
   };
 

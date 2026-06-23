@@ -5,12 +5,18 @@ import TrainerApplication from './TrainerApplication';
 import UserProfile from './UserProfile';
 import getTrainerApplicationData from '@/lib/api/getTrainerApplicationData';
 import getUserFavorites from '@/lib/api/getUserFavorites';
+import getAllClassesPublic from '@/lib/api/getAllClassesPublic';
+import CommunityForumApi from '@/lib/api/CommunityForumApi';
+import getFeaturedClasses from '@/lib/api/getFeaturedClasses';
 
 const OverviewPageUi = async () => {
   const user = await getUserSession();
   const applicationSingleData = await getTrainerApplicationData(user?.id);
 
   const favoriteData = await getUserFavorites(user?.id);
+  const classesData = await getAllClassesPublic();
+  const forumData = await CommunityForumApi();
+  const featuredClassesData = await getFeaturedClasses();
 
   const userData = {
     name: user?.name,
@@ -78,17 +84,27 @@ const OverviewPageUi = async () => {
     {
       id: 1,
       title: 'Total Favorites',
-      value: favoriteData.data.length || 0,
+      value: favoriteData?.data?.length || 0,
       trend: '+12% this month',
     },
-    { id: 2, title: 'Active Days', value: '18', trend: 'Consistent' },
+    { 
+      id: 2, 
+      title: 'Available Classes', 
+      value: classesData?.data?.length || 0, 
+      trend: 'Join Now' 
+    },
     {
       id: 3,
-      title: 'Calories Burned',
-      value: '14,200',
-      trend: '+5% this week',
+      title: 'Community Posts',
+      value: forumData?.data?.length || 0,
+      trend: 'Active Discussions',
     },
-    { id: 4, title: 'Upcoming Classes', value: '3', trend: 'Next: Yoga' },
+    { 
+      id: 4, 
+      title: 'Featured Classes', 
+      value: featuredClassesData?.data?.length || 0, 
+      trend: 'Top Rated' 
+    },
   ];
 
   return (
