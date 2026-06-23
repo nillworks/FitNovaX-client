@@ -82,6 +82,7 @@ const AddForumPostForm = ({ categories, tags }) => {
         userRole: user?.role,
         like: 0,
         comment: 0,
+        disLike: 0,
       };
 
       const res = await postForum(NewForumData);
@@ -229,7 +230,10 @@ const AddForumPostForm = ({ categories, tags }) => {
 
           {imagePreview ? (
             <div className="relative w-full max-w-sm mx-auto rounded-2xl overflow-hidden shadow-sm border border-[#E2E8F0]">
-              <Image width={500} height={500} unoptimized
+              <Image
+                width={500}
+                height={500}
+                unoptimized
                 src={imagePreview}
                 alt="Preview"
                 className="w-full h-auto object-cover"
