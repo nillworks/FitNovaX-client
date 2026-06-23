@@ -1,6 +1,7 @@
 import DetailsPage from '@/Components/DetailsPage/DetailsPage';
 import getSingleClass from '@/lib/api/getSingleClass';
 import getUserFavorites from '@/lib/api/getUserFavorites';
+import getUserBookingStatus from '@/lib/api/getUserBookingStatus';
 import getUserSession from '@/lib/getUserSession';
 import { redirect } from 'next/navigation';
 
@@ -22,9 +23,12 @@ const page = async ({ params }) => {
   const isFavorite = !!favoriteObj;
   const favoriteId = favoriteObj?._id?.$oid || favoriteObj?._id || null;
 
+  const bookingStatusData = await getUserBookingStatus(id, user?.id);
+  const isBooked = bookingStatusData?.isBooked || false;
+
   return (
     <>
-      <DetailsPage singleClassData={singleClassData} isFavorited={isFavorite} favoriteId={favoriteId} />
+      <DetailsPage singleClassData={singleClassData} isBooked={isBooked} isFavorited={isFavorite} favoriteId={favoriteId} />
     </>
   );
 };
