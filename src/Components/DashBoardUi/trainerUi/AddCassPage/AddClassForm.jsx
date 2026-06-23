@@ -67,6 +67,11 @@ const AddClassForm = ({ categoryOptions, difficultyOptions, scheduleDays, onSubm
         dataObj.classImage = uploadResult?.display_url || uploadResult?.url;
       }
 
+      // Convert fields to Number so backend $inc doesn't crash on string
+      if (dataObj.maxBookings) dataObj.maxBookings = Number(dataObj.maxBookings);
+      if (dataObj.price) dataObj.price = Number(dataObj.price);
+      if (dataObj.duration) dataObj.duration = Number(dataObj.duration);
+
       if (onSubmit) {
         const isSuccess = await onSubmit(dataObj);
         if (isSuccess !== false) {

@@ -178,32 +178,37 @@ const ClassDetailsActions = ({
             </div>
           </div>
 
-          <button
-            type="button"
-            onClick={handleBookNow}
-            disabled={booked || isFull}
-            className={`w-full flex items-center justify-center gap-2 px-6 py-4 rounded-2xl font-bold text-sm transition-all duration-300 ${
-              booked
-                ? 'bg-[#F1F5F9] text-[#64748B] border border-[#E2E8F0] cursor-not-allowed'
-                : isFull
-                  ? 'bg-[#FEF2F2] text-[#EF4444] border border-[#FECACA] cursor-not-allowed'
-                  : 'bg-[#22C55E] hover:bg-[#16A34A] text-white shadow-[0_4px_14px_0_rgba(34,197,94,0.39)] hover:-translate-y-0.5 cursor-pointer'
-            }`}
-          >
-            {booked ? (
-              <>
-                <CheckCircle2 size={18} />
-                Already Booked
-              </>
-            ) : isFull ? (
-              'Class Full'
-            ) : (
-              <>
-                <CreditCard size={18} />
-                Book Now
-              </>
-            )}
-          </button>
+          <form action={'/api/checkout_sessions'} method="POST">
+            <input type="hidden" name="price" value={classData.price} />
+            <input type="hidden" name="title" value={classData.className} />
+            <input type="hidden" name="productId" value={classData._id} />
+
+            <button
+              type="submit"
+              disabled={booked || isFull}
+              className={`w-full flex items-center justify-center gap-2 px-6 py-4 rounded-2xl font-bold text-sm transition-all duration-300 ${
+                booked
+                  ? 'bg-[#F1F5F9] text-[#64748B] border border-[#E2E8F0] cursor-not-allowed'
+                  : isFull
+                    ? 'bg-[#FEF2F2] text-[#EF4444] border border-[#FECACA] cursor-not-allowed'
+                    : 'bg-[#22C55E] hover:bg-[#16A34A] text-white shadow-[0_4px_14px_0_rgba(34,197,94,0.39)] hover:-translate-y-0.5 cursor-pointer'
+              }`}
+            >
+              {booked ? (
+                <>
+                  <CheckCircle2 size={18} />
+                  Already Booked
+                </>
+              ) : isFull ? (
+                'Class Full'
+              ) : (
+                <>
+                  <CreditCard size={18} />
+                  Book Now
+                </>
+              )}
+            </button>
+          </form>
 
           <button
             type="button"
