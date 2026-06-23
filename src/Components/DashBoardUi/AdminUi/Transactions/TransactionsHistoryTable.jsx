@@ -1,8 +1,19 @@
 "use client";
-import React from 'react';
+import React, { useState } from 'react';
 import { Search, CreditCard, Filter, Calendar, CheckCircle, XCircle, RotateCcw } from 'lucide-react';
 
 const TransactionsHistoryTable = ({ transactions }) => {
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const filteredTransactions = transactions?.filter(txn => {
+    if (!searchTerm) return true;
+    const term = searchTerm.toLowerCase();
+    const emailMatch = (txn.userEmail || txn.email || '').toLowerCase().includes(term);
+    const titleMatch = (txn.title || '').toLowerCase().includes(term);
+    const roleMatch = (txn.role || '').toLowerCase().includes(term);
+    const idMatch = (txn.sessionId || txn.id || '').toLowerCase().includes(term);
+    return emailMatch || titleMatch || roleMatch || idMatch;
+  });
 
   // Empty State UI
   if (!transactions || transactions.length === 0) {
@@ -59,7 +70,7 @@ const TransactionsHistoryTable = ({ transactions }) => {
           <h3 className="text-[#1E293B] font-bold text-lg flex items-center gap-2">
             Payment History
             <span className="bg-[#F8FAFC] border border-[#E2E8F0] text-[#64748B] text-[10px] px-2 py-0.5 rounded-full uppercase tracking-wider">
-              {transactions.length} Records
+              {filteredTransactions.length} Records
             </span>
           </h3>
           
@@ -72,6 +83,8 @@ const TransactionsHistoryTable = ({ transactions }) => {
               <input 
                 type="text" 
                 placeholder="Search transactions..." 
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-9 pr-4 py-2 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#22C55E]/50 focus:bg-white transition-all text-[#1E293B] placeholder-[#94A3B8]"
               />
             </div>
@@ -98,19 +111,42 @@ const TransactionsHistoryTable = ({ transactions }) => {
             </tr>
           </thead>
           <tbody className="divide-y divide-[#E2E8F0] bg-white">
-            {transactions.map((txn) => (
-              <tr key={txn.id} className="hover:bg-[#F8FAFC]/50 transition-colors group">
+            {filteredTransactions.map((txn) => {
+              const txId = txn._id?.$oid || txn._id || txn.id;
+              
+              let dateStr = 'N/A';
+              if (txn.createdAt) {
+                dateStr = new Date(txn.createdAt).toLocaleString();
+              } else if (txId && typeof txId === 'string' && txId.length >= 8) {
+                dateStr = new Date(parseInt(txId.substring(0, 8), 16) * 1000).toLocaleString();
+              }
+              
+              return (
+              <tr key={txId} className="hover:bg-[#F8FAFC]/50 transition-colors group">
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-4">
-                    <div className="bg-[#F8FAFC] border border-[#E2E8F0] p-2.5 rounded-xl text-[#64748B] group-hover:border-[#8FE3B0]/50 transition-colors shadow-sm">
-                      <CreditCard size={20} />
+                    <div className="w-10 h-10 rounded-xl overflow-hidden bg-[#F8FAFC] border border-[#E2E8F0] flex-shrink-0 group-hover:border-[#8FE3B0]/50 transition-colors shadow-sm flex items-center justify-center text-[#64748B]">
+                      {txn.userImage ? (
+                        <img src={txn.userImage} alt="User" className="w-full h-full object-cover" />
+                      ) : (
+                        <CreditCard size={20} />
+                      )}
                     </div>
                     <div>
-                      <p className="text-[#1E293B] font-bold text-sm leading-tight mb-0.5">{txn.userEmail}</p>
+                      <div className="flex items-center gap-2 mb-0.5">
+                        <p className="text-[#1E293B] font-bold text-sm leading-tight">{txn.userEmail || txn.email || 'No Email'}</p>
+                        {txn.role && (
+                          <span className="text-[9px] uppercase tracking-widest font-bold bg-[#C6F4D6] text-[#15803D] px-1.5 py-0.5 rounded-full border border-[#8FE3B0]/30">
+                            {txn.role}
+                          </span>
+                        )}
+                      </div>
                       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-1 sm:gap-2">
-                        <span className="text-[#64748B] text-xs font-medium font-mono bg-[#F8FAFC] px-1.5 rounded">{txn.transactionId}</span>
+                        <span className="text-[#64748B] text-xs font-medium font-mono bg-[#F8FAFC] px-1.5 rounded" title={txn.sessionId || txId}>
+                          {(txn.sessionId || txId).toString().substring(0, 16)}...
+                        </span>
                         <span className="hidden sm:inline text-[#E2E8F0]">•</span>
-                        <span className="text-[#64748B] text-xs font-semibold">{txn.paymentMethod}</span>
+                        <span className="text-[#64748B] text-xs font-semibold">{txn.title || 'Subscription'}</span>
                       </div>
                     </div>
                   </div>
@@ -118,23 +154,23 @@ const TransactionsHistoryTable = ({ transactions }) => {
                 
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-1.5 text-[#1E293B]">
-                    <span className="font-black text-lg">${txn.amount.toFixed(2)}</span>
+                    <span className="font-black text-lg">${Number(txn.price || txn.amount || 0).toFixed(2)}</span>
                     <span className="text-[10px] font-bold text-[#64748B] uppercase tracking-wider bg-[#F8FAFC] px-1.5 py-0.5 rounded border border-[#E2E8F0]">USD</span>
                   </div>
                 </td>
 
                 <td className="px-6 py-4">
-                  {getStatusUI(txn.paymentStatus)}
+                  {getStatusUI(txn.paymentStatus || 'Succeeded')}
                 </td>
 
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-2 text-sm">
                     <Calendar size={14} className="text-[#94A3B8]" />
-                    <span className="font-semibold text-[#1E293B]">{txn.paymentDate}</span>
+                    <span className="font-semibold text-[#1E293B]">{dateStr}</span>
                   </div>
                 </td>
               </tr>
-            ))}
+            )})}
           </tbody>
         </table>
       </div>

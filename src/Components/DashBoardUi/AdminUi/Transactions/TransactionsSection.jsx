@@ -4,72 +4,30 @@ import TransactionsHistoryTable from './TransactionsHistoryTable';
 import TransactionsAnalyticsPanel from './TransactionsAnalyticsPanel';
 import { DollarSign, CreditCard, TrendingUp, Activity, Wallet } from 'lucide-react';
 
-const TransactionsSection = () => {
-  // Dummy Data
-  const transactionsData = [
-    {
-      id: "TXN-739281",
-      userEmail: "michael.t@example.com",
-      amount: 149.00,
-      transactionId: "pi_3MtwBwLkdIwHu7ix28a3tq1",
-      paymentDate: "2024-03-24 14:30",
-      paymentStatus: "Succeeded",
-      paymentMethod: "Visa •••• 4242"
-    },
-    {
-      id: "TXN-739282",
-      userEmail: "sarah.j@example.com",
-      amount: 89.00,
-      transactionId: "pi_3MtwBwLkdIwHu7ix28a3tq2",
-      paymentDate: "2024-03-23 09:15",
-      paymentStatus: "Succeeded",
-      paymentMethod: "Mastercard •••• 5555"
-    },
-    {
-      id: "TXN-739283",
-      userEmail: "david.w@example.com",
-      amount: 299.00,
-      transactionId: "pi_3MtwBwLkdIwHu7ix28a3tq3",
-      paymentDate: "2024-03-22 16:45",
-      paymentStatus: "Refunded",
-      paymentMethod: "Amex •••• 1001"
-    },
-    {
-      id: "TXN-739284",
-      userEmail: "emily.r@example.com",
-      amount: 149.00,
-      transactionId: "pi_3MtwBwLkdIwHu7ix28a3tq4",
-      paymentDate: "2024-03-22 11:20",
-      paymentStatus: "Succeeded",
-      paymentMethod: "Visa •••• 4242"
-    },
-    {
-      id: "TXN-739285",
-      userEmail: "james.l@example.com",
-      amount: 59.00,
-      transactionId: "pi_3MtwBwLkdIwHu7ix28a3tq5",
-      paymentDate: "2024-03-21 08:05",
-      paymentStatus: "Failed",
-      paymentMethod: "Visa •••• 1234"
-    }
-  ];
+const TransactionsSection = ({ transactions = [], pagination = {}, currentPage = 1 }) => {
 
-  // Active transactions (Set to empty array [] to test the beautiful empty state)
-  const transactions = transactionsData;
+  const totalRevenue = transactions.reduce((acc, curr) => acc + (Number(curr.price) || 0), 0);
+  const avgTransactionValue = transactions.length > 0 ? totalRevenue / transactions.length : 0;
+  
+  // Calculate today's revenue (assuming simple date match)
+  const today = new Date().toISOString().split('T')[0];
+  const todaysRevenue = transactions
+    .filter(t => t.createdAt && t.createdAt.split('T')[0] === today)
+    .reduce((acc, curr) => acc + (Number(curr.price) || 0), 0);
 
   const dashboardStats = {
-    totalRevenue: "$124,590.00",
-    totalTransactions: 842,
-    avgTransactionValue: "$147.96",
-    todaysRevenue: "$1,240.00"
+    totalRevenue: `$${totalRevenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+    totalTransactions: pagination.total || transactions.length,
+    avgTransactionValue: `$${avgTransactionValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+    todaysRevenue: `$${todaysRevenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
   };
 
   const analyticsData = {
-    totalEarnings: "$124,590.00",
-    monthlyRevenue: "$24,500.00",
-    avgTransaction: "$147.96",
-    revenueGrowth: "+12.5%",
-    recentActivityCount: 42
+    totalEarnings: `$${totalRevenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+    monthlyRevenue: `$${todaysRevenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, // Using today's as fallback
+    avgTransaction: `$${avgTransactionValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+    revenueGrowth: "+0.0%", // Placeholder
+    recentActivityCount: transactions.length
   };
 
   return (
