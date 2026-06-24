@@ -20,13 +20,13 @@ const OverviewPageUi = async () => {
   const featuredClassesData = await getFeaturedClasses();
 
   const userData = {
-    name: user?.name,
+    name: user?.name || 'User',
     email: user?.email,
-    initials: 'AL',
-    height: '180 cm',
-    weight: '75 kg',
-    goal: 'Muscle Gain',
-    level: 'Intermediate',
+    initials: user?.name ? user.name.substring(0, 2).toUpperCase() : 'U',
+    height: user?.height || 'Not set',
+    weight: user?.weight || 'Not set',
+    goal: user?.goal || 'Not set',
+    level: user?.level || 'Not set',
     image: user?.image,
   };
 
