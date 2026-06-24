@@ -5,6 +5,9 @@ import { CheckCircle, Mail, ArrowRight, ShieldCheck } from 'lucide-react';
 import getUserSession from '@/lib/getUserSession';
 import { subscription } from '@/lib/api/subscription';
 
+export const metadata = { title: 'FitNova | Payment Success' };
+
+
 export default async function Success({ searchParams }) {
   const { session_id } = await searchParams;
   const user = await getUserSession();

@@ -1,6 +1,9 @@
 import AppliedTrainersSection from '@/Components/DashBoardUi/AdminUi/TrainerApplications/AppliedTrainersSection';
 import { getTrainerApplications } from '@/lib/api/getTrainerApplications.server';
 
+export const metadata = { title: 'FitNova | Trainer Applications' };
+
+
 const PAGE_SIZE = 10;
 
 const page = async ({ searchParams }) => {

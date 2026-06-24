@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
 const BookedClassRow = ({ data }) => {
@@ -118,7 +119,7 @@ const BookedClassRow = ({ data }) => {
 
           {/* Action Button */}
           <div className="w-full lg:w-auto flex justify-center sm:justify-start lg:justify-end mt-2 lg:mt-0">
-            <button className="w-full sm:w-auto cursor-pointer px-7 py-3 bg-[#22C55E] hover:bg-[#16A34A] text-[#FFFFFF] font-bold text-sm rounded-full transition-all duration-300 shadow-[0_4px_14px_0_rgb(34,197,94,0.39)] hover:shadow-[0_6px_20px_rgb(22,163,74,0.23)] flex items-center justify-center gap-2 group/btn">
+            <Link href={`/classes/${_id}`} className="w-full sm:w-auto cursor-pointer px-7 py-3 bg-[#22C55E] hover:bg-[#16A34A] text-[#FFFFFF] font-bold text-sm rounded-full transition-all duration-300 shadow-[0_4px_14px_0_rgb(34,197,94,0.39)] hover:shadow-[0_6px_20px_rgb(22,163,74,0.23)] flex items-center justify-center gap-2 group/btn">
               View Class
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -132,7 +133,7 @@ const BookedClassRow = ({ data }) => {
                   clipRule="evenodd"
                 />
               </svg>
-            </button>
+            </Link>
           </div>
         </div>
       </div>

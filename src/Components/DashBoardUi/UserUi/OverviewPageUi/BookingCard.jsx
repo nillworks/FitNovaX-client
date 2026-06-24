@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 const BookingCard = ({ booking }) => {
   if (!booking) return null;
 
@@ -7,8 +9,19 @@ const BookingCard = ({ booking }) => {
     <div className="flex flex-col md:flex-row md:items-center justify-between p-4 md:p-5 bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl hover:border-[#8FE3B0] transition-colors gap-4 shadow-sm hover:shadow-md">
       
       <div className="flex items-center gap-4">
-        <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold ${isUpcoming ? 'bg-[#C6F4D6] text-[#15803D]' : 'bg-[#E2E8F0] text-[#64748B]'}`}>
-          {booking.title.charAt(0)}
+        <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold overflow-hidden ${isUpcoming ? 'bg-[#C6F4D6] text-[#15803D]' : 'bg-[#E2E8F0] text-[#64748B]'}`}>
+          {booking.image ? (
+            <Image 
+              src={booking.image} 
+              alt={booking.title} 
+              width={48} 
+              height={48} 
+              unoptimized
+              className="w-full h-full object-cover" 
+            />
+          ) : (
+            booking.title.charAt(0)
+          )}
         </div>
         <div className="flex flex-col">
           <h4 className="text-[#1E293B] font-bold text-lg">{booking.title}</h4>

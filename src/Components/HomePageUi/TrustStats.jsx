@@ -1,28 +1,34 @@
+"use client";
 import React from 'react';
+import CountUp from 'react-countup';
 import { StaggerContainer, StaggerItem } from '../Animations/MotionWrappers';
 const stats = [
   {
     id: 1,
     label: 'Total Members',
-    value: '25,000+',
+    end: 25000,
+    suffix: '+',
     icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z',
   },
   {
     id: 2,
     label: 'Total Trainers',
-    value: '350+',
+    end: 350,
+    suffix: '+',
     icon: 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
   },
   {
     id: 3,
     label: 'Total Classes',
-    value: '1,200+',
+    end: 1200,
+    suffix: '+',
     icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
   },
   {
     id: 4,
     label: 'Total Bookings',
-    value: '150k+',
+    end: 150,
+    suffix: 'k+',
     icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
   },
 ];
@@ -53,7 +59,7 @@ const TrustStats = () => {
                 </svg>
               </div>
               <h3 className="text-4xl font-bold text-[#1E293B] tracking-tight mb-2 group-hover:text-[#22C55E] transition-colors">
-                {stat.value}
+                <CountUp end={stat.end} suffix={stat.suffix} duration={2.5} enableScrollSpy scrollSpyOnce />
               </h3>
               <p className="text-[#64748B] font-semibold uppercase tracking-wider text-sm">
                 {stat.label}

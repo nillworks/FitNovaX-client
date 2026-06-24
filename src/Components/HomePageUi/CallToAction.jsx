@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { ScaleIn, FadeUp } from '../Animations/MotionWrappers';
 const CallToAction = () => {
   return (
@@ -15,12 +16,12 @@ const CallToAction = () => {
           </p>
           
           <FadeUp delay={0.3} className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
-            <button className="w-full sm:w-auto py-5 px-10 rounded-full bg-[#FFFFFF] hover:bg-[#F8FAFC] text-[#15803D] font-bold text-lg tracking-tight transition-all duration-300 shadow-xl hover:-translate-y-1">
+            <Link href="/classes" className="w-full sm:w-auto py-5 px-10 rounded-full bg-[#FFFFFF] hover:bg-[#F8FAFC] text-[#15803D] font-bold text-lg tracking-tight transition-all duration-300 shadow-xl hover:-translate-y-1 text-center">
               Explore Classes
-            </button>
-            <button className="w-full sm:w-auto py-5 px-10 rounded-full bg-white/20 hover:bg-white/30 border border-white/30 text-white font-bold text-lg tracking-tight backdrop-blur-md transition-all duration-300 shadow-xl hover:-translate-y-1">
-              Become a Trainer
-            </button>
+            </Link>
+            <Link href="/forum" className="w-full sm:w-auto py-5 px-10 rounded-full bg-white/20 hover:bg-white/30 border border-white/30 text-white font-bold text-lg tracking-tight backdrop-blur-md transition-all duration-300 shadow-xl hover:-translate-y-1 text-center">
+              Community Forum
+            </Link>
           </FadeUp>
         </ScaleIn>
       </div>

@@ -29,6 +29,22 @@ export const auth = betterAuth({
         defaultValue: 'user',
         input: true,
       },
+      height: {
+        type: 'string',
+        required: false,
+      },
+      weight: {
+        type: 'string',
+        required: false,
+      },
+      goal: {
+        type: 'string',
+        required: false,
+      },
+      level: {
+        type: 'string',
+        required: false,
+      },
     },
   },
 

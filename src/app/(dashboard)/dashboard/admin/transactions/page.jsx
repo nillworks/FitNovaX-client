@@ -1,6 +1,9 @@
 import TransactionsSection from '@/Components/DashBoardUi/AdminUi/Transactions/TransactionsSection';
 import getTransactions from '@/lib/api/getTransactions';
 
+export const metadata = { title: 'FitNova | Transactions' };
+
+
 const page = async ({ searchParams }) => {
   const params = await searchParams;
   const pageNumber = Number(params?.page) || 1;

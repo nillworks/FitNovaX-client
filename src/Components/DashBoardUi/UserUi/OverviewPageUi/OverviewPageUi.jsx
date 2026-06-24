@@ -8,6 +8,7 @@ import getUserFavorites from '@/lib/api/getUserFavorites';
 import getAllClassesPublic from '@/lib/api/getAllClassesPublic';
 import CommunityForumApi from '@/lib/api/CommunityForumApi';
 import getFeaturedClasses from '@/lib/api/getFeaturedClasses';
+import { getBookedClasses } from '@/lib/api/getBookedClasses';
 
 const OverviewPageUi = async () => {
   const user = await getUserSession();
@@ -53,32 +54,18 @@ const OverviewPageUi = async () => {
 
   const applicationData = applicationSingleData?.data;
 
-  const demoBookings = [
-    {
-      id: 1,
-      title: 'HIIT Extreme',
-      trainer: 'Sarah Connor',
-      date: 'Today, 5:00 PM',
-      duration: '45 Min',
-      status: 'Upcoming',
-    },
-    {
-      id: 2,
-      title: 'Power Yoga',
-      trainer: 'Emma Watson',
-      date: 'Tomorrow, 7:00 AM',
-      duration: '60 Min',
-      status: 'Upcoming',
-    },
-    {
-      id: 3,
-      title: 'Core Blast',
-      trainer: 'John Doe',
-      date: 'June 16, 6:00 PM',
-      duration: '30 Min',
-      status: 'Completed',
-    },
-  ];
+  const bookedClassesRes = await getBookedClasses(user?.id);
+  const bookedClassesData = bookedClassesRes?.data || [];
+
+  const demoBookings = bookedClassesData.slice(0, 3).map(classData => ({
+    id: classData._id,
+    title: classData.className || 'Unknown Class',
+    trainer: classData.userName || 'Unknown Trainer',
+    date: classData.startDate ? `${classData.startDate}, ${classData.startTime || ''}` : 'TBA',
+    duration: classData.duration ? `${classData.duration} Min` : 'TBA',
+    status: 'Upcoming',
+    image: classData.classImage,
+  }));
 
   const statsData = [
     {

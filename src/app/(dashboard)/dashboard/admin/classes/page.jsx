@@ -1,6 +1,9 @@
 import ManageClassesSection from '@/Components/DashBoardUi/AdminUi/ManageClasses/ManageClassesSection';
 import { getAllClasses } from '@/lib/api/getAllClasses';
 
+export const metadata = { title: 'FitNova | Manage Classes' };
+
+
 const PAGE_SIZE = 10;
 
 const page = async ({ searchParams }) => {

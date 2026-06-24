@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import {
   SlideInLeft,
   SlideInRight,
@@ -36,12 +37,12 @@ const HeroSection = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-5">
-            <button className="py-4 cursor-pointer px-8 rounded-full bg-[#22C55E] hover:bg-[#16A34A] text-white font-bold tracking-tight transition-all duration-300 shadow-lg hover:shadow-[#22C55E]/20 hover:-translate-y-1">
+            <Link href="/classes" className="py-4 cursor-pointer px-8 rounded-full bg-[#22C55E] hover:bg-[#16A34A] text-white font-bold tracking-tight transition-all duration-300 shadow-lg hover:shadow-[#22C55E]/20 hover:-translate-y-1 text-center">
               Explore Classes
-            </button>
-            <button className="py-4 px-8 cursor-pointer rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold tracking-tight backdrop-blur-md transition-all duration-300 hover:-translate-y-1">
-              Become a Trainer
-            </button>
+            </Link>
+            <Link href="/forum" className="py-4 px-8 cursor-pointer rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold tracking-tight backdrop-blur-md transition-all duration-300 hover:-translate-y-1 text-center">
+              Community Forum
+            </Link>
           </div>
         </SlideInLeft>
 

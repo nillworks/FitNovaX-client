@@ -2,6 +2,9 @@ import ApplicationForm from '@/Components/DashBoardUi/UserUi/ApplyPageui/Applica
 import getTrainerApplicationData from '@/lib/api/getTrainerApplicationData';
 import getUserSession from '@/lib/getUserSession';
 
+export const metadata = { title: 'FitNova | Apply for Trainer' };
+
+
 const page = async () => {
   const user = await getUserSession();
 

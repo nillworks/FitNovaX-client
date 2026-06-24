@@ -5,6 +5,16 @@ import getUserBookingStatus from '@/lib/api/getUserBookingStatus';
 import getUserSession from '@/lib/getUserSession';
 import { redirect } from 'next/navigation';
 
+export async function generateMetadata({ params }) {
+  const { id } = await params;
+  const result = await getSingleClass(id);
+  const singleClassData = result?.data;
+  return {
+    title: singleClassData ? `${singleClassData.className} | FitNova` : 'Class Details | FitNova',
+    description: singleClassData?.description || 'Explore premium fitness classes on FitNova.',
+  };
+}
+
 const page = async ({ params }) => {
   const { id } = await params;
   const result = await getSingleClass(id);

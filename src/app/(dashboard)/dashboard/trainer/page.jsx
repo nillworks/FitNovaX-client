@@ -3,6 +3,9 @@ import getTrainerClass from '@/lib/api/getTrainerClass';
 import getTrainerForum from '@/lib/api/getTrainerForum';
 import getUserSession from '@/lib/getUserSession';
 
+export const metadata = { title: 'FitNova | Trainer Dashboard' };
+
+
 const page = async () => {
   const user = await getUserSession();
   const classesCreatedData = await getTrainerClass(user?.id);

@@ -2,6 +2,9 @@ import MyForumPostsSection from '@/Components/DashBoardUi/trainerUi/MyForumPosts
 import getTrainerForum from '@/lib/api/getTrainerForum';
 import getUserSession from '@/lib/getUserSession';
 
+export const metadata = { title: 'FitNova | My Posts' };
+
+
 const page = async () => {
   const user = await getUserSession();
   const fromData = await getTrainerForum(user?.id);

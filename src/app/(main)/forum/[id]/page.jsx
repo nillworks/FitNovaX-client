@@ -4,6 +4,16 @@ import ForumPostDetailsSection from '@/Components/ForumDetailsPage/ForumPostDeta
 import getUserSession from '@/lib/getUserSession';
 import { redirect } from 'next/navigation';
 
+export async function generateMetadata({ params }) {
+  const { id } = await params;
+  const response = await CommunityForumDetailsApi(id);
+  const post = response?.data;
+  return {
+    title: post ? `${post.title || 'Forum Post'} | FitNova` : 'Post Details | FitNova',
+    description: post?.content?.substring(0, 160) || 'Read community discussions on FitNova.',
+  };
+}
+
 const page = async ({ params }) => {
   const user = await getUserSession();
 

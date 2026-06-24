@@ -1,6 +1,9 @@
 import ForumPostManagementSection from '@/Components/DashBoardUi/AdminUi/ForumPosts/ForumPostManagementSection';
 import { getAdminForumData } from '@/lib/api/getAdminForumData';
 
+export const metadata = { title: 'FitNova | Manage Forum Posts' };
+
+
 const PAGE_SIZE = 6;
 
 const page = async ({ searchParams }) => {

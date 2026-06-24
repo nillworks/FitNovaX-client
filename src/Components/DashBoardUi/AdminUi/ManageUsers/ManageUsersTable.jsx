@@ -226,7 +226,18 @@ const ManageUsersTable = ({ users }) => {
                   </td>
                 </tr>
               ) : (
-                paginatedUsers.map((user) => (
+                paginatedUsers.map((user) => {
+                  // Calculate dynamic activity score based on profile completion
+                  let score = 20; // Base score for having an account
+                  if (user?.name) score += 10;
+                  if (user?.image) score += 10;
+                  if (user?.height) score += 15;
+                  if (user?.weight) score += 15;
+                  if (user?.goal) score += 15;
+                  if (user?.level) score += 15;
+                  const calculatedScore = Math.min(100, score);
+
+                  return (
                   <tr
                     key={user.id}
                     className="hover:bg-[#F8FAFC] transition-colors group"
@@ -305,15 +316,15 @@ const ManageUsersTable = ({ users }) => {
                               Activity Score
                             </span>
                             <span
-                              className={`text-xs font-black ${activityScore > 80 ? 'text-[#22C55E]' : activityScore > 50 ? 'text-[#F59E0B]' : 'text-[#EF4444]'}`}
+                              className={`text-xs font-black ${calculatedScore > 80 ? 'text-[#22C55E]' : calculatedScore > 50 ? 'text-[#F59E0B]' : 'text-[#EF4444]'}`}
                             >
-                              {activityScore}
+                              {calculatedScore}
                             </span>
                           </div>
                           <div className="w-full bg-[#E2E8F0] rounded-full h-1.5 overflow-hidden">
                             <div
-                              className={`h-full rounded-full ${activityScore > 80 ? 'bg-gradient-to-r from-[#16A34A] to-[#22C55E]' : activityScore > 50 ? 'bg-[#F59E0B]' : 'bg-[#EF4444]'}`}
-                              style={{ width: `${activityScore}%` }}
+                              className={`h-full rounded-full ${calculatedScore > 80 ? 'bg-gradient-to-r from-[#16A34A] to-[#22C55E]' : calculatedScore > 50 ? 'bg-[#F59E0B]' : 'bg-[#EF4444]'}`}
+                              style={{ width: `${calculatedScore}%` }}
                             ></div>
                           </div>
                         </div>
@@ -396,7 +407,8 @@ const ManageUsersTable = ({ users }) => {
                       </div>
                     </td>
                   </tr>
-                ))
+                );
+                })
               )}
             </tbody>
           </table>
