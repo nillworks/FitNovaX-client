@@ -11,7 +11,14 @@ export const subscription = async data => {
   });
 
   if (!res.ok) {
-    throw new Error(`Failed to save subscription: ${res.statusText}`);
+    let errorMsg = res.statusText;
+    try {
+      const errorData = await res.json();
+      if (errorData.error) errorMsg = errorData.error;
+    } catch (e) {
+      // Ignore if not json
+    }
+    throw new Error(`Failed to save subscription: ${errorMsg}`);
   }
 
   return await res.json();

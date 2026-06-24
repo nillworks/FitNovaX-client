@@ -4,7 +4,16 @@ import React from 'react';
 const BookedClassRow = ({ data }) => {
   if (!data) return null;
 
-  const { className, trainer, category, days, time, image } = data;
+  const {
+    _id,
+    className,
+    classImage,
+    category,
+    scheduleDays,
+    startTime,
+    endTime,
+    userName,
+  } = data;
 
   return (
     <div className="group bg-[#FFFFFF] border border-[#E2E8F0] rounded-3xl p-5 sm:p-6 transition-all duration-300 hover:shadow-[0_8px_30px_rgb(198,244,214,0.5)] hover:-translate-y-1">
@@ -12,8 +21,8 @@ const BookedClassRow = ({ data }) => {
         {/* Mobile: Image Top, Tablet/Desktop: Image Left */}
         <div className="w-28 h-28 sm:w-24 sm:h-24 lg:w-28 lg:h-28 rounded-3xl overflow-hidden shrink-0 border-2 border-[#F8FAFC]">
           <Image width={500} height={500} unoptimized
-            src={image}
-            alt={className}
+            src={classImage || '/placeholder.jpg'}
+            alt={className || 'Class Image'}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           />
         </div>
@@ -42,7 +51,7 @@ const BookedClassRow = ({ data }) => {
                 />
               </svg>
               <span className="text-sm font-semibold tracking-tight">
-                {trainer}
+                {userName || 'Unknown Trainer'}
               </span>
             </div>
           </div>
@@ -71,7 +80,7 @@ const BookedClassRow = ({ data }) => {
                   Days
                 </span>
                 <span className="text-sm font-semibold text-[#1E293B] tracking-tight">
-                  {days}
+                  {scheduleDays?.length > 0 ? scheduleDays.join(', ') : 'TBA'}
                 </span>
               </div>
             </div>
@@ -101,7 +110,7 @@ const BookedClassRow = ({ data }) => {
                   Time
                 </span>
                 <span className="text-sm font-semibold text-[#1E293B] tracking-tight">
-                  {time}
+                  {startTime && endTime ? `${startTime} - ${endTime}` : 'TBA'}
                 </span>
               </div>
             </div>
