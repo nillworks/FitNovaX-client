@@ -9,6 +9,7 @@ import MobileMenu from './MobileMenu';
 import { signOut, useSession } from '@/lib/auth-client';
 import CustomToast from './CustomToast';
 import { useRouter, usePathname } from 'next/navigation';
+import Image from 'next/image';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -86,11 +87,9 @@ const Navbar = () => {
           <div className="flex items-center justify-between h-20">
             {/* Left: Logo & Brand Name */}
             <Link href="/" className="flex items-center gap-2 group">
-              <div className="p-2 bg-[#C6F4D6] rounded-xl group-hover:bg-[#8FE3B0] transition-colors duration-300">
-                <Dumbbell className="w-6 h-6 text-[#15803D]" />
-              </div>
+              <Image width={200} height={60} src={'/fitNovax.png'} alt="FitNovaX Logo" className="w-auto h-12 md:h-14 object-contain drop-shadow-md group-hover:drop-shadow-xl group-hover:scale-[1.02] transition-all duration-300" priority unoptimized />
               <span className="font-bold text-xl tracking-tight text-[#1E293B] dark:text-white">
-                fitNova<span className="text-[#22C55E]">X</span>
+                Fit<span className="text-[#22C55E]">Nova</span>
               </span>
             </Link>
 

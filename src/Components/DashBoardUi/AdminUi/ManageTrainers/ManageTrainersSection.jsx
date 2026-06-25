@@ -42,8 +42,8 @@ const ManageTrainersSection = () => {
 
   const dashboardStats = {
     totalTrainers: trainersData.length,
-    activeClasses: trainersData.reduce((acc, curr) => acc + (curr.totalClasses || 0), 0) || 12,
-    totalBookings: trainersData.reduce((acc, curr) => acc + (curr.totalBookings || 0), 0) || 450,
+    activeClasses: trainersData.reduce((acc, curr) => acc + (curr.totalClasses || 0), 0),
+    totalBookings: trainersData.reduce((acc, curr) => acc + (curr.totalBookings || 0), 0),
     averageRating: trainersData.length ? (trainersData.reduce((acc, curr) => acc + (curr.rating || 0), 0) / trainersData.length).toFixed(1) : 0,
     platformCapacity: 50
   };

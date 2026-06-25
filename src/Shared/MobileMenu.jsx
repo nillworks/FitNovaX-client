@@ -43,11 +43,9 @@ const MobileMenu = ({ handleSignOut, isOpen, onClose, navLinks, user }) => {
             onClick={onClose}
             className="flex items-center gap-2 group"
           >
-            <div className="p-2 bg-[#C6F4D6] rounded-xl">
-              <Dumbbell className="w-5 h-5 text-[#15803D]" />
-            </div>
-            <span className="font-bold text-lg tracking-tight text-[#1E293B] dark:text-white">
-              Fit<span className="text-[#22C55E]">Core</span>
+            <Image src="/fitNovax.png" width={200} height={60} alt="fitNovaX Logo" className="w-auto h-12 object-contain drop-shadow-md" priority unoptimized />
+            <span className="font-bold text-xl tracking-tight text-[#1E293B] dark:text-white">
+              Fit<span className="text-[#22C55E]">Nova</span>
             </span>
           </Link>
           <button
