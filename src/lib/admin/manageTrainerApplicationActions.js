@@ -12,12 +12,16 @@ export const approveTrainerApplication = async id => {
   return await res.json();
 };
 
-export const rejectTrainerApplication = async id => {
+export const rejectTrainerApplication = async (id, rejectReason) => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/admin/trainer-application/reject/${id}`,
     {
       method: 'PATCH',
-      headers: await headersAuthorization(),
+      headers: {
+        ...(await headersAuthorization()),
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ rejectReason }),
     },
   );
 

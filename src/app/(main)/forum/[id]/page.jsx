@@ -18,7 +18,7 @@ const page = async ({ params }) => {
   const user = await getUserSession();
 
   if (!user) {
-    return redirect('/login');
+    return redirect(`/login?redirect=/forum/${id}`);
   }
 
   const { id } = await params;

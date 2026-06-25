@@ -48,18 +48,21 @@ export default function LoginPage() {
     setErrors({});
     setIsLoading(true);
 
+    const searchParams = new URLSearchParams(window.location.search);
+    const redirectUrl = searchParams.get('redirect') || '/';
+
     const { data, error } = await authClient.signIn.email({
       email: email, // required
       password: password, // required
       rememberMe: true,
-      callbackURL: '/',
+      callbackURL: redirectUrl,
     });
 
     if (data) {
       CustomToast('success', 'Login Successful', 'Welcome back!');
       e.target.reset();
 
-      router.push('/');
+      router.push(redirectUrl);
       router.refresh();
     }
 
@@ -74,8 +77,11 @@ export default function LoginPage() {
   };
 
   const handleGoogleSignin = async () => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const redirectUrl = searchParams.get('redirect') || '/';
     const data = await authClient.signIn.social({
       provider: 'google',
+      callbackURL: redirectUrl,
     });
   };
 

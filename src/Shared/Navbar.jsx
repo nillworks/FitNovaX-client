@@ -87,10 +87,7 @@ const Navbar = () => {
           <div className="flex items-center justify-between h-20">
             {/* Left: Logo & Brand Name */}
             <Link href="/" className="flex items-center gap-2 group">
-              <Image width={200} height={60} src={'/fitNovax.png'} alt="FitNovaX Logo" className="w-auto h-12 md:h-14 object-contain drop-shadow-md group-hover:drop-shadow-xl group-hover:scale-[1.02] transition-all duration-300" priority unoptimized />
-              <span className="font-bold text-xl tracking-tight text-[#1E293B] dark:text-white">
-                Fit<span className="text-[#22C55E]">Nova</span>
-              </span>
+              <Image width={200} height={60} src={'/logo-fitvova.png'} alt="FitNovaX Logo" className="w-auto h-12 md:h-14 object-contain drop-shadow-md group-hover:drop-shadow-xl group-hover:scale-[1.02] transition-all duration-300" priority unoptimized />
             </Link>
 
             {/* Center: Navigation Links (Desktop) */}

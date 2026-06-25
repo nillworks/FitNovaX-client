@@ -97,6 +97,13 @@ const TrainerApplication = ({ application }) => {
         </p>
       </div>
 
+      {app.status === 'rejected' && app.rejectReason && (
+        <div className="bg-[#FEF2F2] p-4 rounded-2xl border border-[#FCA5A5]">
+          <p className="text-sm font-bold text-[#991B1B] mb-1">Reason for Rejection</p>
+          <p className="text-sm text-[#B91C1C] italic">"{app.rejectReason}"</p>
+        </div>
+      )}
+
       <div className="bg-[#F8FAFC] p-4 rounded-2xl border border-[#E2E8F0] flex flex-col gap-4">
         <h5 className="text-sm font-bold text-[#1E293B]">Submitted Documents</h5>
         {documents.map((doc, idx) =>

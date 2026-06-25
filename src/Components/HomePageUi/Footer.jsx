@@ -8,10 +8,7 @@ const Footer = () => {
         <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           <StaggerItem className="space-y-6">
             <div className="flex items-center gap-2">
-              <Image src="/fitNovax.png" width={200} height={60} alt="fitNovaX Logo" className="w-auto h-12 md:h-14 object-contain drop-shadow-md hover:drop-shadow-xl hover:scale-[1.02] transition-all duration-300" unoptimized />
-              <span className="font-bold text-2xl tracking-tight text-white">
-                Fit<span className="text-[#22C55E]">Nova</span>
-              </span>
+              <Image src="/logo-fitvova.png" width={200} height={60} alt="fitNovaX Logo" className="w-auto h-12 md:h-14 object-contain drop-shadow-md hover:drop-shadow-xl hover:scale-[1.02] transition-all duration-300" unoptimized />
             </div>
             <p className="text-[#64748B] leading-relaxed max-w-xs">
               Elevating your fitness experience through premium classes and expert training programs.

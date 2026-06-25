@@ -149,10 +149,7 @@ const SidBarDashBoard = ({ user, isMobileOpen, setIsMobileOpen }) => {
       {/* Top Section */}
       <div className="p-6 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3 group">
-          <Image src="/fitNovax.png" width={200} height={60} alt="fitNovaX Logo" className="w-auto h-12 md:h-14 object-contain drop-shadow-md group-hover:drop-shadow-xl group-hover:scale-[1.02] transition-all duration-300" priority unoptimized />
-          <span className="font-bold text-xl tracking-tight text-white">
-            Fit<span className="text-[#C6F4D6]">Nova</span>
-          </span>
+          <Image src="/logo-fitvova.png" width={200} height={60} alt="fitNovaX Logo" className="w-auto h-12 md:h-14 object-contain drop-shadow-md group-hover:drop-shadow-xl group-hover:scale-[1.02] transition-all duration-300" priority unoptimized />
         </Link>
         {/* Mobile Close Button */}
         <button

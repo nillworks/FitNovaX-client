@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   X,
   CheckCircle,
@@ -39,6 +39,9 @@ const TrainerApplicationModal = ({ application, onClose }) => {
     };
   }, []);
 
+  const [isRejecting, setIsRejecting] = useState(false);
+  const [rejectReason, setRejectReason] = useState('');
+
   const status = formatStatus(application.status);
   const router = useRouter();
 
@@ -63,7 +66,11 @@ const TrainerApplicationModal = ({ application, onClose }) => {
   };
 
   const handleReject = async id => {
-    const res = await rejectTrainerApplication(id);
+    if (!rejectReason.trim()) {
+      CustomToast('error', 'Reason Required', 'Please provide a reason for rejection.');
+      return;
+    }
+    const res = await rejectTrainerApplication(id, rejectReason);
     if (res.success) {
       router.refresh();
       onClose();
@@ -231,22 +238,51 @@ const TrainerApplicationModal = ({ application, onClose }) => {
         </div>
 
         <div className="p-5 sm:p-6 border-t border-[#E2E8F0] bg-[#F8FAFC] flex flex-col sm:flex-row gap-4 justify-end">
-          <button
-            type="button"
-            onClick={() => handleReject(application?._id)}
-            className="w-full sm:w-auto px-6 py-2.5 rounded-xl text-sm font-bold text-[#EF4444] bg-white border border-[#FECACA] hover:bg-[#FEF2F2] transition-colors flex items-center justify-center gap-2 shadow-sm cursor-pointer"
-          >
-            <XCircle size={18} />
-            Reject Application
-          </button>
-          <button
-            type="button"
-            onClick={() => handleApprove(application?._id)}
-            className="w-full sm:w-auto px-8 py-2.5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-[#16A34A] to-[#22C55E] hover:from-[#15803D] hover:to-[#16A34A] transition-all flex items-center justify-center gap-2 cursor-pointer"
-          >
-            <CheckCircle size={18} />
-            Approve Trainer
-          </button>
+          {isRejecting ? (
+            <div className="w-full flex flex-col gap-3">
+              <textarea
+                value={rejectReason}
+                onChange={e => setRejectReason(e.target.value)}
+                placeholder="Enter the reason for rejection..."
+                className="w-full p-3 bg-white border border-[#E2E8F0] rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#EF4444]/50 focus:border-[#EF4444] transition-all text-[#1E293B] placeholder-[#94A3B8] resize-none h-24"
+              />
+              <div className="flex flex-col sm:flex-row gap-3 justify-end mt-2">
+                <button
+                  type="button"
+                  onClick={() => setIsRejecting(false)}
+                  className="w-full sm:w-auto px-6 py-2.5 rounded-xl text-sm font-bold text-[#64748B] bg-white border border-[#E2E8F0] hover:bg-[#F1F5F9] transition-colors shadow-sm cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleReject(application?._id)}
+                  className="w-full sm:w-auto px-6 py-2.5 rounded-xl text-sm font-bold text-white bg-[#EF4444] hover:bg-[#DC2626] transition-colors shadow-sm cursor-pointer"
+                >
+                  Confirm Reject
+                </button>
+              </div>
+            </div>
+          ) : (
+            <>
+              <button
+                type="button"
+                onClick={() => setIsRejecting(true)}
+                className="w-full sm:w-auto px-6 py-2.5 rounded-xl text-sm font-bold text-[#EF4444] bg-white border border-[#FECACA] hover:bg-[#FEF2F2] transition-colors flex items-center justify-center gap-2 shadow-sm cursor-pointer"
+              >
+                <XCircle size={18} />
+                Reject Application
+              </button>
+              <button
+                type="button"
+                onClick={() => handleApprove(application?._id)}
+                className="w-full sm:w-auto px-8 py-2.5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-[#16A34A] to-[#22C55E] hover:from-[#15803D] hover:to-[#16A34A] transition-all flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <CheckCircle size={18} />
+                Approve Trainer
+              </button>
+            </>
+          )}
         </div>
       </div>
     </div>

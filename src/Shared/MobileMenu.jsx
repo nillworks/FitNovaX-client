@@ -43,10 +43,7 @@ const MobileMenu = ({ handleSignOut, isOpen, onClose, navLinks, user }) => {
             onClick={onClose}
             className="flex items-center gap-2 group"
           >
-            <Image src="/fitNovax.png" width={200} height={60} alt="fitNovaX Logo" className="w-auto h-12 object-contain drop-shadow-md" priority unoptimized />
-            <span className="font-bold text-xl tracking-tight text-[#1E293B] dark:text-white">
-              Fit<span className="text-[#22C55E]">Nova</span>
-            </span>
+            <Image src="/logo-fitvova.png" width={200} height={60} alt="fitNovaX Logo" className="w-auto h-12 object-contain drop-shadow-md" priority unoptimized />
           </Link>
           <button
             onClick={onClose}
