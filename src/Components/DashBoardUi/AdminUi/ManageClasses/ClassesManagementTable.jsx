@@ -35,6 +35,7 @@ const ClassesManagementTable = ({
   currentPage = 1,
 }) => {
   const [loadingId, setLoadingId] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
   const totalPages = pagination.totalPages || 1;
   const totalItems = pagination.total ?? classesData.length;
   const router = useRouter();
@@ -221,6 +222,8 @@ const ClassesManagementTable = ({
           <input
             type="text"
             placeholder="Search classes..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-9 pr-4 py-2.5 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#22C55E]/50 focus:bg-white transition-all text-[#1E293B] placeholder-[#94A3B8]"
           />
         </div>
@@ -251,7 +254,27 @@ const ClassesManagementTable = ({
             </tr>
           </thead>
           <tbody className="divide-y divide-[#E2E8F0] bg-white">
-            {classesData.map(cls => (
+            {(() => {
+              const filteredClasses = classesData.filter(cls => {
+                if (!searchQuery) return true;
+                const query = searchQuery.toLowerCase();
+                const classNameMatch = cls.className?.toLowerCase().includes(query);
+                const trainerMatch = (cls.trainerName || cls.userName || cls.UserName || '')?.toLowerCase().includes(query);
+                const categoryMatch = cls.category?.toLowerCase().includes(query);
+                return classNameMatch || trainerMatch || categoryMatch;
+              });
+
+              if (filteredClasses.length === 0) {
+                return (
+                  <tr>
+                    <td colSpan="6" className="px-5 py-8 text-center text-[#64748B] font-medium">
+                      No classes match your search "{searchQuery}".
+                    </td>
+                  </tr>
+                );
+              }
+
+              return filteredClasses.map(cls => (
               <tr
                 key={getClassId(cls)}
                 className="hover:bg-[#F8FAFC]/50 transition-colors group"
@@ -337,7 +360,8 @@ const ClassesManagementTable = ({
 
                 <td className="px-5 py-4 text-right">{renderActions(cls)}</td>
               </tr>
-            ))}
+              ));
+            })()}
           </tbody>
         </table>
       </div>

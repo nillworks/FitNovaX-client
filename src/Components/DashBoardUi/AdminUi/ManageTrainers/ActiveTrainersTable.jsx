@@ -10,6 +10,7 @@ import { demoteToUser } from '@/lib/Action/demoteToUser';
 const ActiveTrainersTable = ({ trainers }) => {
   const [demoteModalOpen, setDemoteModalOpen] = useState(false);
   const [selectedTrainer, setSelectedTrainer] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
   const router = useRouter();
 
   const confirmDemotion = async id => {
@@ -67,6 +68,8 @@ const ActiveTrainersTable = ({ trainers }) => {
             <input
               type="text"
               placeholder="Search trainers..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-9 pr-4 py-2.5 bg-white border border-[#E2E8F0] rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#22C55E]/50 focus:border-[#22C55E] transition-all text-[#1E293B] placeholder-[#94A3B8]"
             />
           </div>
@@ -94,7 +97,28 @@ const ActiveTrainersTable = ({ trainers }) => {
               </tr>
             </thead>
             <tbody className="divide-y divide-[#E2E8F0] bg-[#F8FAFC]/30">
-              {trainers.map(trainer => (
+              {(() => {
+                const filteredTrainers = trainers.filter(trainer => {
+                  if (!searchQuery) return true;
+                  const query = searchQuery.toLowerCase();
+                  return (
+                    trainer.name?.toLowerCase().includes(query) ||
+                    trainer.email?.toLowerCase().includes(query) ||
+                    trainer.specialty?.toLowerCase().includes(query)
+                  );
+                });
+
+                if (filteredTrainers.length === 0) {
+                  return (
+                    <tr>
+                      <td colSpan="5" className="px-6 py-8 text-center text-[#64748B] font-medium">
+                        No trainers match your search "{searchQuery}".
+                      </td>
+                    </tr>
+                  );
+                }
+
+                return filteredTrainers.map(trainer => (
                 <tr
                   key={trainer.id}
                   className="hover:bg-white transition-colors group"
@@ -156,7 +180,8 @@ const ActiveTrainersTable = ({ trainers }) => {
                     </button>
                   </td>
                 </tr>
-              ))}
+                ));
+              })()}
             </tbody>
           </table>
         </div>

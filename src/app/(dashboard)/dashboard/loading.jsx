@@ -1,6 +1,6 @@
 import DashboardLoading from '@/Shared/DashboardLoading';
 
-const loading = () => {
+const Loading = () => {
   return (
     <>
       <DashboardLoading />
@@ -8,4 +8,4 @@ const loading = () => {
   );
 };
 
-export default loading;
+export default Loading;

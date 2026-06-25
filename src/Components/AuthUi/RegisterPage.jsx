@@ -106,14 +106,14 @@ export default function RegisterPage() {
         image: image?.url || '',
       };
 
-      const selectedRole = registerData.role || 'user';
+      // const selectedRole = registerData.role || 'user';
 
       const { data, error } = await authClient.signUp.email({
         name: registerData?.fullName,
         email: registerData?.email,
         password: registerData?.password,
         image: registerData?.image,
-        accountType: selectedRole,
+        // accountType: selectedRole,
       });
 
       // Simulate registration complete
@@ -500,7 +500,7 @@ export default function RegisterPage() {
                 </div>
 
                 {/* Role Selection */}
-                <div className="flex flex-col gap-2 mt-2">
+                {/* <div className="flex flex-col gap-2 mt-2">
                   <label className="text-[#1E293B] font-semibold text-sm ml-1">
                     I am registering as a
                   </label>
@@ -561,7 +561,7 @@ export default function RegisterPage() {
                       </div>
                     </label>
                   </div>
-                </div>
+                </div> */}
 
                 {/* Terms and Conditions Checkbox */}
                 <div className="flex items-start gap-3 mt-2 ml-1">

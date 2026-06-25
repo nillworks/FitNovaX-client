@@ -6,10 +6,16 @@ import SidBarDashBoard from '@/Shared/SidBarDashBoard';
 import ImpersonationBanner from '@/lib/admin/ImpersonationBanner';
 import { useSession } from '@/lib/auth-client';
 
+import DashboardLoading from '@/Shared/DashboardLoading';
+
 const DashBoardLayout = ({ children }) => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const { data } = useSession();
+  const { data, isPending } = useSession();
   const user = data?.user;
+
+  if (isPending) {
+    return <DashboardLoading />;
+  }
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
