@@ -3,167 +3,131 @@
 import Image from 'next/image';
 import React from 'react';
 import { FadeUp } from '../Animations/MotionWrappers';
-import { CalendarCheck, Users, Activity, ArrowRight, Zap } from 'lucide-react';
+import { CalendarCheck, Users, Activity, CheckCircle2, Sparkles } from 'lucide-react';
 
 const features = [
   {
     id: 1,
     title: 'Book Classes Seamlessly',
     description:
-      'Browse through hundreds of available sessions and secure your spot with just a single tap. Our intuitive interface ensures you never miss a beat.',
+      'Browse through hundreds of available sessions and secure your spot with just a single tap. Our intuitive interface ensures you never miss a beat in your fitness journey.',
     image:
       'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1470&auto=format&fit=crop',
-    tags: ['Instant Booking', 'Calendar Sync', 'Reminders'],
+    bullets: ['Instant class booking', 'Real-time availability', 'Smart calendar sync'],
     icon: CalendarCheck,
-    color: 'text-blue-600',
-    bgColor: 'bg-blue-100/80',
-    gridSpan: 'lg:col-span-2 lg:row-span-2',
-    isBig: true,
+    color: 'text-[#16A34A]',
+    bgColor: 'bg-[#22C55E]/5',
+    iconBg: 'bg-[#22C55E]/10',
   },
   {
     id: 2,
     title: 'Trainer Dashboard',
     description:
-      'Empower your coaching business with advanced analytics and client tools.',
+      'Empower your coaching business with advanced analytics, seamless client management tools, and personalized workout planning capabilities.',
     image:
       'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1470&auto=format&fit=crop',
-    tags: ['Analytics', 'Management'],
+    bullets: ['Client progress tracking', 'Revenue analytics', 'Custom workout plans'],
     icon: Users,
-    color: 'text-emerald-600',
-    bgColor: 'bg-emerald-100/80',
-    gridSpan: 'lg:col-span-1 lg:row-span-1',
-    isBig: false,
+    color: 'text-[#16A34A]',
+    bgColor: 'bg-[#22C55E]/5',
+    iconBg: 'bg-[#22C55E]/10',
   },
   {
     id: 3,
     title: 'Track Your Progress',
     description:
-      'Visualize your fitness journey with detailed charts and milestone tracking.',
+      'Visualize your fitness journey with detailed charts, milestone tracking, and daily insights to keep you motivated and on track.',
     image:
       'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1415&auto=format&fit=crop',
-    tags: ['Goals', 'Metrics'],
+    bullets: ['Goal setting & tracking', 'Visual milestone charts', 'Personalized insights'],
     icon: Activity,
-    color: 'text-rose-600',
-    bgColor: 'bg-rose-100/80',
-    gridSpan: 'lg:col-span-1 lg:row-span-1',
-    isBig: false,
+    color: 'text-[#16A34A]',
+    bgColor: 'bg-[#22C55E]/5',
+    iconBg: 'bg-[#22C55E]/10',
   },
 ];
 
 const AppFeatures = () => {
   return (
-    <section className="py-24 bg-white relative overflow-hidden">
-      {/* Decorative background blobs */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-blue-500/5 blur-[120px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-emerald-500/5 blur-[120px]" />
-      </div>
+    <section className="py-24 bg-[#F8FAFC] relative overflow-hidden">
+      {/* Subtle background decoration */}
+      <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-white to-transparent pointer-events-none" />
 
-      <div className="container mx-auto px-6 lg:px-8 relative z-10">
-        <FadeUp className="text-center max-w-3xl mx-auto mb-20">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100 text-blue-600 font-medium text-sm mb-6 shadow-sm">
-            <Zap className="w-4 h-4 fill-current" />
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl">
+        <FadeUp className="text-center max-w-3xl mx-auto mb-20 md:mb-28">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-[#22C55E]/20 text-[#16A34A] font-medium text-sm mb-6 shadow-sm shadow-[#22C55E]/5">
+            <Sparkles className="w-4 h-4 text-[#22C55E]" />
             <span>Platform Features</span>
           </div>
-          <h2 className="text-4xl lg:text-5xl font-extrabold text-[#0F172A] tracking-tight mb-6">
-            Everything You Need,{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-500">
-              All in One Place
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-[#0F172A] tracking-tight mb-6">
+            Designed for Your{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#22C55E] to-[#15803D]">
+              Success
             </span>
           </h2>
-          <p className="text-[#64748B] text-lg leading-relaxed">
-            Discover the powerful tools designed to elevate your fitness
-            experience, simplify your routine, and accelerate your results.
+          <p className="text-[#64748B] text-lg md:text-xl leading-relaxed max-w-2xl mx-auto">
+            Everything you need to manage your fitness journey or coaching business, packaged in a beautiful, easy-to-use interface.
           </p>
         </FadeUp>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 lg:grid-rows-2 gap-6 lg:gap-8 max-w-7xl mx-auto">
+        <div className="space-y-24 md:space-y-32">
           {features.map((feature, index) => {
             const Icon = feature.icon;
+            const isEven = index % 2 !== 0;
+
             return (
-              <FadeUp
-                key={feature.id}
-                delay={index * 0.15}
-                className={`group relative flex flex-col overflow-hidden rounded-[2rem] bg-[#F8FAFC] border border-[#E2E8F0] hover:border-blue-200 hover:shadow-2xl hover:shadow-blue-900/5 transition-all duration-500 ${feature.gridSpan}`}
+              <div 
+                key={feature.id} 
+                className={`flex flex-col lg:flex-row items-center gap-12 lg:gap-20 ${isEven ? 'lg:flex-row-reverse' : ''}`}
               >
-                {feature.isBig ? (
-                  <div className="flex flex-col lg:flex-row h-full">
-                    <div className="p-8 lg:p-12 z-10 relative flex-1 flex flex-col justify-center">
-                      <div className={`inline-flex items-center justify-center w-14 h-14 rounded-2xl ${feature.bgColor} ${feature.color} mb-8 group-hover:scale-110 transition-transform duration-500 shadow-sm border border-white`}>
-                        <Icon className="w-7 h-7" strokeWidth={2} />
-                      </div>
-                      <h3 className="text-3xl font-bold text-[#0F172A] tracking-tight mb-4 group-hover:text-blue-600 transition-colors duration-300">
-                        {feature.title}
-                      </h3>
-                      <p className="text-[#64748B] text-lg leading-relaxed mb-8 max-w-md">
-                        {feature.description}
-                      </p>
-                      
-                      <div className="flex flex-wrap gap-2 mt-auto">
-                        {feature.tags.map((tag, idx) => (
-                          <span
-                            key={idx}
-                            className="px-4 py-1.5 text-sm font-medium rounded-full bg-white border border-[#E2E8F0] text-[#475569] shadow-sm"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="relative flex-1 min-h-[300px] w-full lg:w-1/2 mt-8 lg:mt-0 pl-8 lg:pl-0 lg:pt-12 overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-r from-[#F8FAFC] to-transparent w-8 z-10 hidden lg:block" />
+                {/* Image Section */}
+                <FadeUp 
+                  delay={0.1} 
+                  className="w-full lg:w-1/2 relative"
+                >
+                  <div className={`absolute inset-0 rounded-[2.5rem] transform translate-y-4 ${isEven ? '-translate-x-4' : 'translate-x-4'} ${feature.bgColor} -z-10`} />
+                  <div className="relative rounded-[2rem] overflow-hidden shadow-2xl shadow-[#22C55E]/10 group bg-white border border-white">
+                    <div className="aspect-[4/3] w-full relative">
+                      <div className="absolute inset-0 bg-[#22C55E]/10 group-hover:bg-transparent transition-colors duration-700 z-10 pointer-events-none mix-blend-overlay"></div>
                       <Image
-                        width={800}
-                        height={600}
+                        fill
                         unoptimized
                         src={feature.image}
                         alt={feature.title}
-                        className="w-full h-full object-cover rounded-tl-2xl shadow-2xl border-t border-l border-white group-hover:scale-[1.02] transition-transform duration-700"
+                        className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                        sizes="(max-width: 1024px) 100vw, 50vw"
                       />
                     </div>
                   </div>
-                ) : (
-                  <div className="flex flex-col h-full">
-                    <div className="p-8 z-10 relative flex-1">
-                      <div className="flex items-center justify-between mb-6">
-                        <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl ${feature.bgColor} ${feature.color} group-hover:scale-110 transition-transform duration-500 shadow-sm border border-white`}>
-                          <Icon className="w-6 h-6" strokeWidth={2} />
-                        </div>
-                        <div className="w-8 h-8 rounded-full bg-white border border-gray-100 flex items-center justify-center opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300 shadow-sm">
-                          <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-blue-600" />
-                        </div>
-                      </div>
-                      <h3 className="text-xl font-bold text-[#0F172A] tracking-tight mb-3 group-hover:text-blue-600 transition-colors duration-300">
-                        {feature.title}
-                      </h3>
-                      <p className="text-[#64748B] leading-relaxed mb-6">
-                        {feature.description}
-                      </p>
-                      
-                      <div className="flex flex-wrap gap-2 mt-auto">
-                        {feature.tags.map((tag, idx) => (
-                          <span
-                            key={idx}
-                            className="px-3 py-1 text-xs font-medium rounded-full bg-white border border-[#E2E8F0] text-[#475569] shadow-sm"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="relative h-48 w-full mt-auto pl-8 overflow-hidden">
-                      <Image
-                        width={600}
-                        height={400}
-                        unoptimized
-                        src={feature.image}
-                        alt={feature.title}
-                        className="w-full h-full object-cover rounded-tl-2xl shadow-xl border-t border-l border-white group-hover:scale-[1.03] transition-transform duration-700"
-                      />
-                    </div>
+                </FadeUp>
+
+                {/* Content Section */}
+                <FadeUp 
+                  delay={0.2} 
+                  className="w-full lg:w-1/2 flex flex-col justify-center"
+                >
+                  <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl ${feature.iconBg} ${feature.color} mb-6 shadow-sm border border-[#22C55E]/10`}>
+                    <Icon className="w-8 h-8" strokeWidth={2} />
                   </div>
-                )}
-              </FadeUp>
+                  
+                  <h3 className="text-3xl md:text-4xl font-bold text-[#0F172A] tracking-tight mb-5">
+                    {feature.title}
+                  </h3>
+                  
+                  <p className="text-[#64748B] text-lg leading-relaxed mb-8">
+                    {feature.description}
+                  </p>
+
+                  <ul className="space-y-4">
+                    {feature.bullets.map((bullet, idx) => (
+                      <li key={idx} className="flex items-center gap-3 text-[#334155] font-medium">
+                        <CheckCircle2 className={`w-6 h-6 flex-shrink-0 text-[#22C55E]`} />
+                        <span className="text-lg">{bullet}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </FadeUp>
+              </div>
             );
           })}
         </div>
