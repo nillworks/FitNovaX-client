@@ -131,9 +131,11 @@ const OverviewPageUi = async () => {
             {statsData.map(stat => (
               <div
                 key={stat.id}
-                className="bg-[#FFFFFF] rounded-3xl border border-[#E2E8F0] shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300"
+                className="bg-[#FFFFFF] rounded-3xl border border-[#E2E8F0] shadow-sm hover:shadow-lg hover:-translate-y-1.5 transition-all duration-300 group relative overflow-hidden"
               >
-                <div className="p-4 md:p-6 lg:p-8 h-full flex flex-col justify-center">
+                {/* Decorative hover gradient background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[#F8FAFC]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                <div className="p-4 md:p-6 lg:p-8 h-full flex flex-col justify-center relative z-10">
                   <OverviewGridCard data={stat} />
                 </div>
               </div>
