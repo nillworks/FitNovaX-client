@@ -119,6 +119,11 @@ const getNavLinks = role => {
         href: '/dashboard/user/apply',
         icon: GraduationCap,
       },
+      {
+        name: 'Transactions',
+        href: '/dashboard/user/transactions',
+        icon: CreditCard,
+      },
     ];
   }
 };

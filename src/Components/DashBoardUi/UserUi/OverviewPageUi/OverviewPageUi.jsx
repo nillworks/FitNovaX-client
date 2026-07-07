@@ -9,6 +9,7 @@ import getAllClassesPublic from '@/lib/api/getAllClassesPublic';
 import CommunityForumApi from '@/lib/api/CommunityForumApi';
 import getFeaturedClasses from '@/lib/api/getFeaturedClasses';
 import { getBookedClasses } from '@/lib/api/getBookedClasses';
+import getUserTransactions from '@/lib/api/getUserTransactions';
 
 const OverviewPageUi = async () => {
   const user = await getUserSession();
@@ -18,6 +19,10 @@ const OverviewPageUi = async () => {
   const classesData = await getAllClassesPublic();
   const forumData = await CommunityForumApi();
   const featuredClassesData = await getFeaturedClasses();
+  
+  const transactionsRes = await getUserTransactions(user?.id);
+  const transactionsData = transactionsRes?.data || [];
+  const totalSpent = transactionsData.reduce((sum, tx) => sum + (Number(tx.price) || 0), 0);
 
   const userData = {
     name: user?.name || 'User',
@@ -73,24 +78,32 @@ const OverviewPageUi = async () => {
       title: 'Total Favorites',
       value: favoriteData?.data?.length || 0,
       trend: '+12% this month',
+      link: '/dashboard/user/favorites',
+      buttonText: 'View Favorites',
     },
     { 
       id: 2, 
       title: 'Available Classes', 
       value: classesData?.data?.length || 0, 
-      trend: 'Join Now' 
+      trend: 'Join Now',
+      link: '/classes',
+      buttonText: 'Explore Classes',
     },
     {
       id: 3,
       title: 'Community Posts',
       value: forumData?.data?.length || 0,
       trend: 'Active Discussions',
+      link: '/forum',
+      buttonText: 'Visit Forum',
     },
     { 
       id: 4, 
-      title: 'Featured Classes', 
-      value: featuredClassesData?.data?.length || 0, 
-      trend: 'Top Rated' 
+      title: 'Total Spent', 
+      value: `$${totalSpent.toFixed(2)}`, 
+      trend: 'Transactions',
+      link: '/dashboard/user/transactions',
+      buttonText: 'View Transactions',
     },
   ];
 
