@@ -46,7 +46,14 @@ const TrainerForm = ({ onSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-[#FFFFFF] border border-[#E2E8F0] rounded-3xl p-6 sm:p-8 shadow-sm flex flex-col gap-6 w-full">
+    <form onSubmit={handleSubmit} className="bg-[#FFFFFF] border border-slate-100 rounded-[2rem] p-8 sm:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col gap-8 w-full relative overflow-hidden">
+      {/* Subtle top border accent for the form card */}
+      <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-[#10B981] to-[#34D399]"></div>
+      
+      <div className="flex flex-col mb-2">
+        <h2 className="text-2xl font-bold text-slate-800">Trainer Information</h2>
+        <p className="text-slate-500 font-medium mt-1">Please fill out all the required fields accurately.</p>
+      </div>
       
       <div className="flex flex-col sm:flex-row gap-6">
         <div className="flex flex-col gap-2 w-full sm:w-1/2">
@@ -216,22 +223,22 @@ const TrainerForm = ({ onSubmit }) => {
         ></textarea>
       </div>
 
-      <div className="pt-2">
+      <div className="pt-6 mt-4 border-t border-slate-100">
         <button 
           type="submit" 
           disabled={isSubmitting}
-          className={`w-full ${isSubmitting ? 'bg-[#86EFAC] cursor-not-allowed' : 'bg-[#22C55E] hover:bg-[#16A34A] cursor-pointer shadow-[0_4px_14px_0_rgb(34,197,94,0.39)] hover:shadow-[0_6px_20px_rgb(22,163,74,0.23)]'} text-[#FFFFFF] font-bold py-3.5 px-6 rounded-xl transition-all duration-300 flex justify-center items-center gap-2`}
+          className={`w-full ${isSubmitting ? 'bg-[#86EFAC] cursor-not-allowed' : 'bg-gradient-to-r from-[#10B981] to-[#047857] hover:from-[#059669] hover:to-[#064E3B] cursor-pointer shadow-[0_8px_20px_-6px_rgba(16,185,129,0.5)] hover:shadow-[0_12px_25px_-6px_rgba(16,185,129,0.6)] hover:-translate-y-0.5'} text-[#FFFFFF] text-lg font-bold py-4 px-6 rounded-xl transition-all duration-300 flex justify-center items-center gap-2`}
         >
           {isSubmitting ? (
             <>
-              <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <svg className="animate-spin h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
-              Submitting...
+              Submitting Application...
             </>
           ) : (
-            "Submit Application"
+            "Submit Trainer Application"
           )}
         </button>
       </div>

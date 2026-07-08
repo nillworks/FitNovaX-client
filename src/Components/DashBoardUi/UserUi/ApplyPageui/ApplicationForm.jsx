@@ -59,55 +59,34 @@ const ApplicationForm = ({ trainerData }) => {
   };
 
   return (
-    <div className="w-full bg-[#F8FAFC] min-h-screen py-8 sm:py-12">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-center">
-          <div className="w-full lg:w-2/3 xl:w-1/2 flex flex-col gap-6">
-            {/* Header Area outside the card matching the design */}
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-2">
-              <div className="flex flex-col gap-2">
-                <h1 className="text-3xl font-bold text-[#1E293B] tracking-tight">
-                  Apply as Trainer
-                </h1>
-                <p className="text-[#64748B] font-semibold leading-relaxed">
-                  Share your credentials and specialty. Our admin team will
-                  review your application within 2-3 business days.
-                </p>
-              </div>
+    <div className="w-full bg-slate-50 min-h-screen pt-6 sm:pt-10">
+      {/* Decorative Header Banner */}
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex justify-center">
+        <div className="w-full lg:w-4/5 xl:w-3/4 bg-gradient-to-r from-[#0F172A] via-[#1E293B] to-[#0F172A] py-12 sm:py-16 px-6 sm:px-12 relative overflow-hidden rounded-[2rem] shadow-xl border border-slate-800">
+          <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] mix-blend-overlay"></div>
+          <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-[#10B981] via-[#34D399] to-[#10B981]"></div>
+          
+          <div className="relative z-10 flex flex-col gap-4 text-center sm:text-left items-center sm:items-start">
+            <span className="text-[#10B981] font-bold tracking-widest uppercase text-sm mb-1 px-3 py-1 bg-[#10B981]/10 border border-[#10B981]/20 rounded-full w-fit shadow-sm">
+              Join Our Elite Team
+            </span>
+            <h1 className="text-4xl sm:text-5xl font-black text-white tracking-tight drop-shadow-md">
+              Apply as a <span className="text-[#10B981]">Trainer</span>
+            </h1>
+            <p className="text-slate-300 text-lg font-medium leading-relaxed max-w-2xl mt-2">
+              Share your credentials and specialty. Our admin team will
+              review your application within 2-3 business days.
+            </p>
+          </div>
+        </div>
+      </div>
 
-              {/* For testing different states */}
-              {/* <div className="flex flex-col gap-2 shrink-0 bg-[#FFFFFF] p-2 rounded-xl border border-[#E2E8F0] shadow-sm">
-                <span className="text-[10px] font-bold text-[#64748B] uppercase tracking-wider text-center">
-                  Test Status
-                </span>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => setApplicationStatus('none')}
-                    className="px-2 py-1 bg-[#E2E8F0] hover:bg-[#CBD5E1] text-[#475569] rounded-lg text-xs font-bold transition-colors"
-                  >
-                    None
-                  </button>
-                  <button
-                    onClick={() => {
-                      setApplicationStatus('pending');
-                      setSubmittedData({
-                        specialty: 'Yoga',
-                        experience: '3',
-                        bio: 'Pending Application Bio...',
-                      });
-                    }}
-                    className="px-2 py-1 bg-[#FEF08A] hover:bg-[#FDE047] text-[#854D0E] rounded-lg text-xs font-bold transition-colors"
-                  >
-                    Pending
-                  </button>
-                  <button
-                    onClick={() => setApplicationStatus('rejected')}
-                    className="px-2 py-1 bg-[#FECACA] hover:bg-[#FCA5A5] text-[#991B1B] rounded-lg text-xs font-bold transition-colors"
-                  >
-                    Reject
-                  </button>
-                </div>
-              </div> */}
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 mt-6 sm:mt-8 relative z-20 pb-20">
+        <div className="flex justify-center">
+          <div className="w-full lg:w-4/5 xl:w-3/4 flex flex-col gap-8">
+            {/* For testing different states (hidden visually but kept for dev) */}
+            <div className="hidden">
+              {/* <div className="flex gap-2">...</div> */}
             </div>
 
             {applicationStatus === 'rejected' && (
