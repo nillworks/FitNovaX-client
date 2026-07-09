@@ -1,4 +1,4 @@
-# FitNovaX - Premium Fitness & Learning Platform
+# FitNovaX - Gym Management Platform.
 
 A comprehensive, full-stack fitness and learning platform that bridges the gap between expert trainers and fitness enthusiasts. FitNovaX solves the problem of finding, booking, and managing fitness classes by providing a centralized hub where individuals can seamlessly discover classes, participate in a thriving community, and subscribe to premium content. The platform is designed for fitness enthusiasts looking for guided sessions and professional trainers seeking a digital space to host and monetize their expertise.
 
