@@ -112,9 +112,32 @@ ASSESSMENT-PH-A10/
 
 ## How to Run Locally
 
-Follow these steps to set up and run the project locally on your machine:
+Follow these steps to set up and run both the frontend and backend of the project locally on your machine.
 
-1. **Clone the repository:**
+### 1. Server (Backend) Setup
+
+1. **Clone the server repository:**
+   ```bash
+   git clone https://github.com/nillworks/FitNovaX-Server
+   ```
+2. **Navigate to the backend directory:**
+   ```bash
+   cd FitNovaX-Server
+   ```
+3. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+4. **Configure Environment Variables:**
+   Create a `.env` file in the root of the server directory and configure it (see the [Environment Variables](#environment-variables-reference) section at the bottom for details).
+5. **Start the backend server:**
+   ```bash
+   npm run start
+   ```
+
+### 2. Client (Frontend) Setup
+
+1. **Clone the frontend repository:**
    ```bash
    git clone <repository-url>
    ```
@@ -126,16 +149,8 @@ Follow these steps to set up and run the project locally on your machine:
    ```bash
    npm install
    ```
-4. **Environment Variables:**
-   Create a `.env.local` file in the root of the `fontrend` directory and add the following environment variables:
-
-   ```env
-   NEXT_PUBLIC_BASE_URL=http://localhost:3000
-   MONGODB_URI=your_mongodb_connection_string
-   BETTER_AUTH_SECRET=your_auth_secret
-   NEXT_PUBLIC_STRIPE_PUBLIC_KEY=your_stripe_key
-   ```
-
+4. **Configure Environment Variables:**
+   Create a `.env.local` file in the root of the `fontrend` directory and configure it (see the [Environment Variables](#environment-variables-reference) section at the bottom for details).
 5. **Start the development server:**
    ```bash
    npm run dev
@@ -197,3 +212,40 @@ Follow these steps to set up and run the project locally on your machine:
 * Integrate a live video conferencing solution directly into the platform for remote and virtual fitness sessions.
 * Develop a robust review and rating system allowing feedback on completed classes and trainers.
 * Provide trainers with advanced analytics dashboards to visualize their class performance, engagement metrics, and revenue over time.
+
+---
+
+## Environment Variables (Reference)
+
+For reviewers and developers setting up the project locally, here is the reference for the required environment variables. **Please replace the dummy placeholder values with your actual credentials.**
+
+### Frontend (`.env.local`)
+Create this file in the root of the `fontrend` directory:
+
+```env
+# The base URL for the frontend application
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
+
+# Your MongoDB database connection string
+MONGODB_URI=your_mongodb_connection_string
+
+# A secure random string for Better Auth session encryption
+BETTER_AUTH_SECRET=your_auth_secret
+
+# Your Stripe public key for handling payments
+NEXT_PUBLIC_STRIPE_PUBLIC_KEY=your_stripe_key
+```
+
+### Backend Server (`.env`)
+Create this file in the root of your cloned server directory:
+
+```env
+# The port number on which the backend server will run
+PORT=your_port_number
+
+# Your MongoDB database connection string for the backend
+MONGODB_URI=your_mongodb_connection_string
+
+# The URL of your frontend application
+CLIENT_URL=your_client_url
+```
