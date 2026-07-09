@@ -190,18 +190,18 @@ Follow these steps to set up and run both the frontend and backend of the projec
    Create a `.env` file in the root of the server directory and configure it (see the [Environment Variables](#environment-variables-reference) section at the bottom for details).
 5. **Start the backend server:**
    ```bash
-   npm run start
+   npm run server
    ```
 
 ### 2. Client (Frontend) Setup
 
 1. **Clone the frontend repository:**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/nillworks/FitNovaX-client
    ```
 2. **Navigate to the frontend directory:**
    ```bash
-   cd ASSESSMENT-PH-A10/fontrend
+   cd /fontrend
    ```
 3. **Install dependencies:**
    ```bash
