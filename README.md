@@ -226,17 +226,36 @@ For reviewers and developers setting up the project locally, here is the referen
 Create this file in the root of the `fontrend` directory:
 
 ```env
-# The base URL for the frontend application
-NEXT_PUBLIC_BASE_URL=http://localhost:3000
+# --- Better Auth & Base URLs ---
+# The base URL where the application runs (typically localhost in dev)
+BETTER_AUTH_URL=http://localhost:3000
+baseURL=http://localhost:3000
 
-# Your MongoDB database connection string
-MONGODB_URI=your_mongodb_connection_string
-
-# A secure random string for Better Auth session encryption
+# A secure random string used to encrypt user sessions
 BETTER_AUTH_SECRET=your_auth_secret
 
-# Your Stripe public key for handling payments
-NEXT_PUBLIC_STRIPE_PUBLIC_KEY=your_stripe_key
+# --- Database & External APIs ---
+# Your MongoDB connection string
+MONGO_DB_URI=your_mongodb_connection_string
+
+# The public facing URL of your API
+NEXT_PUBLIC_URL=http://localhost:8000
+
+# ImgBB API key for uploading images
+NEXT_PUBLIC_IMGBB_KEY=your_imgbb_api_key
+
+# --- Google OAuth Credentials ---
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+
+# --- Admin Configurations ---
+# MongoDB Object ID of the primary administrator account
+TOP_ADMIN_USER_ID=your_admin_user_id
+NEXT_PUBLIC_TOP_ADMIN_USER_ID=your_admin_user_id
+
+# --- Payments (Stripe) ---
+# Your Stripe secret key for processing subscriptions
+STRIPE_SECRET_KEY=your_stripe_secret_key
 ```
 
 ### Backend Server (`.env`)
