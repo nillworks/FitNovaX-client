@@ -102,6 +102,47 @@ ASSESSMENT-PH-A10/
 | **UI Components** | HeroUI (`@heroui/react`), Lucide React, React Icons |
 | **Animations & Charts** | Framer Motion, Recharts, React CountUp |
 
+## Dependencies Used
+
+* **Core:** Next.js (`next`), React (`react`, `react-dom`)
+* **UI & Styling:** Tailwind CSS (`tailwindcss`), HeroUI (`@heroui/react`), Framer Motion (`framer-motion`), React Icons (`react-icons`), Lucide React (`lucide-react`)
+* **Authentication:** Better Auth (`better-auth`, `@better-auth/mongo-adapter`)
+* **Payments:** Stripe (`stripe`, `@stripe/stripe-js`)
+* **Database & Utilities:** MongoDB (`mongodb`), Recharts (`recharts`), Sonner (`sonner`)
+
+## How to Run Locally
+
+Follow these steps to set up and run the project locally on your machine:
+
+1. **Clone the repository:**
+   ```bash
+   git clone <repository-url>
+   ```
+2. **Navigate to the frontend directory:**
+   ```bash
+   cd ASSESSMENT-PH-A10/fontrend
+   ```
+3. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+4. **Environment Variables:**
+   Create a `.env.local` file in the root of the `fontrend` directory and add the following environment variables:
+
+   ```env
+   NEXT_PUBLIC_BASE_URL=http://localhost:3000
+   MONGODB_URI=your_mongodb_connection_string
+   BETTER_AUTH_SECRET=your_auth_secret
+   NEXT_PUBLIC_STRIPE_PUBLIC_KEY=your_stripe_key
+   ```
+
+5. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
+6. **Open in Browser:**
+   Visit [http://localhost:3000](http://localhost:3000) to view the application.
+
 ## Database Collections
 
 * **`user`**: Manages personal profiles, role assignments, and secure authentication details.
