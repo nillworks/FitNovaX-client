@@ -110,53 +110,6 @@ ASSESSMENT-PH-A10/
 * **Payments:** Stripe (`stripe`, `@stripe/stripe-js`)
 * **Database & Utilities:** MongoDB (`mongodb`), Recharts (`recharts`), Sonner (`sonner`)
 
-## How to Run Locally
-
-Follow these steps to set up and run both the frontend and backend of the project locally on your machine.
-
-### 1. Server (Backend) Setup
-
-1. **Clone the server repository:**
-   ```bash
-   git clone https://github.com/nillworks/FitNovaX-Server
-   ```
-2. **Navigate to the backend directory:**
-   ```bash
-   cd FitNovaX-Server
-   ```
-3. **Install dependencies:**
-   ```bash
-   npm install
-   ```
-4. **Configure Environment Variables:**
-   Create a `.env` file in the root of the server directory and configure it (see the [Environment Variables](#environment-variables-reference) section at the bottom for details).
-5. **Start the backend server:**
-   ```bash
-   npm run start
-   ```
-
-### 2. Client (Frontend) Setup
-
-1. **Clone the frontend repository:**
-   ```bash
-   git clone <repository-url>
-   ```
-2. **Navigate to the frontend directory:**
-   ```bash
-   cd ASSESSMENT-PH-A10/fontrend
-   ```
-3. **Install dependencies:**
-   ```bash
-   npm install
-   ```
-4. **Configure Environment Variables:**
-   Create a `.env.local` file in the root of the `fontrend` directory and configure it (see the [Environment Variables](#environment-variables-reference) section at the bottom for details).
-5. **Start the development server:**
-   ```bash
-   npm run dev
-   ```
-6. **Open in Browser:**
-   Visit [http://localhost:3000](http://localhost:3000) to view the application.
 
 ## Database Collections
 
@@ -212,6 +165,56 @@ Follow these steps to set up and run both the frontend and backend of the projec
 * Integrate a live video conferencing solution directly into the platform for remote and virtual fitness sessions.
 * Develop a robust review and rating system allowing feedback on completed classes and trainers.
 * Provide trainers with advanced analytics dashboards to visualize their class performance, engagement metrics, and revenue over time.
+
+---
+
+## How to Run Locally
+
+Follow these steps to set up and run both the frontend and backend of the project locally on your machine.
+
+### 1. Server (Backend) Setup
+
+1. **Clone the server repository:**
+   ```bash
+   git clone https://github.com/nillworks/FitNovaX-Server
+   ```
+2. **Navigate to the backend directory:**
+   ```bash
+   cd FitNovaX-Server
+   ```
+3. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+4. **Configure Environment Variables:**
+   Create a `.env` file in the root of the server directory and configure it (see the [Environment Variables](#environment-variables-reference) section at the bottom for details).
+5. **Start the backend server:**
+   ```bash
+   npm run start
+   ```
+
+### 2. Client (Frontend) Setup
+
+1. **Clone the frontend repository:**
+   ```bash
+   git clone <repository-url>
+   ```
+2. **Navigate to the frontend directory:**
+   ```bash
+   cd ASSESSMENT-PH-A10/fontrend
+   ```
+3. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+4. **Configure Environment Variables:**
+   Create a `.env.local` file in the root of the `fontrend` directory and configure it (see the [Environment Variables](#environment-variables-reference) section at the bottom for details).
+5. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
+6. **Open in Browser:**
+   Visit [http://localhost:3000](http://localhost:3000) to view the application.
 
 ---
 
