@@ -14,13 +14,13 @@ A comprehensive, full-stack fitness and learning platform that bridges the gap b
 ![All Classes](./preview/All-Classes-page.png)
 *All Classes Interface*
 
-![User Dashboard](./preview/FitNova-User%20Dashboard.png)
+![User Dashboard](./preview/user_dashboard.png)
 *User Dashboard*
 
-![Trainer Dashboard](./preview/FitNova-Trainer-dashboard.png)
+![Trainer Dashboard](./preview/trainer_dashboard.png)
 *Trainer Dashboard*
 
-![Admin Dashboard](./preview/FitNova-Admin-Dashboard.png)
+![Admin Dashboard](./preview/admin_dashboard.png)
 *Admin Dashboard*
 
 ## Admin Credentials
